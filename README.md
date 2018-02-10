@@ -4,13 +4,13 @@ This might sound a bit harsh, and it is... but it also goes to the core of the i
 
 ## TL;DR: My recommendation is to use Stripe *NOW*
 
-Let's use Stripe before it costs us too much to switch everything to it later. Stripe integrates with Xero and Avatax, so I don't really see any problem on the Finance side of things, even though Liz may have a word on this. From a developer point of view, is like comparing slings with bazookas, an AMC Pacer with a Ferrari, a shirt with a rag: you might *like* the first ones more, but the second ones *are* just **better**.
+Let's use Stripe before it costs us too much to switch everything to it later. Stripe integrates with Xero and Avatax, so I don't really see any problem on the Finance side of things, even though Liz may have a word on this. From a developer point of view, is like comparing slings with bazookas, an AMC Pacer with a Ferrari Portofino, a rag with a shirt: you might *like* the first ones more, but the second ones *are* just **better**.
 
 Let's see why I recommend Stripe.
 
 ## Recurly benefits
 
-Apparently it has a very nice admin dashboard. Nothing I care about since I don't understand anything there, but I do understand that's very effective for the business side of things. However, I don't think that the Stripe dashboard is going to be _a lot_ less powerful.
+- Apparently it has a very nice admin dashboard. Nothing I care about since I don't understand anything there, but I do understand that's very effective for the business side of things. However, I don't think that the Stripe dashboard is going to be _a lot_ less powerful.
 
 ## Recurly issues so far
 
