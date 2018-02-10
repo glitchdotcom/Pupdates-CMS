@@ -1,8 +1,18 @@
-# Recurly benefits
+# Why I really do not recommend Recurly
 
-Apparently it has a very nice admin dashboard. Nothing I care about since I don't understand anything there, but I understand that's very effective for the business side of things. However, I don't think that the Stripe dashboard is going to be _that_ less powerful.
+This might sound a bit harsh, and it is... but it also goes to the core of the issue: using Recurly is going to be a very very very very bad idea.
 
-# Recurly issues so far
+## TL;DR: My recommendation is to use Stripe *NOW*
+
+Let's use Stripe before it costs us too much to switch everything to it later. Stripe integrates with Xero and Avatax, so I don't really see any problem on the Finance side of things, even though Liz may have a word on this. From a developer point of view, is like comparing slings with bazookas, an AMC Pacer with a Ferrari, a shirt with a rag: you might *like* the first ones more, but the second ones *are* just **better**.
+
+Let's see why I recommend Stripe.
+
+## Recurly benefits
+
+Apparently it has a very nice admin dashboard. Nothing I care about since I don't understand anything there, but I do understand that's very effective for the business side of things. However, I don't think that the Stripe dashboard is going to be _a lot_ less powerful.
+
+## Recurly issues so far
 
 - Does not seem to have any advantages in term of integrations compared with Stripe - Ask Liz if Recurly-specific work has already been made on the Finance side of things, and how long would it take to switch that work to Stripe, just in case.
 
@@ -13,3 +23,11 @@ Apparently it has a very nice admin dashboard. Nothing I care about since I don'
 - All the API is in XML. Couple this with the unsupported client and terrible documentation, and this means that whenever something breaks, it will be way more difficult to figure out how to fix it.
 
 - There is no way to have test data in the production environment. This alone is a deal breaker for me.
+
+- Their client-side JavaScript library comes from the middle ages compared to the incredible level of customizability and design that Stripe provides.
+
+- It will cost us **more** than Stripe before our first 800 customers.
+
+## Stripe issues so far
+
+- I guess Liz may write things here eventually...
