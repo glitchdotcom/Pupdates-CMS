@@ -1,27 +1,15 @@
-Welcome to the Glitch BETA
-=========================
+# Recurly benefits
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+Apparently it has a very nice admin dashboard. Nothing I care about since I don't understand anything there, but I understand that's very effective for the business side of things. However, I don't think that the Stripe dashboard is going to be _that_ less powerful.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+# Recurly issues so far
 
-Find out more [about Glitch](https://glitch.com/about).
+- Does not seem to have any advantages in term of integrations compared with Stripe - Ask Liz if Recurly-specific work has already been made on the Finance side of things, and how long would it take to switch that work to Stripe, just in case.
 
+- The node client library is [unsupported](https://dev.recurly.com/docs/client-libraries), [unmaintained](https://github.com/cgerrior/node-recurly/issues/8#issuecomment-261316557), [undocumented](https://github.com/cgerrior/node-recurly#usage), does not have an npm package, and is not promise-based. We would start having technical debt before writing a single line of code.
 
-Your Project
-------------
+- Documentation in general is lacking, very difficult to navigate, very complicated, and way worse than the one provided by Stripe.
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
+- All the API is in XML. Couple this with the unsupported client and terrible documentation, and this means that whenever something breaks, it will be way more difficult to figure out how to fix it.
 
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-
-Made by [Fog Creek](https://fogcreek.com/)
--------------------
-
-\ ゜o゜)ノ
+- There is no way to have test data in the production environment. This alone is a deal breaker for me.
