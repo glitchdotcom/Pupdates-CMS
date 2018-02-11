@@ -1,4 +1,5 @@
 dependencies:
+  body-parser: 1.18.2
   express: 4.16.2
   recurly-js: 2.5.0
 packages:
@@ -407,5 +408,6 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 4
 shrinkwrapVersion: 3
 specifiers:
+  body-parser: ^1.18.2
   express: ^4.16.2
   recurly-js: ^2.4.3
