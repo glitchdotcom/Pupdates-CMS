@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "express": "^4.16.2",
-    "recurly-js": "^2.4.3",
+    "recurly": "https://github.com/cgerrior/node-recurly.git",
     "body-parser": "^1.18.2"
   },
   "engines": {

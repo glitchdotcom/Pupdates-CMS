@@ -1,7 +1,7 @@
 dependencies:
   body-parser: 1.18.2
   express: 4.16.2
-  recurly-js: 2.5.0
+  recurly: github.com/cgerrior/node-recurly/df3cf48fc0fc247b887d98215a1f90aed87ac124
 packages:
   /accepts/1.3.4:
     dependencies:
@@ -16,10 +16,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
-  /bluebird/3.5.1:
-    dev: false
-    resolution:
-      integrity: sha512-MKiLiV+I1AA596t9w1sQJ8jkiSr5+ZKi0WKrYGUn6d1Fx+Ij4tIj+m2WMQSGczs5jZVxV339chE8iwk6F64wjA==
   /body-parser/1.18.2:
     dependencies:
       bytes: 3.0.0
@@ -295,16 +291,6 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-vNYMd9Prk83gBQKVw/N5OJvIj4k=
-  /recurly-js/2.5.0:
-    dependencies:
-      bluebird: 3.5.1
-      js2xmlparser: 0.1.7
-      xml2js: 0.4.19
-    dev: false
-    engines:
-      node: '>= 0.4'
-    resolution:
-      integrity: sha1-pgUKQ2QkzQu0gdy76y493zDUcOk=
   /safe-buffer/5.1.1:
     dev: false
     resolution:
@@ -404,10 +390,21 @@ packages:
       node: '>=4.0'
     resolution:
       integrity: sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
+  github.com/cgerrior/node-recurly/df3cf48fc0fc247b887d98215a1f90aed87ac124:
+    dependencies:
+      js2xmlparser: 0.1.7
+      xml2js: 0.4.19
+    dev: false
+    engines:
+      node: '>= 0.4'
+    name: node-recurly
+    resolution:
+      tarball: 'https://codeload.github.com/cgerrior/node-recurly/tar.gz/df3cf48fc0fc247b887d98215a1f90aed87ac124'
+    version: 2.1.1
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 4
 shrinkwrapVersion: 3
 specifiers:
   body-parser: ^1.18.2
   express: ^4.16.2
-  recurly-js: ^2.4.3
+  recurly: 'git+https://github.com/cgerrior/node-recurly.git'
