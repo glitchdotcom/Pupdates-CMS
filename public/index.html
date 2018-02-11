@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
+    <form id="recurly-form">
+      <input type="text" data-recurly="first_name"/>
+      <input type="text" data-recurly="last_name"/>
+      <div data-recurly="card"></div>
+      <input type="hidden" name="recurly-token" data-recurly="token"/>
+      <button>Submit</button>
+    </form>
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
