@@ -19,19 +19,18 @@ app.post("/form", (req, res) => {
     plan_code: "pyrite",
     currency: "USD",
     account: {
-      account_code: "can_this_be_set",
+      account_code: `${Math.random()}`,
       first_name: req.body.first_name,
       last_name: req.body.last_name,
-      
-    billing_info: {
-      token_id: req.body.recurly_token
-    }
+      billing_info: {
+        token_id: req.body.recurly_token
+      }
     }
   }
   recurly.subscriptions.create(details, (err, subscription) => {
     if (err) {
       console.error(err)
-      res.status(503).json(err)
+      res.status(err.statusCode).json(err.data.errors)
     } else {
       res.json(subscription)
     }
