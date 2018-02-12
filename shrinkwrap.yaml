@@ -1,7 +1,6 @@
 dependencies:
   body-parser: 1.18.2
   express: 4.16.2
-  recurly: github.com/cgerrior/node-recurly/df3cf48fc0fc247b887d98215a1f90aed87ac124
 packages:
   /accepts/1.3.4:
     dependencies:
@@ -193,10 +192,6 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-1LUFvemUaYfM8PxY2QEP+WB+P6A=
-  /js2xmlparser/0.1.7:
-    dev: false
-    resolution:
-      integrity: sha1-yKS/m6AFd8SyzgvW5xTug0Glhq4=
   /media-typer/0.3.0:
     dev: false
     engines:
@@ -295,10 +290,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kKvNJn6Mm93gAczWVJg7wH+wGYWNrDHdWvpUmHyEsgCtIwwo3bqPtV4tR5tuPaUhTOo/kvhVwd8XwwOllGYkbg==
-  /sax/1.2.4:
-    dev: false
-    resolution:
-      integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
   /send/0.16.1:
     dependencies:
       debug: 2.6.9
@@ -377,34 +368,9 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
-  /xml2js/0.4.19:
-    dependencies:
-      sax: 1.2.4
-      xmlbuilder: 9.0.7
-    dev: false
-    resolution:
-      integrity: sha512-esZnJZJOiJR9wWKMyuvSE1y6Dq5LCuJanqhxslH2bxM6duahNZ+HMpCLhBQGZkbX6xRf8x1Y2eJlgt2q3qo49Q==
-  /xmlbuilder/9.0.7:
-    dev: false
-    engines:
-      node: '>=4.0'
-    resolution:
-      integrity: sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
-  github.com/cgerrior/node-recurly/df3cf48fc0fc247b887d98215a1f90aed87ac124:
-    dependencies:
-      js2xmlparser: 0.1.7
-      xml2js: 0.4.19
-    dev: false
-    engines:
-      node: '>= 0.4'
-    name: node-recurly
-    resolution:
-      tarball: 'https://codeload.github.com/cgerrior/node-recurly/tar.gz/df3cf48fc0fc247b887d98215a1f90aed87ac124'
-    version: 2.1.1
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 4
 shrinkwrapVersion: 3
 specifiers:
   body-parser: ^1.18.2
   express: ^4.16.2
-  recurly: 'git+https://github.com/cgerrior/node-recurly.git'
