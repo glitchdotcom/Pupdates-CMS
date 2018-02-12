@@ -18,9 +18,11 @@ Let's see why I recommend Stripe.
 
 - The node client library is [unsupported](https://dev.recurly.com/docs/client-libraries), [unmaintained](https://github.com/cgerrior/node-recurly/issues/8#issuecomment-261316557), [undocumented](https://github.com/cgerrior/node-recurly#usage), does not have an npm package, and is not promise-based. We would start having technical debt before writing a single line of code.
 
-- Documentation in general is lacking, very difficult to navigate, very complicated, and way worse than the one provided by Stripe.
+- ~~Documentation in general is lacking, very difficult to navigate, very complicated, and way worse than the one provided by Stripe.~~
 
-- All the API is in XML. Couple this with the unsupported client and terrible documentation, and this means that whenever something breaks, it will be way more difficult to figure out how to fix it.
+  UPDATE: Ok, the documentation is not that bad. It's just not as good as what Stripe provides. This is going to be an issue only if we need to handle very complex situations in our code. Perhaps not?
+
+- All the API is in XML. Couple this with the unsupported client and the state of the documentation: this means that whenever something breaks, it will be way more difficult to figure out how to fix it.
 
 - There is no way to have test data in the production environment. This alone is a deal breaker for me.
 
