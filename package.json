@@ -1,19 +1,19 @@
 {
-  "name": "my-glitch-app",
+  "name": "empty-welcome",
   "version": "0.0.1",
   "description": "What am I about?",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "body-parser": "^1.18.2"
   },
   "engines": {
     "node": "9.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/empty-project"
+    "url": "https://glitch.com/edit/#!/empty-welcome"
   },
   "license": "MIT",
   "keywords": [
