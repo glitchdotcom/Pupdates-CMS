@@ -1,3 +1,3 @@
-# Empty project
+# Empty API project
 
-[Remix it](https://glitch.com/edit/#!/remix/empty-welcome)
+[Remix it](https://glitch.com/edit/#!/remix/empty-api)

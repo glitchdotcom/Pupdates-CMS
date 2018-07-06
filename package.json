@@ -1,7 +1,7 @@
 {
-  "name": "empty-welcome",
+  "name": "empty-api",
   "version": "0.0.1",
-  "description": "What am I about?",
+  "description": "An empty API-only project",
   "scripts": {
     "start": "node server.js"
   },
@@ -10,10 +10,10 @@
     "body-parser": "^1.18.3"
   },
   "engines": {
-    "node": "9.x"
+    "node": "10.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/empty-welcome"
+    "url": "https://glitch.com/edit/#!/empty-api"
   },
   "license": "MIT",
   "keywords": [
