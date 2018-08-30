@@ -105,6 +105,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"index.js":[function(require,module,exports) {
 console.log("hello world");
+
+console.log("boh");
 },{}],"../rbd/pnpm-volume/2dfb39fe-2212-4222-9834-875b4cf35a26/node_modules/.registry.npmjs.org/parcel-bundler/1.9.7/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -134,7 +136,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '43563' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '39429' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
