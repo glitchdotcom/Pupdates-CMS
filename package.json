@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "An empty API-only project",
   "scripts": {
-    "start": "parcel --port 3000 --no-autoinstall --no-hmr index.html"
+    "start": "parcel --port 3000 --no-autoinstall --no-cache --no-hmr index.html"
   },
   "dependencies": {
     "express": "^4.16.3",

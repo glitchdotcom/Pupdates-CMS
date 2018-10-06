@@ -1,5 +1,3 @@
 console.log("hello world");
 
-console.log("boh");
-
-console.log("ohohoh");
+console.log("hello");
