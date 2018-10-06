@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "An empty API-only project",
   "scripts": {
-    "start": "parcel watch index.html"
+    "start": "parcel --port 3000 --no-autoinstall --no-hmr index.html"
   },
   "dependencies": {
     "express": "^4.16.3",
     "body-parser": "^1.18.3",
-    "parcel-bundler": "^1.9.7"
+    "parcel-bundler": "^1.10.2"
   },
   "engines": {
     "node": "10.x"
