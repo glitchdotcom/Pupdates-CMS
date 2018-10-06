@@ -106,5 +106,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"index.js":[function(require,module,exports) {
 console.log("hello world");
+console.log("hello");
 },{}]},{},["index.js"], null)
 //# sourceMappingURL=/app.e31bb0bc.map
