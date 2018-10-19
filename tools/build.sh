@@ -1,5 +1,3 @@
 #!/bin/bash
 
-export NODE_ENV=development
-
-parcel build --no-minify --no-autoinstall src/frontend/index.html
+parcel build --no-autoinstall --experimental-scope-hoisting src/frontend/index.html

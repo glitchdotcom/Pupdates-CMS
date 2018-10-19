@@ -10,11 +10,6 @@ const App = () => (
     <Button variant="contained" color="primary">
       Hello World
     </Button>
-    <div onClick={()=>{}}>
-      This div should trigger an accessibility linting error, because you don't click on divs. On the client?
-    </div>
-                                              
-                                              
   </div>
 );
 
