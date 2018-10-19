@@ -1,5 +1,6 @@
 dependencies:
   '@material-ui/core': 3.2.2
+  '@material-ui/icons': 3.0.1
   express: 4.16.4
   parcel-bundler: 1.10.3
   react: 16.5.2
@@ -861,6 +862,19 @@ packages:
       react-dom: ^16.3.0
     resolution:
       integrity: sha512-wDTJyR76+OBdlltiPs3lc1gD6zR+dSA6nITtgkBeLf1NvWfNotMWdvldIDnF3bu24ySAX9imfzDfkBu4Edtqww==
+  /@material-ui/icons/3.0.1:
+    dependencies:
+      '@babel/runtime': 7.0.0
+      recompose: 0.29.0
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    peerDependencies:
+      '@material-ui/core': ^3.0.0
+      react: ^16.3.0
+      react-dom: ^16.3.0
+    resolution:
+      integrity: sha512-1kNcxYiIT1x8iDPEAlgmKrfRTIV8UyK6fLVcZ9kMHIKGWft9I451V5mvSrbCjbf7MX1TbLWzZjph0aVCRf9MqQ==
   /@mrmlnc/readdir-enhanced/2.2.1:
     dependencies:
       call-me-maybe: 1.0.1
@@ -4623,6 +4637,19 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
+  /recompose/0.29.0:
+    dependencies:
+      '@babel/runtime': 7.1.2
+      change-emitter: 0.1.6
+      fbjs: 0.8.17
+      hoist-non-react-statics: 2.5.5
+      react-lifecycles-compat: 3.0.4
+      symbol-observable: 1.2.0
+    dev: false
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0
+    resolution:
+      integrity: sha512-J/qLXNU4W+AeHCDR70ajW8eMd1uroqZaECTj6qqDLPMILz3y0EzpYlvrnxKB9DnqcngWrtGwjXY9JeXaW9kS1A==
   /recompose/0.30.0:
     dependencies:
       '@babel/runtime': 7.1.2
@@ -5506,6 +5533,7 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   '@material-ui/core': ^3.2.2
+  '@material-ui/icons': ^3.0.1
   express: ^4.16.4
   parcel-bundler: ^1.10.3
   react: ^16.5.2
