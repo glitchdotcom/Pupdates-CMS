@@ -3,36 +3,41 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = (theme) => ({
-  wrapper: {
+function PureCircularIndicator(props) {
+  const {value, size, thickness} = props;
+  
+  const wrapper = {
     position: "relative",
-  },
-  indicatorTable: {
+  };
+  
+  const table = {
     position: "absolute",
     display: "table",
-  },
-  indicatorRow: {
+    height: size,
+    width: size,
+  };
+  
+  const row = {
     display: "table-row",
     height: "100%",
-  },
-  indicatorCell: {
+  };
+  
+  const cell = {
     display: "table-cell",
     verticalAlign: "middle",
     textAlign: "center",
-  },
-});
-
-function PureCircularIndicator(props) {
-  const {classes, value, size, thickness} = props;
+  };
+  
+  const content = {
+    fontSize: Math.round(size/5),
+  };
   
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.indicatorTable} style={{height: size, width: size}}>
-        <div className={classes.indicatorRow}>
-          <div className={classes.indicatorCell}>
-            <Typography style={{"font-size": Math.round(size/5)}}>{`${value}%`}</Typography>
+    <div style={wrapper}>
+      <div style={table}>
+        <div style={row}>
+          <div style={cell}>
+            <Typography style={content}>{`${value}%`}</Typography>
           </div>
         </div>
       </div>
@@ -46,4 +51,4 @@ function PureCircularIndicator(props) {
   );
 }
 
-export default withStyles(styles)(PureCircularIndicator);
+export default PureCircularIndicator;
