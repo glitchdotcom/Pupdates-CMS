@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
@@ -48,6 +46,4 @@ function PureCircularIndicator(props) {
   );
 }
 
-const StyledCircularIndicator = withStyles(styles)(PureCircularIndicator);
-
-ReactDOM.render(<StyledCircularIndicator value={40} size={200} thickness={10}/>, document.querySelector('#app'));
+export default withStyles(styles)(PureCircularIndicator);
