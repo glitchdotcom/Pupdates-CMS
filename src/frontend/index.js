@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
@@ -20,6 +22,7 @@ const styles = (theme) => ({
   indicatorCell: {
     display: "table-cell",
     verticalAlign: "middle",
+    textAlign: "center",
   },
 });
 
@@ -28,10 +31,10 @@ function PureCircularIndicator(props) {
   
   return (
     <div className={classes.wrapper}>
-      <div className={classes.indicatorTable} style={{height: size}}>
+      <div className={classes.indicatorTable} style={{height: size, width: size}}>
         <div className={classes.indicatorRow}>
           <div className={classes.indicatorCell}>
-            {value}
+            <Typography variant="h4">{value}</Typography>
           </div>
         </div>
       </div>
