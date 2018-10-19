@@ -10,4 +10,4 @@ const App = () => (
 );
 
 var mountNode = document.getElementById("app");
-ReactDOM.render(<HelloMessage name="Jane" />, mountNode);
+ReactDOM.render(<App/>, mountNode);

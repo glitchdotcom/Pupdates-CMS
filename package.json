@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "An empty API-only project",
   "scripts": {
-    "prestart": "parcel build --no-minify --no-autoinstall index.html",
-    "start": "node server.js"
+    "prestart": "tools/build.sh",
+    "start": "tools/start.sh"
   },
   "dependencies": {
     "express": "^4.16.4",
