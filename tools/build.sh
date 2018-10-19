@@ -1,4 +1,5 @@
 #!/bin/bash
 
-parcel build --no-minify --no-autoinstall src/frontend/index.html
+export NODE_ENV=development
 
+parcel build --no-minify --no-autoinstall src/frontend/index.html
