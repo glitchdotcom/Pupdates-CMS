@@ -2,7 +2,7 @@
 
 # production: small bundle, no React webtools
 # development: larger bundle, source maps
-NODE_ENV=development
+export NODE_ENV=development
 
 echo "Building..."
 rm -rf dist/
