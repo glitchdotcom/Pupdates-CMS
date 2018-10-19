@@ -6,9 +6,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
+  wrapper: {
+    position: "relative",
+  },
   indicatorTable: {
+    position: "absolute",
     display: "table",
-    height: "100%",
   },
   indicatorRow: {
     display: "table-row",
@@ -25,7 +28,7 @@ function PureCircularIndicator(props) {
   
   return (
     <div className={classes.wrapper}>
-      <div className={classes.indicatorTable}>
+      <div className={classes.indicatorTable} style={{height: size}}>
         <div className={classes.indicatorRow}>
           <div className={classes.indicatorCell}>
             {value}

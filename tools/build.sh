@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf dist/
 if [[ $NODE_ENV == "production" ]]; then
   parcel build --no-autoinstall src/frontend/index.html
 else
