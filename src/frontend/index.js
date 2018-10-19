@@ -6,27 +6,42 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
-  indicator: {
-    position: "absolute",
+  indicatorTable: {
+    display: "table",
+    height: "100%",
+  },
+  indicatorRow: {
+    display: "table-row",
+    height: "100%",
+  },
+  indicatorCell: {
     display: "table-cell",
     verticalAlign: "middle",
-    minHeight: "2em",
   },
 });
 
-function App() {
+function PureCircularIndicator(props) {
+  const {classes, value, size, thickness} = props;
+  
   return (
-    <div>
-      <div>
+    <div className={classes.wrapper}>
+      <div className={classes.indicatorTable}>
+        <div className={classes.indicatorRow}>
+          <div className={classes.indicatorCell}>
+            {value}
+          </div>
+        </div>
       </div>
       <CircularProgress
         variant="static"
-        value={40}
-        size={200}
-        thickness={10}
+        value={value}
+        size={size}
+        thickness={thickness}
       />
     </div>
   );
 }
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+const StyledCircularIndicator = withStyles(styles)(PureCircularIndicator);
+
+ReactDOM.render(<StyledCircularIndicator value={40} size={200} thickness={10}/>, document.querySelector('#app'));
