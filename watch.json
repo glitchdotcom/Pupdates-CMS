@@ -1,7 +1,0 @@
-{
-  "install": {
-    "include": [
-      "package\\.json"
-    ]
-  }
-}

@@ -1,3 +1,13 @@
-console.log("hello world");
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-console.log("hello");
+import Button from '@material-ui/core/Button';
+
+const App = () => (
+  <Button variant="contained" color="primary">
+    Hello World
+  </Button>
+);
+
+var mountNode = document.getElementById("app");
+ReactDOM.render(<HelloMessage name="Jane" />, mountNode);
