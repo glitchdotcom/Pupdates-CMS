@@ -10,11 +10,10 @@ const hmrProxy = proxy({
   ws: true,
   ignorePath: true,
   onOpen: (socket) => {
+    // keepalive
     const handler = setInterval(() => {
-      socket.write('\x81\x7e\x12', 'binary');
-      socket.write('foo', 'utf8');
-      socket.write('\xff', 'binary');
-    }, 1000);
+      socket.write('\x89\x00', 'binary');
+    }, 30000);
     socket.on('close', () => {
       clearInterval(handler);
     });
