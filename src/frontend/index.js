@@ -3,4 +3,10 @@ import ReactDOM from 'react-dom';
 
 import CircularIndicator from './components/circular-indicator';
 
-ReactDOM.render(<CircularIndicator value={40} size={200} thickness={10}/>, document.querySelector('#app'));
+const test = (
+  <div>
+    <CircularIndicator value={40} size={200} thickness={10}/>
+  </div>
+);
+
+ReactDOM.render(test, document.querySelector('#app'));
