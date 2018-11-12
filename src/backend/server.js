@@ -5,7 +5,23 @@ const {wrap} = require("./utils");
 
 const app = express();
 
-const hmrProxy = proxy({target: 'ws://localhost:12345/', ws: true, ignorePath: true});
+const hmrProxy = proxy({
+  target: 'ws://localhost:12345/',
+  ws: true,
+  ignorePath: true,
+  onProxyReqWs: (proxyReq, req, socket, options, head) => {
+    const handler = setInterval(() => {
+      socket.write("KEEPALIVE");
+    }, 1000);
+    socket.on('close', () => {
+      clearInterval(handler);
+      console.log("OK");
+    });
+  },
+  onClose: (res, socket, head) => {
+    console.log("CLOSED!");
+  },
+});
 app.use('/__hmr:12345/', hmrProxy);
 
 app.use(express.json());
