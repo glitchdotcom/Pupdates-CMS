@@ -9,17 +9,15 @@ const hmrProxy = proxy({
   target: 'ws://localhost:12345/',
   ws: true,
   ignorePath: true,
-  onProxyReqWs: (proxyReq, req, socket, options, head) => {
+  onOpen: (socket) => {
     const handler = setInterval(() => {
-      socket.write("KEEPALIVE");
+      socket.write('\x81\x7e\x12', 'binary');
+      socket.write('foo', 'utf8');
+      socket.write('\xff', 'binary');
     }, 1000);
     socket.on('close', () => {
       clearInterval(handler);
-      console.log("OK");
     });
-  },
-  onClose: (res, socket, head) => {
-    console.log("CLOSED!");
   },
 });
 app.use('/__hmr:12345/', hmrProxy);
