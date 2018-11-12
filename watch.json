@@ -1,0 +1,9 @@
+{
+  "restart": {
+    "include": [
+      "^tools/.*\\.sh$",
+      "^src/backend"
+    ]
+  },
+  "noSavedEvents": true
+}
