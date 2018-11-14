@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const express = require("express");
 const proxy = require('http-proxy-middleware');
 
@@ -26,6 +28,9 @@ app.use(express.json());
 app.use(express.static("dist/"));
 
 app.get("*", wrap(async (req, res) => {
+  if (!fs.existsSync("/app/dist/index.html")) {
+    res.end("Please wait for the build to finish");
+  }
   res.sendFile("/app/dist/index.html");
 }));
 
