@@ -1,4 +1,9 @@
 {
+  "reinstall": {
+    "include": [
+      "^package\\.json$"
+    ]
+  },
   "restart": {
     "include": [
       "^tools/.*\\.sh$",

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "An empty API-only project",
   "scripts": {
+    "preinstall": "echo shamefully-flatten = false > .npmrc",
     "prestart": "tools/watch.sh &",
     "start": "tools/start.sh"
   },
