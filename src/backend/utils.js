@@ -31,6 +31,7 @@ module.exports = self = {
           clearInterval(handler);
         });
       },
+      logLevel: "error",
     });
     app.use('/__hmr:12345/', hmrProxy);
     return hmrProxy;

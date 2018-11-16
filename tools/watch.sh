@@ -9,6 +9,10 @@ export NODE_OPTIONS="--max-old-space-size=256"
 cp /app/.patches/cpuCount.js /app/node_modules/parcel-bundler/lib/utils/cpuCount.js
 cp /app/.patches/cpuCount.js /app/node_modules/parcel-bundler/src/utils/cpuCount.js
 
+while true; do
 echo "Wait for first build..."
-parcel watch --no-autoinstall --hmr-port 12345 --hmr-hostname $PROJECT_DOMAIN.glitch.me/__hmr \
-  src/frontend/index.html
+  parcel watch --hmr-port 12345 --hmr-hostname $PROJECT_DOMAIN.glitch.me/__hmr \
+    src/frontend/index.html
+  echo "parcel watch crashed"
+  sleep 1
+done
