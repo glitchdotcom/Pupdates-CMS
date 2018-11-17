@@ -4,8 +4,8 @@ dependencies:
   express: 4.16.4
   http-proxy-middleware: 0.19.0
   parcel-bundler: 1.10.3
-  react: 16.5.2
-  react-dom: 16.5.2
+  react: 16.6.3
+  react-dom: 16.6.3
 packages:
   /@babel/code-frame/7.0.0:
     dependencies:
@@ -4557,17 +4557,17 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-9esiElv1BrZoI3rCDuOuKCBRbuApGGaDPQfjSflGxdy4oyzqghxu6klEkkVIvBje+FF0BX9coEv8KqW6X/7njw==
-  /react-dom/16.5.2:
+  /react-dom/16.6.3:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       prop-types: 15.6.2
-      schedule: 0.5.0
+      scheduler: 0.11.2
     dev: false
     peerDependencies:
-      react: ^16.0.0
+      react: ^16.6.3
     resolution:
-      integrity: sha512-RC8LDw8feuZOHVgzEf7f+cxBr/DnKdqp56VU0lAs1f4UfKc4cU8wU4fTq/mgnvynLQo8OtlPC19NUFh/zjZPuA==
+      integrity: sha512-8ugJWRCWLGXy+7PmNh8WJz3g1TaTUt1XyoIcFN+x0Zbkoz+KKdUyx1AQLYJdbFXjuF41Nmjn5+j//rxvhFjgSQ==
   /react-event-listener/0.6.4:
     dependencies:
       '@babel/runtime': 7.0.0
@@ -4594,17 +4594,17 @@ packages:
       react-dom: '>=15.0.0'
     resolution:
       integrity: sha512-qYB3JBF+9Y4sE4/Mg/9O6WFpdoYjeeYqx0AFb64PTazVy8RPMiE3A47CG9QmM4WJ/mzDiZYslV+Uly6O1Erlgw==
-  /react/16.5.2:
+  /react/16.6.3:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       prop-types: 15.6.2
-      schedule: 0.5.0
+      scheduler: 0.11.2
     dev: false
     engines:
       node: '>=0.10.0'
     resolution:
-      integrity: sha512-FDCSVd3DjVTmbEAjUNX6FgfAmQ+ypJfHUsqUJOYNCBUp1h8lqmtC+0mXJ+JjsWx4KAVTkk1vKd1hLQPvEviSuw==
+      integrity: sha512-zCvmH2vbEolgKxtqXL2wmGCUxUyNheYn/C+PD1YAjfxHC54+MhdruyhO7QieQrYsYeTxrn93PM2y0jRH1zEExw==
   /readable-stream/2.3.6:
     dependencies:
       core-util-is: 1.0.2
@@ -4812,12 +4812,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
-  /schedule/0.5.0:
+  /scheduler/0.11.2:
     dependencies:
+      loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
     resolution:
-      integrity: sha512-HUcJicG5Ou8xfR//c2rPT0lPIRR09vVvN81T9fqfVgBmhERUbDEQoYKjpBxbueJnCPpSu2ujXzOnRQt6x9o/jw==
+      integrity: sha512-+WCP3s3wOaW4S7C1tl3TEXp4l9lJn0ZK8G3W3WKRWmw77Z2cIFUW2MiNTMHn5sCjxN+t7N43HAOOgMjyAg5hlg==
   /semver/5.6.0:
     dev: false
     hasBin: true
@@ -5528,5 +5529,5 @@ specifiers:
   express: ^4.16.4
   http-proxy-middleware: ^0.19.0
   parcel-bundler: ^1.10.3
-  react: ^16.5.2
-  react-dom: ^16.5.2
+  react: ^16.6.3
+  react-dom: ^16.6.3
