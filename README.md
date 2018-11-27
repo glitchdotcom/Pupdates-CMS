@@ -19,7 +19,7 @@ On the other hand, changes to the backend code (files in `backend/`) require tha
 Sure! This simple demo shows a custom "circular progress indicator". Click the `Show` button to see it. You might want to make it bigger. Let's change it!
 
 1) Remix this project
-2) Click `Show` to see the current state of the UI
+2) Click `Show` to see the app "preview".
 3) Open the file `frontend/index.js`
 4) On line 8, change the size parameter to 400.
 
@@ -50,4 +50,16 @@ Gladly, this behavior can be customised with a file called `watch.json`. If you 
 
 Additionally, it is telling Glitch to rerun the install step when you change package.json (since we want to get new dependencies if we add them there!).
 
-There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the preview when a change happens, even if it doesn't trigger a restart or an install. But we don't want that! Because the HMR is updating the page for us. That's why we disab
+There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the preview when a change happens, even if it doesn't trigger a restart or an install. But we don't want that! Because the HMR is updating the page for us. That's why we disable the "saved" events, which are the events that cause the preview to be refreshed. You are right... we might probably rename the setting `noAutoRefresh` ;)
+
+### The `prestart` scripts in package.json
+
+You're very curious! You noticed that we have a strange `prestart` command in `package.json`. What is it? I don't even see it in the editor!
+
+First, the easy part: you don't see it because it is inside a directory that starts with a dot, and that's a Unix/Linux convention to indicate an "hidden" directory. The editor doesn't show hidden directories. This is due to the fact that you don't really need to see or change that file to use this project. But you can still see (and change!) it using the Console.
+
+The `prestart` script runs... before the `start` script. If you check the file that it invokes, `.tools/watch.sh`, you'll see that this file is used to start the Parcel watcher! Here you go: before we start the server (the backend), we start the Parcel watcher :) The script also does some Glitch-specific things to make the HMR work on Glitch, and to make Parcel use less memory, because Glitch only provides 512MB of RAM.
+
+You might have also noticed that the `prestart` script ends with a `&`: it means "run this command in the background": yes, because we don't want the Parcel watcher to... "finish" before we start the server! We want the watcher to run in the background.
+
+Finally, `.tools/start.sh` is a very simple file that starts the Express server by calling `node backend/server.js`. You can even just replace the `start` command with `node backend/server.js` and you would obtain exactly the same result.
