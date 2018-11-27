@@ -9,6 +9,7 @@ const {
 } = require("./utils");
 
 const app = express();
+// This is needed to make Parcel live updates work on Glitch.
 const proxy = proxyParcelHMR(app);
 
 app.use(express.json());
@@ -24,4 +25,4 @@ app.get("*", wrap(async (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.error("\nBackend restarted. Refresh the preview to see the changes.\n");
-}).on('upgrade', proxy.upgrade);
+}).on('upgrade', proxy.upgrade); // This is needed to make Parcel live updates work on Glitch.

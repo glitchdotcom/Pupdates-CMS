@@ -17,6 +17,7 @@ module.exports = self = {
     });
   },
   
+  // This is needed to make Parcel Hot Module Reload (live updates) work on Glitch.
   proxyParcelHMR (app) {
     const hmrProxy = proxy({
       target: 'ws://localhost:12345/',
