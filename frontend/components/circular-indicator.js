@@ -46,6 +46,7 @@ function PureCircularIndicator(props) {
         value={value}
         size={size}
         thickness={thickness}
+        color="secondary"
       />
     </div>
   );
