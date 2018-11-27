@@ -12,7 +12,7 @@ cp /app/.patches/cpuCount.js /app/node_modules/parcel-bundler/src/utils/cpuCount
 while true; do
 echo "Wait for first build..."
   parcel watch --hmr-port 12345 --hmr-hostname $PROJECT_DOMAIN.glitch.me/__hmr \
-    src/frontend/index.html
+    frontend/index.html
   echo "parcel watch crashed"
   sleep 1
 done
