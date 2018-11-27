@@ -7,8 +7,8 @@
   "restart": {
     "include": [
       "^\\.env$",
-      "^tools/.*\\.sh$",
-      "^src/backend"
+      "^.tools/.*\\.sh$",
+      "^backend/"
     ]
   },
   "noSavedEvents": true

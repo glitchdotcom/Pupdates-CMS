@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "A simple Parcel starter project",
   "scripts": {
-    "prestart": "tools/watch.sh &",
-    "start": "tools/start.sh"
+    "prestart": ".tools/watch.sh &",
+    "start": ".tools/start.sh"
   },
   "dependencies": {
     "express": "^4.16.4",

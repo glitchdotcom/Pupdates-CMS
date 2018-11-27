@@ -17,7 +17,7 @@ module.exports = self = {
     });
   },
   
-  proxyHMR (app) {
+  proxyParcelHMR (app) {
     const hmrProxy = proxy({
       target: 'ws://localhost:12345/',
       ws: true,

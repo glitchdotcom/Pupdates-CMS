@@ -2,10 +2,14 @@ const fs = require("fs");
 
 const express = require("express");
 
-const {wrap, pause, proxyHMR} = require("./utils");
+const {
+  pause,
+  proxyParcelHMR,
+  wrap,
+} = require("./utils");
 
 const app = express();
-const proxy = proxyHMR(app);
+const proxy = proxyParcelHMR(app);
 
 app.use(express.json());
 
@@ -18,5 +22,6 @@ app.get("*", wrap(async (req, res) => {
   res.sendFile("/app/dist/index.html");
 }));
 
-const listener = app.listen(process.env.PORT);
-listener.on('upgrade', proxy.upgrade);
+app.listen(process.env.PORT, () => {
+  console.log("Backend restarted. Make sure to refresh the preview  
+}).on('upgrade', proxy.upgrade);
