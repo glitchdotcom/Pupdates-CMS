@@ -28,3 +28,14 @@ Here you go! You should now see a bigger indicator in the preview.
 
 ## How does it work?
 
+### Parcel
+
+Parcel is doing the heavylifting here. If you don't know what it is, it's probably good that you check out its [website](https://parceljs.org/), but I'll try to describe it quickly here. Parcel is a "bundler", that is: it takes as input a bunch of JS, CSS, HTML files (and more!), and figures out how to create a set of output files (a "bundle") that browsers know how to use.
+
+Parcel begins building its bundle from `frontend/index.html`. There, it sees that a script called `index.js` is required. So it adds `index.js` to its input files, and starts parsing it. In `index.js`, it sees more `require` and/or `import` statements, so it keeps adding those to its "input" files. At a certain point, it will have collected all the inputs: it does a few advanced transformations ("traspiles") of the source code, puts it all together, and creates a big `bundle.js` file (it's not exactly called like that, I just made up a name), and a new `index.html` file that now references `bundle.js` instead of `index.js`, and places them both in the `dist/` directory (not shown because it is in `.gitignore`, but you can see it using the Console).
+
+If you check out `backend/server.js`, you'll see that it's indeed `dist/index.html` that is being served :)
+
+### Parcel watch
+
+Parcel also has a very cool feature, which is a "watcher": it is a process that runs in the background and updates the bundle when an input file is changed. This allows updates to 
