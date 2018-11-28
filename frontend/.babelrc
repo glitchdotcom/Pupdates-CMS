@@ -1,0 +1,13 @@
+{
+  "presets" : [
+    ["modern-browsers", {
+      "loose": true,
+      "es2017": false,
+    }],
+    "@babel/preset-react",
+  ],
+  "plugins": [
+    "lodash",
+    "@babel/syntax-dynamic-import",
+  ],
+}
