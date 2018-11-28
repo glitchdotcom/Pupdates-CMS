@@ -62,7 +62,7 @@ There is also another setting: `noSavedEvents: true`. By default, Glitch refresh
 
 You're very curious! You noticed that we have a strange `prestart` command in `package.json`. What is it? You don't even see it in the editor!
 
-First, the easy part: you don't see it because it is inside a directory that starts with a dot, and that's a Unix/Linux convention to indicate an "hidden" directory. The editor doesn't show hidden directories. This is due to the fact that you don't really need to see or change that file to use this project. But you can still see (and change!) it using the Console.
+First, the easy part: you don't see it because it is inside a directory that starts with a dot, and that's a Unix/Linux convention to indicate an "hidden" directory. The editor doesn't show hidden directories. We decided to do so because you don't really need to see or change that file to use this project. But you can still see (and change!) it using the Console.
 
 The `prestart` script runs before the `start` script. If you check the file that it invokes, `.tools/watch.sh`, you'll see that this file is used to start the Parcel watcher! Here you go: before we start the server (the backend), we start the Parcel watcher :) The script also does some Glitch-specific things to make the HMR work on Glitch, and to make Parcel use less memory, because Glitch only provides 512MB of RAM.
 
