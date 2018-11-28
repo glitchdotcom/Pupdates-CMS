@@ -1,6 +1,7 @@
 const proxy = require("http-proxy-middleware");
 
 module.exports = self = {
+  // this turns async exceptions into something Express can handle as errors
   wrap(fn) {
     return async (req, res, next) => {
       try {
