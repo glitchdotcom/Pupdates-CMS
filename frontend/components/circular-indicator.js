@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 import './circular-indicator.less';
 
-function PureCircularIndicator(props) {
+export default function PureCircularIndicator(props) {
   const {value, size, thickness} = props;
   
   const content = {
@@ -30,5 +30,3 @@ function PureCircularIndicator(props) {
     </div>
   );
 }
-
-export default PureCircularIndicator;

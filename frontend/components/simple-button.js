@@ -1,5 +1,9 @@
 import React from 'react';
 
-function PureSimpleButton(props) {
-  
+import './simple-button.less';
+
+export default function PureSimpleButton(props) {
+  return (
+    <button {...props} className="simple-button-main">{props.children}</button>
+  );
 }

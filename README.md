@@ -22,17 +22,24 @@ On the other hand, changes to the backend code (files in `backend/`) require tha
 
 Sure! This simple demo shows a custom "circular progress indicator". Click the `Show` button to see it. You might want to make it bigger. Let's change it!
 
-1) If you didn't already, remix this project
-2) Click `Show` to open the app on a new tab
-3) Go to the file `frontend/index.js`
-4) At line 8, change the size parameter to 400.
+1. If you didn't already, remix this project
+1. Click `Show` to open the app on a new tab
+1. Go to the file `frontend/index.js`
+1. At line 8, change the size parameter to 400.
 
 Here you go! You should now see a bigger indicator in the app tab.
 
 
 ## I don't like Material UI, can I remove it?
 
-Of course you can!
+Of course you can! Just remove all references to it in the code and in package.json, and get rid of the components that use it.
+
+1. Remove the files `circular-indicator.js` and `circular-indicator.less`
+1. Remove lines 4 and 9 in `index.js`
+1. Remove line 4 in `index.html` (this is the default Material UI font)
+1. Finally, remove the lines 10 and 11 from `package.json` to uninstall it.
+
+Here you go :)
 
 
 ## How does it work?
