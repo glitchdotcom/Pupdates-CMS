@@ -1,6 +1,6 @@
-# Parcel + React = :heart:
+# Glitch + Parcel + React = :heart:
 
-This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend. It also uses [Babel](https://babeljs.io/) and [ESLint](https://eslint.org/).
+This is a simple starter project that uses [React](https://reactjs.org/) for the UI, [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) on the backend. It also uses [Babel](https://babeljs.io/) and [ESLint](https://eslint.org/).
 
 As always in Glitch, you can decide what to keep and what to remove. For example, you might not want Material UI. Later we explain how to get rid of it.
 
