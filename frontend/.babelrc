@@ -1,13 +1,9 @@
 {
-  "presets" : [
-    ["modern-browsers", {
-      "loose": true,
-      "es2017": false,
-    }],
-    "@babel/preset-react",
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
   ],
   "plugins": [
-    "lodash",
     "@babel/syntax-dynamic-import",
   ],
 }
