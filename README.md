@@ -46,7 +46,7 @@ If you check `backend/server.js`, you'll see that it serves the content of the `
 
 Parcel also has a very cool feature, which is a "watcher": it is a process that runs in the background and updates the bundle when an input file is changed. This allows updates to be applied very quickly! If you check the Logs (in the `Status` pane) after you make a change, you'll notice that Parcel says "Built in 24ms." Or something like that. It is able to update the whole bundle in just a few milliseconds!
 
-Another thing that Parcel watch does for us is telling all the connected browsers when the bundle is changed. It does so by using a Hot Module Replacement (HMR) system: it sends bundle updates through a websocket. In order to make this specific thing work on Glitch, we need a special "HMR proxy": it is defined in `backend/utils.js` and used in `backend/server.js`.
+Another thing that the Parcel watcher does for us is telling all the connected browsers when the bundle has changed. It does so by using Hot Module Replacement (HMR): it sends bundle updates through a websocket. In order to make this specific thing work on Glitch, we need a special "HMR proxy": it is defined in `backend/utils.js` and used in `backend/server.js`.
 
 ### watch.json
 
@@ -58,7 +58,7 @@ Additionally, it is telling Glitch to run the install step (npm install) when yo
 
 There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the app tab when a change happens, even if it doesn't trigger a restart or an install. But we don't want that, because the HMR is updating the page for us. That's why we disable the "saved" events, which are the events that cause the app tab to be refreshed. You are right... we might probably rename the setting to `autoRefresh: false` ;)
 
-### The `prestart` scripts in package.json
+### The `prestart` script in package.json
 
 You're very curious! You noticed that we have a strange `prestart` command in `package.json`. What is it? You don't even see it in the editor!
 
