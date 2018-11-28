@@ -1,6 +1,6 @@
 # Parcel + React = :heart:
 
-This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend.
+This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend. It also uses [Babel](https://babeljs.io/) and [ESLint](https://eslint.org/).
 
 
 ## How to use this?
@@ -11,7 +11,7 @@ You can edit and create more files in the `backend/` folder to modify the backen
 
 You can add more npm libraries in package.json, and use them in both the backend and the frontend.
 
-If you have the app open on another tab (if not, click the `Show` button), you will see that every change you make to the frontend code (files in `frontend/`) is applied immediately on the app, very quickly. This is possible thanks to the Parcel watcher and Hot Module Reloader, which is a background process that communicates bundle updates to all the connected browsers.
+If you have the app open on another tab (if not, click the `Show` button), you will see that every change you make to the frontend code (files in `frontend/`) is applied immediately on the app, very quickly. This is possible thanks to the Parcel watcher and Hot Module Replacement, which is a background process that communicates bundle updates to all the connected browsers.
 
 On the other hand, changes to the backend code (files in `backend/`) require that you refresh the app tab manually.
 
@@ -46,7 +46,7 @@ If you check `backend/server.js`, you'll see that it serves the content of the `
 
 Parcel also has a very cool feature, which is a "watcher": it is a process that runs in the background and updates the bundle when an input file is changed. This allows updates to be applied very quickly! If you check the Logs (in the `Status` pane) after you make a change, you'll notice that Parcel says "Built in 24ms." Or something like that. It is able to update the whole bundle in just a few milliseconds!
 
-Another thing that Parcel watch does for us is telling all the connected browsers when the bundle is changed. It does so by using a Hot Module Reload (HMR) system: it sends bundle updates through a websocket. In order to make this specific thing work on Glitch, we need a special "HMR proxy": it is defined in `backend/utils.js` and used in `backend/server.js`.
+Another thing that Parcel watch does for us is telling all the connected browsers when the bundle is changed. It does so by using a Hot Module Replacement (HMR) system: it sends bundle updates through a websocket. In order to make this specific thing work on Glitch, we need a special "HMR proxy": it is defined in `backend/utils.js` and used in `backend/server.js`.
 
 ### watch.json
 

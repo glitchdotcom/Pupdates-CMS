@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # Set the tmp directory inside /app so we preserve it in remixes.
 export TMP=/app/.tmp
@@ -12,7 +11,9 @@ cp /app/.patches/cpuCount.js /app/node_modules/parcel-bundler/src/utils/cpuCount
 
 while true; do
 echo "Wait for first build..."
-  parcel watch --hmr-port 12345 --hmr-hostname $PROJECT_DOMAIN.glitch.me/__hmr \
+  parcel watch \
+    --hmr-port 12345 --hmr-hostname $PROJECT_DOMAIN.glitch.me/__hmr \
+    --no-autoinstall \
     frontend/index.html
   echo "parcel watch crashed"
   sleep 1
