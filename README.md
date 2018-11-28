@@ -1,29 +1,29 @@
 # Parcel + React
 
-Parcel + React + Glitch = **`BEST.THING.EVER.`**
+Parcel + React + Glitch = **`BEST.THING.EVER.`** :heart: :heart_eyes: :party:
 
-This is a very simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend.
+This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend.
 
 
 ## How to use this?
 
 You can add more npm libraries in package.json, and use them in both the backend and the frontend. The frontend bundle is built on the fly by Parcel, and it already supports React, JSX, Less, Stylus, CSS etc., so you can focus on writing code instead of configuring your bundler (gone are the days of tweaking webpack.config.js).
 
-If you have the site open on another tab (for example by clicking the `Show` button), you will see that every change you make to the frontend code (files in `frontend/`) is applied immediately on the live site, very quickly. This is possible thanks to the the fact that Parcel integrates Hot Module Reload, which is a shadow websocket server that communicates bundle updates to all the connected browsers.
+If you have the app open on another tab (if not, click the `Show` button), you will see that every change you make to the frontend code (files in `frontend/`) is applied immediately on the app, very quickly. This is possible thanks to the Parcel watcher and Hot Module Reloader, which is a background process that communicates bundle updates to all the connected browsers.
 
-On the other hand, changes to the backend code (files in `backend/`) require that you refresh the preview manually.
+On the other hand, changes to the backend code (files in `backend/`) require that you refresh the app tab manually.
 
 
-## Some example...?
+## Can you make an example?
 
 Sure! This simple demo shows a custom "circular progress indicator". Click the `Show` button to see it. You might want to make it bigger. Let's change it!
 
 1) Remix this project
-2) Click `Show` to see the app "preview".
+2) Click `Show` to open the app on a tab
 3) Open the file `frontend/index.js`
 4) On line 8, change the size parameter to 400.
 
-Here you go! You should now see a bigger indicator in the preview.
+Here you go! You should now see a bigger indicator in the app tab.
 
 
 ## How does it work?
@@ -44,13 +44,13 @@ Another thing that Parcel watch does for us is telling all the connected browser
 
 ### watch.json
 
-By default, Glitch restarts _the entire_ user app when a js file is changed (also json files and a few other file types). This means that the Parcel watcher and HMR would be restarted too :( this would slow down bundle updates quite a bit, and require the developer to manually refresh the preview after every change.
+By default, Glitch restarts _the entire_ user app when a js file is changed (also json files and a few other file types). This means that the Parcel watcher and HMR would be restarted too :( this would slow down bundle updates quite a bit, and require the developer to manually refresh the app tab after every change.
 
 Gladly, this behavior can be customised with a file called `watch.json`. If you look at it in this project, this is exactly what it is doing: it is telling Glitch to only restart the user app when a _backend_ files are changed, or `.env` (the file where you can store your secrets without showing them to the world, even if your project is public).
 
 Additionally, it is telling Glitch to run the install step (npm install) when you change package.json (since you want to get new dependencies if you add them there!).
 
-There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the preview when a change happens, even if it doesn't trigger a restart or an install. But we don't want that, because the HMR is updating the page for us. That's why we disable the "saved" events, which are the events that cause the preview to be refreshed. You are right... we might probably rename the setting to `autoRefresh: false` ;)
+There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the app tab when a change happens, even if it doesn't trigger a restart or an install. But we don't want that, because the HMR is updating the page for us. That's why we disable the "saved" events, which are the events that cause the app tab to be refreshed. You are right... we might probably rename the setting to `autoRefresh: false` ;)
 
 ### The `prestart` scripts in package.json
 

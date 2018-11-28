@@ -9,14 +9,16 @@ const {
 } = require("./utils");
 
 const app = express();
-// This is needed to make Parcel live updates work on Glitch.
+// This is needed to make Parcel live-updates work on Glitch.
 const proxy = proxyParcelHMR(app);
 
 app.use(express.json());
 
 app.use(express.static("dist/"));
 
+// if a file is not found in dist/, then serve dist/index.html.
 app.get("*", wrap(async (req, res) => {
+  // if dist/index.html is not available yet, wait until it is available.
   while (!fs.existsSync("dist/index.html")) {
     await pause(500);
   }
@@ -25,4 +27,4 @@ app.get("*", wrap(async (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.error("\nBackend restarted. Refresh the preview to see the changes.\n");
-}).on('upgrade', proxy.upgrade); // This is needed to make Parcel live updates work on Glitch.
+}).on('upgrade', proxy.upgrade); // This is needed to make Parcel live-updates work on Glitch.
