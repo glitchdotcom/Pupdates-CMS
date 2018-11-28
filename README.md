@@ -1,13 +1,15 @@
-# Parcel + React
-
-Parcel + React + Glitch = **`BEST.THING.EVER.`** :heart: :heart_eyes: :party:
+# Parcel + React = :heart:
 
 This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend.
 
 
 ## How to use this?
 
-You can add more npm libraries in package.json, and use them in both the backend and the frontend. The frontend bundle is built on the fly by Parcel, and it already supports React, JSX, Less, Stylus, CSS etc., so you can focus on writing code instead of configuring your bundler (gone are the days of tweaking webpack.config.js).
+First of all, remix it ;)
+
+You can edit and create more files in the `backend/` folder to modify the backend behavior. For the frontend, use the files in `frontend/`. The frontend bundle is built on the fly by Parcel, and it already supports React, JSX, Less, Stylus, CSS etc., so you can focus on writing code instead of configuring your bundler (gone are the days of tweaking webpack.config.js).
+
+You can add more npm libraries in package.json, and use them in both the backend and the frontend.
 
 If you have the app open on another tab (if not, click the `Show` button), you will see that every change you make to the frontend code (files in `frontend/`) is applied immediately on the app, very quickly. This is possible thanks to the Parcel watcher and Hot Module Reloader, which is a background process that communicates bundle updates to all the connected browsers.
 
@@ -32,9 +34,11 @@ Here you go! You should now see a bigger indicator in the app tab.
 
 Parcel is doing the heavylifting here. If you don't know what it is, it's probably good that you check out its [website](https://parceljs.org/), but I'll try to describe it quickly here. Parcel is a "bundler", that is: it takes as input a bunch of JS, CSS, HTML files (and more!), and figures out how to create a set of output files (a "bundle") that browsers know how to use.
 
-Parcel begins building its bundle from `frontend/index.html`. There, it sees that a script called `index.js` is required. So it adds `index.js` to its input files, and starts parsing it. In `index.js`, it sees more `require` and/or `import` statements, so it keeps adding those to its "input" files. At a certain point, it will have collected all the inputs: it does a few advanced transformations ("traspiles") of the source code, puts it all together, and creates a big `bundle.js` file (it's not exactly called like that, I just made up a name), and a new `index.html` file that now references `bundle.js` instead of `index.js`, and places them both in the `dist/` directory (not shown because it is in `.gitignore`, but you can see it using the Console).
+Parcel begins building its bundle from `frontend/index.html`. There, it sees that a script called `index.js` is required. So it adds `index.js` to its input files, and starts parsing it. In `index.js`, it sees some `import` statements, so it adds those to its list of "input" files. At a certain point, it will have collected all the inputs: it does a few advanced transformations of the source code (it "transpiles" the source), mix it all together, and creates a big `bundle.js` file and places it in a folder named `dist/`. You don't see this folder in the editor because it is in `.gitignore`.
 
-If you check out `backend/server.js`, you'll see that it's indeed `dist/index.html` that is being served :)
+At last, Parcel creates a new `index.html` file, with exactly the same content as the original but that references the `bundle.js` instead of `index.js`, and places it in the `dist/` folder too.
+
+If you check `backend/server.js`, you'll see `dist/index.html` is the file being served :)
 
 ### Parcel watcher
 
@@ -58,6 +62,6 @@ You're very curious! You noticed that we have a strange `prestart` command in `p
 
 First, the easy part: you don't see it because it is inside a directory that starts with a dot, and that's a Unix/Linux convention to indicate an "hidden" directory. The editor doesn't show hidden directories. This is due to the fact that you don't really need to see or change that file to use this project. But you can still see (and change!) it using the Console.
 
-The `prestart` script runs... before the `start` script. If you check the file that it invokes, `.tools/watch.sh`, you'll see that this file is used to start the Parcel watcher! Here you go: before we start the server (the backend), we start the Parcel watcher :) The script also does some Glitch-specific things to make the HMR work on Glitch, and to make Parcel use less memory, because Glitch only provides 512MB of RAM.
+The `prestart` script runs before the `start` script. If you check the file that it invokes, `.tools/watch.sh`, you'll see that this file is used to start the Parcel watcher! Here you go: before we start the server (the backend), we start the Parcel watcher :) The script also does some Glitch-specific things to make the HMR work on Glitch, and to make Parcel use less memory, because Glitch only provides 512MB of RAM.
 
-You might have also noticed that the `prestart` script ends with a `&`: it means "run this command in the background": yes, because we don't want the Parcel watcher to "finish" before we start the server! We want the watcher to run in the background, _while_ the server is running.
+You might have also noticed that the `prestart` script ends with a `&`: it means "run this command in the background": yes, because we don't want the Parcel watcher to "finish" before we start the server! We want the watcher to run _while_ the server is running.
