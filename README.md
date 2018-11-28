@@ -2,7 +2,7 @@
 
 This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend. It also uses [Babel](https://babeljs.io/) and [ESLint](https://eslint.org/).
 
-As always in Glitch, you can decide what to keep and what to remove. For example, you might not want Material UI. Later in this document it is explained how to get rid of it.
+As always in Glitch, you can decide what to keep and what to remove. For example, you might not want Material UI. Later we explain how to get rid of it.
 
 
 ## How to use this?
@@ -50,7 +50,7 @@ Parcel is doing the heavylifting here. If you don't know what it is, it's probab
 
 Parcel collects input files one at a time. It starts with `frontend/index.html`. There, it sees that a script called `index.js` is required. So it adds `index.js` to its input files, and then goes on and parses it. In `index.js`, it sees some `import` statements, so it adds those to its list of input files. And so on...
 
-At a certain point, it will have collected all the inputs: it then does a few advanced transformations of the source code (it "transpiles" the source), merge it all together, creates a big `bundle.js` file, and places it in a folder named `dist/`. You don't see this folder in the editor because it is listed in `.gitignore`.
+At a certain point, it will have collected all the inputs: it then does a few advanced transformations of the source code (it "transpiles" the source), merges it all together, creates a big `bundle.js` file, and places it in a folder named `dist/`. You don't see this folder in the editor because it is listed in `.gitignore`.
 
 At last, Parcel creates a new `index.html` file, with exactly the same content as the original but that references the `bundle.js` instead of `index.js`, and places it in the `dist/` folder too.
 
