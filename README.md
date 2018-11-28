@@ -44,13 +44,13 @@ Another thing that Parcel watch does for us is telling all the connected browser
 
 ### watch.json
 
-By default, Glitch restarts _the entire_ user app when a js file is changed (also json files and a few other extensions). This means that the Parcel watcher and HMR would be restarted too :( this would slow down updates quite a bit, and require the developer to manually refresh the preview after every change.
+By default, Glitch restarts _the entire_ user app when a js file is changed (also json files and a few other file types). This means that the Parcel watcher and HMR would be restarted too :( this would slow down bundle updates quite a bit, and require the developer to manually refresh the preview after every change.
 
-Gladly, this behavior can be customised with a file called `watch.json`. If you look at it in this project, this is exactly what it is doing: it is telling Glitch to only restart the user app when a _backend_ file is changed, or `.env`.
+Gladly, this behavior can be customised with a file called `watch.json`. If you look at it in this project, this is exactly what it is doing: it is telling Glitch to only restart the user app when a _backend_ files are changed, or `.env` (the file where you can store your secrets without showing them to the world, even if your project is public).
 
-Additionally, it is telling Glitch to rerun the install step when you change package.json (since we want to get new dependencies if we add them there!).
+Additionally, it is telling Glitch to run the install step (npm install) when you change package.json (since you want to get new dependencies if you add them there!).
 
-There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the preview when a change happens, even if it doesn't trigger a restart or an install. But we don't want that! Because the HMR is updating the page for us. That's why we disable the "saved" events, which are the events that cause the preview to be refreshed. You are right... we might probably rename the setting `noAutoRefresh` ;)
+There is also another setting: `noSavedEvents: true`. By default, Glitch refreshes the preview when a change happens, even if it doesn't trigger a restart or an install. But we don't want that, because the HMR is updating the page for us. That's why we disable the "saved" events, which are the events that cause the preview to be refreshed. You are right... we might probably rename the setting to `autoRefresh: false` ;)
 
 ### The `prestart` scripts in package.json
 
@@ -60,6 +60,4 @@ First, the easy part: you don't see it because it is inside a directory that sta
 
 The `prestart` script runs... before the `start` script. If you check the file that it invokes, `.tools/watch.sh`, you'll see that this file is used to start the Parcel watcher! Here you go: before we start the server (the backend), we start the Parcel watcher :) The script also does some Glitch-specific things to make the HMR work on Glitch, and to make Parcel use less memory, because Glitch only provides 512MB of RAM.
 
-You might have also noticed that the `prestart` script ends with a `&`: it means "run this command in the background": yes, because we don't want the Parcel watcher to... "finish" before we start the server! We want the watcher to run in the background.
-
-Finally, `.tools/start.sh` is a very simple file that starts the Express server by calling `node backend/server.js`. You can even just replace the `start` command with `node backend/server.js` and you would obtain exactly the same result.
+You might have also noticed that the `prestart` script ends with a `&`: it means "run this command in the background": yes, because we don't want the Parcel watcher to "finish" before we start the server! We want the watcher to run in the background, _while_ the server is running.

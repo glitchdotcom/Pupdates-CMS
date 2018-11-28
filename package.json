@@ -4,7 +4,7 @@
   "description": "A simple Parcel starter project",
   "scripts": {
     "prestart": ".tools/watch.sh &",
-    "start": ".tools/start.sh"
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "express": "^4.16.4",
@@ -24,7 +24,9 @@
   "license": "MIT",
   "keywords": [
     "node",
-    "glitch",
-    "express"
+    "express",
+    "parcel",
+    "material",
+    "react"
   ]
 }
