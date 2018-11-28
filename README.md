@@ -20,10 +20,10 @@ On the other hand, changes to the backend code (files in `backend/`) require tha
 
 Sure! This simple demo shows a custom "circular progress indicator". Click the `Show` button to see it. You might want to make it bigger. Let's change it!
 
-1) Remix this project
-2) Click `Show` to open the app on a tab
-3) Open the file `frontend/index.js`
-4) On line 8, change the size parameter to 400.
+1) If you didn't already, remix this project
+2) Click `Show` to open the app on a new tab
+3) Go to the file `frontend/index.js`
+4) At line 8, change the size parameter to 400.
 
 Here you go! You should now see a bigger indicator in the app tab.
 
@@ -34,11 +34,13 @@ Here you go! You should now see a bigger indicator in the app tab.
 
 Parcel is doing the heavylifting here. If you don't know what it is, it's probably good that you check out its [website](https://parceljs.org/), but I'll try to describe it quickly here. Parcel is a "bundler", that is: it takes as input a bunch of JS, CSS, HTML files (and more!), and figures out how to create a set of output files (a "bundle") that browsers know how to use.
 
-Parcel begins building its bundle from `frontend/index.html`. There, it sees that a script called `index.js` is required. So it adds `index.js` to its input files, and starts parsing it. In `index.js`, it sees some `import` statements, so it adds those to its list of "input" files. At a certain point, it will have collected all the inputs: it does a few advanced transformations of the source code (it "transpiles" the source), mix it all together, and creates a big `bundle.js` file and places it in a folder named `dist/`. You don't see this folder in the editor because it is in `.gitignore`.
+Parcel collects input files one at a time. It starts with `frontend/index.html`. There, it sees that a script called `index.js` is required. So it adds `index.js` to its input files, and then goes on and parses it. In `index.js`, it sees some `import` statements, so it adds those to its list of input files. And so on...
+
+At a certain point, it will have collected all the inputs: it then does a few advanced transformations of the source code (it "transpiles" the source), merge it all together, creates a big `bundle.js` file, and places it in a folder named `dist/`. You don't see this folder in the editor because it is listed in `.gitignore`.
 
 At last, Parcel creates a new `index.html` file, with exactly the same content as the original but that references the `bundle.js` instead of `index.js`, and places it in the `dist/` folder too.
 
-If you check `backend/server.js`, you'll see `dist/index.html` is the file being served :)
+If you check `backend/server.js`, you'll see that it serves the content of the `dist/` folder (line 17) and you can also spot a reference to `dist/index.html` :)
 
 ### Parcel watcher
 
@@ -50,7 +52,7 @@ Another thing that Parcel watch does for us is telling all the connected browser
 
 By default, Glitch restarts _the entire_ user app when a js file is changed (also json files and a few other file types). This means that the Parcel watcher and HMR would be restarted too :( this would slow down bundle updates quite a bit, and require the developer to manually refresh the app tab after every change.
 
-Gladly, this behavior can be customised with a file called `watch.json`. If you look at it in this project, this is exactly what it is doing: it is telling Glitch to only restart the user app when a _backend_ files are changed, or `.env` (the file where you can store your secrets without showing them to the world, even if your project is public).
+Gladly, this behavior can be customised with a file called `watch.json`. If you look at it in this project, this is exactly what it is doing: it is telling Glitch to only restart the user app when _backend_ files are changed, or `.env` (the file where you can store your secrets without showing them to the world, even if your project is public).
 
 Additionally, it is telling Glitch to run the install step (npm install) when you change package.json (since you want to get new dependencies if you add them there!).
 
@@ -58,7 +60,7 @@ There is also another setting: `noSavedEvents: true`. By default, Glitch refresh
 
 ### The `prestart` scripts in package.json
 
-You're very curious! You noticed that we have a strange `prestart` command in `package.json`. What is it? I don't even see it in the editor!
+You're very curious! You noticed that we have a strange `prestart` command in `package.json`. What is it? You don't even see it in the editor!
 
 First, the easy part: you don't see it because it is inside a directory that starts with a dot, and that's a Unix/Linux convention to indicate an "hidden" directory. The editor doesn't show hidden directories. This is due to the fact that you don't really need to see or change that file to use this project. But you can still see (and change!) it using the Console.
 
