@@ -2,6 +2,8 @@
 
 This is a simple starter project that uses [Parcel](https://parceljs.org/) to build the client bundle, [Material UI](https://material-ui.com/) as the main React Component library, and [Express](https://expressjs.com/) in the backend. It also uses [Babel](https://babeljs.io/) and [ESLint](https://eslint.org/).
 
+As always in Glitch, you can decide what to keep and what to remove. For example, you might not want Material UI. Later in this document it is explained how to get rid of it.
+
 
 ## How to use this?
 
@@ -26,6 +28,11 @@ Sure! This simple demo shows a custom "circular progress indicator". Click the `
 4) At line 8, change the size parameter to 400.
 
 Here you go! You should now see a bigger indicator in the app tab.
+
+
+## I don't like Material UI, can I remove it?
+
+Of course you can!
 
 
 ## How does it work?
