@@ -3,12 +3,10 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
+'./circular-indicator.less';
+
 function PureCircularIndicator(props) {
   const {value, size, thickness} = props;
-  
-  const wrapper = {
-    position: "relative",
-  };
   
   const table = {
     position: "absolute",
@@ -33,7 +31,7 @@ function PureCircularIndicator(props) {
   };
   
   return (
-    <div style={wrapper}>
+    <div className="Circular-indicator-wrapper">
       <div style={table}>
         <div style={row}>
           <div style={cell}>
