@@ -10,7 +10,7 @@ cp /app/.patches/cpuCount.js /app/node_modules/parcel-bundler/lib/utils/cpuCount
 cp /app/.patches/cpuCount.js /app/node_modules/parcel-bundler/src/utils/cpuCount.js
 
 while true; do
-echo "Wait for first build..."
+  echo "Wait for first build..."
   parcel watch \
     --hmr-port 12345 --hmr-hostname $PROJECT_DOMAIN.glitch.me/__hmr \
     --no-autoinstall \
