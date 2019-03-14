@@ -2,8 +2,8 @@ dependencies:
   '@material-ui/core': 3.6.0
   '@material-ui/icons': 3.0.1
   express: 4.16.4
-  react: 16.6.3
-  react-dom: 16.6.3
+  react: 16.8.4
+  react-dom: 16.8.4
 devDependencies:
   '@babel/core': 7.1.6
   '@babel/plugin-syntax-dynamic-import': 7.0.0
@@ -5783,6 +5783,14 @@ packages:
       object-assign: 4.1.1
     resolution:
       integrity: sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
+  /prop-types/15.7.2:
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.8.4
+    dev: false
+    resolution:
+      integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
   /proto-list/1.2.4:
     dev: true
     resolution:
@@ -5903,17 +5911,17 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-9esiElv1BrZoI3rCDuOuKCBRbuApGGaDPQfjSflGxdy4oyzqghxu6klEkkVIvBje+FF0BX9coEv8KqW6X/7njw==
-  /react-dom/16.6.3:
+  /react-dom/16.8.4:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      prop-types: 15.6.2
-      scheduler: 0.11.2
+      prop-types: 15.7.2
+      scheduler: 0.13.4
     dev: false
     peerDependencies:
-      react: ^16.6.3
+      react: ^16.0.0
     resolution:
-      integrity: sha512-8ugJWRCWLGXy+7PmNh8WJz3g1TaTUt1XyoIcFN+x0Zbkoz+KKdUyx1AQLYJdbFXjuF41Nmjn5+j//rxvhFjgSQ==
+      integrity: sha512-Ob2wK7XG2tUDt7ps7LtLzGYYB6DXMCLj0G5fO6WeEICtT4/HdpOi7W/xLzZnR6RCG1tYza60nMdqtxzA8FaPJQ==
   /react-event-listener/0.6.4:
     dependencies:
       '@babel/runtime': 7.0.0
@@ -5928,6 +5936,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-u7FDWtthB4rWibG/+mFbVd5FvdI20yde86qKGx4lVUTWmPlSWQ4QxbBIrrs+HnXGbxOUlUzTAP/VDmvCwaP2yA==
+  /react-is/16.8.4:
+    dev: false
+    resolution:
+      integrity: sha512-PVadd+WaUDOAciICm/J1waJaSvgq+4rHE/K70j0PFqKhkTBsPv/82UGQJNXAngz1fOQLLxI6z1sEDmJDQhCTAA==
   /react-lifecycles-compat/3.0.4:
     dev: false
     resolution:
@@ -5944,17 +5956,17 @@ packages:
       react-dom: '>=15.0.0'
     resolution:
       integrity: sha512-qYB3JBF+9Y4sE4/Mg/9O6WFpdoYjeeYqx0AFb64PTazVy8RPMiE3A47CG9QmM4WJ/mzDiZYslV+Uly6O1Erlgw==
-  /react/16.6.3:
+  /react/16.8.4:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      prop-types: 15.6.2
-      scheduler: 0.11.2
+      prop-types: 15.7.2
+      scheduler: 0.13.4
     dev: false
     engines:
       node: '>=0.10.0'
     resolution:
-      integrity: sha512-zCvmH2vbEolgKxtqXL2wmGCUxUyNheYn/C+PD1YAjfxHC54+MhdruyhO7QieQrYsYeTxrn93PM2y0jRH1zEExw==
+      integrity: sha512-0GQ6gFXfUH7aZcjGVymlPOASTuSjlQL4ZtVC5YKH+3JL6bBLCVO21DknzmaPlI90LN253ojj02nsapy+j7wIjg==
   /readable-stream/2.3.6:
     dependencies:
       core-util-is: 1.0.2
@@ -6235,13 +6247,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
-  /scheduler/0.11.2:
+  /scheduler/0.13.4:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
     resolution:
-      integrity: sha512-+WCP3s3wOaW4S7C1tl3TEXp4l9lJn0ZK8G3W3WKRWmw77Z2cIFUW2MiNTMHn5sCjxN+t7N43HAOOgMjyAg5hlg==
+      integrity: sha512-cvSOlRPxOHs5dAhP9yiS/6IDmVAVxmk33f0CtTJRkmUWcb1Us+t7b1wqdzoC0REw2muC9V5f1L/w5R5uKGaepA==
   /semver/5.6.0:
     dev: true
     hasBin: true
@@ -7090,5 +7102,5 @@ specifiers:
   less: ^2.0.0
   parcel-bundler: ^1.10.3
   parcel-plugin-eslint: ^1.0.4
-  react: ^16.6.3
-  react-dom: ^16.6.3
+  react: ^16.8.3
+  react-dom: ^16.8.3
