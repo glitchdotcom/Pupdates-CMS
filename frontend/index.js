@@ -50,31 +50,70 @@ function useAsyncFunction (fn, deps = []) {
 
 const Loading = () => <div>Loading...</div>
 
-const Login = () => {
-  // const [status, setStatus] = useState('init')
-  // const [, setPersistentToken] = useLocalStorage('persistentToken')
-  // const submitEmail = (emailAddress) => {
-  //   setStatus('submittedEmail')
-  //   fetch(`${API_URL}/email/sendLoginEmail`, { 
-  //     method: 'POST', 
-  //     body: JSON.stringify({ emailAddress }),
-  //     mode: 'cors'
-  //   })
-  // }
-  // const submitSigninCode = async (code) => {
-  //   setStatus('submittedSignInCode')
-  //   const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
-  //   if (!res.ok) {
-  //     setStatus('error')
-  //     return
-  //   }
-  //   const { persistentToken } = await res.json()
-  //   setPersistentToken(persistentToken)
-  //   window.reload()
-  // }
+const EmailForm = ({ onSubmit }) => {
+  const [email, setEmail] = useState('') 
+  const onSubmitForm = (e) => {
+    e.preventDefault()
+    onSubmit(email)
+  }
   return (
-    <div>TODO</div>
+    <form onSubmit={onSubmitForm}>
+      <label>
+        <div>Email</div>
+        <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
+      </label>
+      <button type="submit">submit</button>
+    </form>
   )
+}
+
+const CodeForm = ({ onSubmit }) => {
+  const [code, setCode] = useState('') 
+  const onSubmitForm = (e) => {
+    e.preventDefault()
+    onSubmit(code)
+  }
+  return (
+    <form onSubmit={onSubmitForm}>
+      <label>
+        <div>Sign in code</div>
+        <input type="text" value={code} onChange={e => setCode(e.target.value)}/>
+      </label>
+      <button type="submit">submit</button>
+    </form>
+  )
+}
+
+const Login = () => {
+  const [status, setStatus] = useState('init') // init | submittedEmail | submittedSignInCode | error
+  const [, setPersistentToken] = useLocalStorage('persistentToken')
+  const submitEmail = (emailAddress) => {
+    setStatus('submittedEmail')
+    fetch(`${API_URL}/email/sendLoginEmail`, { 
+      method: 'POST', 
+      body: JSON.stringify({ emailAddress }),
+      mode: 'cors',
+     headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+  }
+  const submitSigninCode = async (code) => {
+    setStatus('submittedSignInCode')
+    const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
+    if (!res.ok) {
+      setStatus('error')
+      return
+    }
+    const { persistentToken } = await res.json()
+    setPersistentToken(persistentToken)
+    window.reload()
+  }
+  
+  if (status === 'init') return <EmailForm onSubmit={submitEmail} />
+  if (status === 'submittedEmail') return <CodeForm onSubmit={submitSigninCode} />
+  return <Loading />
 }
 
 const CurrentUserController = ({ children}) => {
