@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
+import styled from '@emotion/styled'
 
 const CurrentUserContext = createContext()
 const useCurrentUser = () => useContext(CurrentUserContext)
@@ -181,6 +182,7 @@ const ProjectActions = ({ project }) => {
   return (
     <div>
       <button onClick={restartProject}>Restart</button>
+      <button onClick={deleteProject}>Delete</button>
     </div>
   ) 
 }
@@ -201,6 +203,23 @@ async function getMyPRs () {
   }
   return out
 }
+
+const Header = styled.h1`
+  font-weight: bold;
+  font-size: 2rem;
+`
+
+const Table = styled.table`
+  th {
+    text-align: left;
+  }
+  th, td {
+    padding: 0.5rem;
+  }
+  tr:nth-child(even) {
+    background-color: #fef;
+  }
+` 
  
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
@@ -212,8 +231,8 @@ const RecentProjects = () => {
   
   return (
     <section>
-      <h1>Community Remixes</h1>
-      <table>
+      <Header>Community Remixes</Header>
+      <Table>
         <thead>
           <tr>
             <th>domain</th>
@@ -237,16 +256,25 @@ const RecentProjects = () => {
             )
           })}
         </tbody>
-      </table>
+      </Table>
     </section>
   )
 }
 
+const RootContainer = styled.div`
+  font-family: sans-serif;
+  color: #222;
+  max-width: 960px;
+  margin: 0 auto;
+`
+
 const Main = () => {
   return (
-    <CurrentUserController>
-      <RecentProjects />
-    </CurrentUserController>
+    <RootContainer>
+      <CurrentUserController>
+        <RecentProjects />
+      </CurrentUserController>
+    </RootContainer>
   )
 }
 
