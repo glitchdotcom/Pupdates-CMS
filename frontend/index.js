@@ -14,8 +14,17 @@ async function getUserForPersistentToken (persistentToken) {
   return res[persistentToken]
 }
 
-function useLocalStorage (key) {
-  const []
+function useLocalStorage (key, defaultValue = null) {
+  const [value, setValue] = useState(() => {
+    const storedValue = localStorage.getItem(key)
+    if (storedValue) return JSON.parse(storedValue)
+    return defaultValue
+  })
+  const setAndPersistValue = (newValue) => {
+    setValue(newValue)
+    localStorage.setItem(key, JSON.stringify(newValue))
+  }
+  return [value, setAndPersistValue]
 }
 
 function useAsyncFunction (fn, deps = []) {
@@ -39,13 +48,29 @@ function useAsyncFunction (fn, deps = []) {
   return state
 }
 
-const LoggedIn = ({ children}) => {
+const Loading = () => <div>Loading...</div>
+
+const Login = () => {
+  const [status, setStatus] = useState('init')
+  const submitEmail = (email) => {
+    fetch('/email/sendLoginEmail', { emailAddress: email });
+  }
+  
+}
+
+
+
+const CurrentUserController = ({ children}) => {
   const [persistentToken] = useLocalStorage('persistentToken')
   
   const { status, value: currentUser } = useAsyncFunction(getUserForPersistentToken, [persistentToken])
   
   return (
-    <CurrentUserContext.Provider>{children}</CurrentUserContext.Provider>
+    <CurrentUserContext.Provider value={currentUser}>
+      {status === 'pending' && <Loading />}
+      {status === 'resolved' && children}
+      {status === 'rejected' && <Login />}
+    </CurrentUserContext.Provider>
   )
 }
 
