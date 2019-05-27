@@ -93,9 +93,8 @@ const Login = () => {
       method: 'POST', 
       body: JSON.stringify({ emailAddress }),
       mode: 'cors',
-     headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
+      headers: {
+        'Content-Type': 'application/json',
       },
     })
   }
