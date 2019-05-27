@@ -168,6 +168,18 @@ const useResource = (type, key, value, subResource) => {
   return useAsyncFunction(api.getResource, type, key, value, subResource)
 }
 
+const ProjectActions = ({ project }) => {
+  const api = useAPI()
+  const restartProject = () => {
+    api.post(`/projects/${project.domain}/stop`)
+  }
+  return (
+    <div>
+      <button onClick={restartProject}>Restart</button>
+    </div>
+  ) 
+}
+
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
   const { value: recentProjects } = useResource('users', 'id', currentUser.id, 'projects')
@@ -181,6 +193,7 @@ const RecentProjects = () => {
           <tr>
             <th>domain</th>
             <th>description</th>
+            <th>actions</th>
           </tr>
         </thead>
         <tbody>
@@ -188,6 +201,7 @@ const RecentProjects = () => {
           <tr key={project.id}>
             <td>{project.domain}</td>
             <td>{project.description}</td>
+            <td><ProjectActions project={project} /></td>
           </tr>
         ))}
 
