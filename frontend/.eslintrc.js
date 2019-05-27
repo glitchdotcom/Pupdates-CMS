@@ -26,7 +26,7 @@ module.exports = {
     "no-else-return": ERROR,
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
-    "semi": ["error", "always"],
+    "semi": ["error", "never"],
     "no-debugger": WARN,
     
     "jsx-a11y/label-has-for": OFF, // It's been deprecated. -- https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-for.md

@@ -1,8 +1,8 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { createContext, useState, useContext, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 
 const CurrentUserContext = createContext()
-const useCurrentUser = () => useContext(CurrentUserContext)
+export const useCurrentUser = () => useContext(CurrentUserContext)
 
 const API_URL = 'https://api.glitch.com'
 
@@ -11,7 +11,7 @@ async function getUserForPersistentToken (persistentToken) {
   const res = await fetch(`${API_URL}/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
   if (!res.ok) throw new Error(res)
   const data = await res.json()
-  return res[persistentToken]
+  return data[persistentToken]
 }
 
 function useLocalStorage (key, defaultValue = null) {
@@ -51,27 +51,30 @@ function useAsyncFunction (fn, deps = []) {
 const Loading = () => <div>Loading...</div>
 
 const Login = () => {
-  const [status, setStatus] = useState('init')
-  const [_, setPersistentToken] = useLocalStorage('persistentToken')
-  const submitEmail = (emailAddress) => {
-    setStatus('submittedEmail')
-    fetch(`${API_URL}/email/sendLoginEmail`, { 
-      method: 'POST', 
-      body: JSON.stringify({ emailAddress }),
-      mode: 'cors'
-    });
-  }
-  const submitSigninCode = async (code) => {
-    setStatus('submittedSignInCode')
-    const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
-    if (!res.ok) {
-      setStatus('error')
-      return
-    }
-    const { persistentToken } = await res.json()
-    setPersistentToken(persistentToken)
-    window.reload()
-  }
+  // const [status, setStatus] = useState('init')
+  // const [, setPersistentToken] = useLocalStorage('persistentToken')
+  // const submitEmail = (emailAddress) => {
+  //   setStatus('submittedEmail')
+  //   fetch(`${API_URL}/email/sendLoginEmail`, { 
+  //     method: 'POST', 
+  //     body: JSON.stringify({ emailAddress }),
+  //     mode: 'cors'
+  //   })
+  // }
+  // const submitSigninCode = async (code) => {
+  //   setStatus('submittedSignInCode')
+  //   const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
+  //   if (!res.ok) {
+  //     setStatus('error')
+  //     return
+  //   }
+  //   const { persistentToken } = await res.json()
+  //   setPersistentToken(persistentToken)
+  //   window.reload()
+  // }
+  return (
+    <div>TODO</div>
+  )
 }
 
 const CurrentUserController = ({ children}) => {
@@ -93,7 +96,7 @@ const Main = () => {
     <CurrentUserController>
       <div>Hello, world!</div>     
     </CurrentUserController>
-  );
-};
+  )
+}
 
-ReactDOM.render(<Main />, document.querySelector('#app'));
+ReactDOM.render(<Main />, document.querySelector('#app'))
