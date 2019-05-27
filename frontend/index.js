@@ -204,14 +204,11 @@ const RecentProjects = () => {
             <td><ProjectActions project={project} /></td>
           </tr>
         ))}
-
         </tbody>
       </table>
     </section>
   )
 }
-
-
 
 const Main = () => {
   return (
