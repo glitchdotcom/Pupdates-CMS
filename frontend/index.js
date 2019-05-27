@@ -11,7 +11,10 @@ async function getUserForPersistentToken (persistentToken) {
   const res = await fetch(`${API_URL}/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
   if (!res.ok) throw new Error(res)
   const data = await res.json()
-  return data[persistentToken]
+  return {
+    ...data.undefined,
+    persistentToken,
+  }
 }
 
 function useLocalStorage (key, defaultValue = null) {
@@ -135,6 +138,7 @@ const useAPI = () => {
   return useMemo(() => {
     const apiWrapper = {
       get: (path) => fetch(`${API_URL}${path}`, {
+        mode: 'cors',
         headers: { 'Authorization': currentUser.persistentToken },
       }).then(res => res.json()),
       post: (path, body) => fetch(`${API_URL}${path}`, {
@@ -148,10 +152,11 @@ const useAPI = () => {
       }),
       getResource: (type, key, value, subResource) => {
         if (subResource) {
-          return apiWrapper.get(`/${type}/by/${key}/${subResource}?${key}=${value}`)
+          return apiWrapper.get(`/v1/${type}/by/${key}/${subResource}?${key}=${encodeURIComponent(value)}&limit=100&orderKey=createdAt&orderDirection=DESC`)
             .then(res => res.items)
         }
-        return apiWrapper.get(`/${type}/by/${key}?${key}=${value}`)
+        return apiWrapper.get(`/${type}/by/${key}?${key}=${encodeURIComponent(value)}`)
+          .then(res => res[value])
       }
     }
     return apiWrapper
@@ -165,20 +170,29 @@ const useResource = (type, key, value, subResource) => {
 
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
-  const { value: recentProjects } = useResource('user', 'id', currentUser.id, 'projects')
+  const { value: recentProjects } = useResource('users', 'id', currentUser.id, 'projects')
   if (!recentProjects) return <Loading />
   
   return (
     <section>
       <h1>Recent Projects</h1>
       <table>
-        <tbody></tbody>
-        {recentProjects.map(project => (
-          <li key={project.id}>
-            <div></div>
-          </li>
+        <thead>
+          <tr>
+            <th>domain</th>
+            <th>description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recentProjects.map(project => (
+          <tr key={project.id}>
+            <td>{project.domain}</td>
+            <td>{project.description}</td>
+          </tr>
         ))}
-      </ul>
+
+        </tbody>
+      </table>
     </section>
   )
 }
@@ -188,7 +202,7 @@ const RecentProjects = () => {
 const Main = () => {
   return (
     <CurrentUserController>
-      <div>Hello, world!</div>     
+      <RecentProjects />
     </CurrentUserController>
   )
 }
