@@ -1,16 +1,28 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 const CurrentUserContext = createContext()
 const useCurrentUser = () => useContext(CurrentUserContext)
 
+const API_URL = 'https://api.glitch.com'
+
 const LoggedIn = ({ children}) => {
-  const [currentUserFromLocalStorage, setCurrentUserFromLocalStorage] = useLocalStorage('currentUser')
-  const [currentUser, setCurrentUser] = useState(currentUserFromLocalStorage)
+  const [persistentToken] = useLocalStorage('persistentToken')
+  const [{ status, currentUser }, setState] = useState({ status: 'loading' })
   useEffect(() => {
-    if (currentUser) return
+    if (!persistentToken) {
+      setState({ status: 'loggedOut' })
+      return
+    }
+    
     let shouldUseFetch = true
-    fetch()
+    fetch(`${API_URL}/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
+      .then(res => {})
+      .then(data => {
+        if (!shouldUseFetch) return
+        const currentUser = data[]
+        setState({ status: 'loggedIn', currentUser })
+      })
     return () => { shouldUseFetch = false }
   }, [])
   
