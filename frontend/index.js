@@ -6,25 +6,43 @@ const useCurrentUser = () => useContext(CurrentUserContext)
 
 const API_URL = 'https://api.glitch.com'
 
+async function getUserForPersistentToken (persistentToken) {
+  if (!persistentToken) throw new Error("No token provided")
+  const res = await fetch(`${API_URL}/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
+  if (!res.ok) throw new Error(res)
+  const data = await res.json()
+  return res[persistentToken]
+}
+
+function useLocalStorage (key) {
+  const []
+}
+
+function useAsyncFunction (fn, deps = []) {
+  const [state, setState] = useState({ status: 'pending' })
+  useEffect(() => {
+    let isCurrentRequest = true
+    fn(...deps).then(
+      value => {
+        if (!isCurrentRequest) return
+        setState({ status: 'resolved', value })
+      },
+      error => {
+        if (!isCurrentRequest) return
+        setState({ status: 'rejected', error })
+      }
+    )
+    return () => {
+      isCurrentRequest = false
+    }
+  }, deps)
+  return state
+}
+
 const LoggedIn = ({ children}) => {
   const [persistentToken] = useLocalStorage('persistentToken')
-  const [{ status, currentUser }, setState] = useState({ status: 'loading' })
-  useEffect(() => {
-    if (!persistentToken) {
-      setState({ status: 'loggedOut' })
-      return
-    }
-    
-    let shouldUseFetch = true
-    fetch(`${API_URL}/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
-      .then(res => {})
-      .then(data => {
-        if (!shouldUseFetch) return
-        const currentUser = data[]
-        setState({ status: 'loggedIn', currentUser })
-      })
-    return () => { shouldUseFetch = false }
-  }, [])
+  
+  const { status, value: currentUser } = useAsyncFunction(getUserForPersistentToken, [persistentToken])
   
   return (
     <CurrentUserContext.Provider>{children}</CurrentUserContext.Provider>
