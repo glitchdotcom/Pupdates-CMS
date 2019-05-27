@@ -1,8 +1,8 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 
 const CurrentUserContext = createContext()
-export const useCurrentUser = () => useContext(CurrentUserContext)
+const useCurrentUser = () => useContext(CurrentUserContext)
 
 const API_URL = 'https://api.glitch.com'
 
@@ -95,6 +95,7 @@ const Login = () => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+        // TODO: need auth header here?
       },
     })
   }
@@ -107,7 +108,7 @@ const Login = () => {
     }
     const { persistentToken } = await res.json()
     setPersistentToken(persistentToken)
-    window.reload()
+    window.location.reload()
   }
   
   if (status === 'init') return <EmailForm onSubmit={submitEmail} />
@@ -115,7 +116,7 @@ const Login = () => {
   return <Loading />
 }
 
-const CurrentUserController = ({ children}) => {
+const CurrentUserController = ({ children }) => {
   const [persistentToken] = useLocalStorage('persistentToken')
   
   const { status, value: currentUser } = useAsyncFunction(getUserForPersistentToken, [persistentToken])
@@ -128,6 +129,23 @@ const CurrentUserController = ({ children}) => {
     </CurrentUserContext.Provider>
   )
 }
+
+const useAPI = () => {
+  const currentUser = useCurrentUser()
+  const api = useMemo(() => {
+    const apiWrapper = {
+      get: (path) => fetch(`${API_URL}${path}`, {
+        headers: { 'Authorization': currentUser.persistentToken },
+      }).then(res => res.json()),
+      post: (path, data) => fetch(`${API_URL}${path}`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Authorization': currentUser.persistentToken },
+      })
+    }
+  }, [currentUser])
+}
+
 
 const Main = () => {
   return (
