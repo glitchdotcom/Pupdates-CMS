@@ -182,20 +182,32 @@ const ProjectActions = ({ project }) => {
   ) 
 }
 
-// community remixes are from _either_ commmunity
+// community remixes are from _either_ commmunity or community-staging
 const communityIDs = [
   "02863ac1-a499-4a41-ac9c-41792950000f",
   "2bdfb3f8-05ef-4035-a06e-2043962a3a13"
 ]
 
+async function getMyPRs () {
+  const res = await fetch('https://api.github.com/search/issues?q=is:pr+repo:FogCreek/Glitch-Community+author:modernserf')
+  const prs = await res.json()
+  const out = {}
+  for (const pr of prs) {
+    const [maybe]= pr.title
+  }
+}
+ 
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
   const { value: recentProjects } = useResource('users', 'id', currentUser.id, 'projects')
+  // const { value: pullRequests } = use
   if (!recentProjects) return <Loading />
+  
+  const communintyRemixes = recentProjects.filter(p => communityIDs.includes(p.baseId))
   
   return (
     <section>
-      <h1>Recent Projects</h1>
+      <h1>Community Remixes</h1>
       <table>
         <thead>
           <tr>
@@ -205,7 +217,7 @@ const RecentProjects = () => {
           </tr>
         </thead>
         <tbody>
-          {recentProjects.map(project => (
+          {communintyRemixes.map(project => (
           <tr key={project.id}>
             <td>{project.domain}</td>
             <td>{project.description}</td>
