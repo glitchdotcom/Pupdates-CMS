@@ -152,7 +152,9 @@ const useAPI = () => {
       }),
       getResource: (type, key, value, subResource) => {
         if (subResource) {
-          return apiWrapper.get(`/v1/${type}/by/${key}/${subResource}?${key}=${encodeURIComponent(value)}&limit=100&orderKey=createdAt&orderDirection=DESC`)
+          const params = '&limit=100&orderKey=createdAt&orderDirection=DESC'
+          return apiWrapper.get(
+            `/v1/${type}/by/${key}/${subResource}?${key}=${encodeURIComponent(value)}${params}`)
             .then(res => res.items)
         }
         return apiWrapper.get(`/${type}/by/${key}?${key}=${encodeURIComponent(value)}`)
@@ -179,6 +181,12 @@ const ProjectActions = ({ project }) => {
     </div>
   ) 
 }
+
+// community remixes are from _either_ commmunity
+const communityIDs = [
+  "02863ac1-a499-4a41-ac9c-41792950000f",
+  "2bdfb3f8-05ef-4035-a06e-2043962a3a13"
+]
 
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
