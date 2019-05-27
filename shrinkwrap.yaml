@@ -4,6 +4,8 @@ dependencies:
   express: 4.16.4
   react: 16.8.6
   react-dom: 16.8.6
+  react-redux: 7.1.0-alpha.5
+  redux-starter-kit: 0.5.1
 devDependencies:
   '@babel/core': 7.1.6
   '@babel/plugin-syntax-dynamic-import': 7.0.0
@@ -2992,6 +2994,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-JsTaiksRsel5n7XwqPAfB0l3TFKdpjW/kgAELf9vrb5adGA7UCPLajKK5s3nFrcFm3Rkyp/Qkgl73ENc1UY3cA==
+  /curriable/1.2.5:
+    dev: false
+    resolution:
+      integrity: sha512-hQwrkCn8DNiCw5CG8OS0td2wfpCDtxo1dmrVYxCDWUBHQPkpAvN9RqBVbmC64oSQaBqPQD2SOCXcTWH1zXe2mA==
   /damerau-levenshtein/1.0.4:
     dev: true
     resolution:
@@ -3600,6 +3606,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-wFNHeBfIa1HaqFPIHgWbcz0CNhQ=
+  /fast-equals/1.6.3:
+    dev: false
+    resolution:
+      integrity: sha512-4WKW0AL5+WEqO0zWavAfYGY1qwLsBgE//DN4TTcVEN2UlINgkv9b3vm2iHicoenWKSX9mKWmGOsU/iI5IST7pQ==
   /fast-glob/2.2.3:
     dependencies:
       '@mrmlnc/readdir-enhanced': 2.2.1
@@ -3921,6 +3931,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=
+  /hoist-non-react-statics/3.3.0:
+    dependencies:
+      react-is: 16.8.6
+    dev: false
+    resolution:
+      integrity: sha512-0XsbTXxgiaCDYDIWFcwkmerZPSwywfUqYmwT4jzewKTQSWoE6FCMoUVOeBJWK3E/CrWbxRG3m5GzY4lnIwGRBA==
   /hsl-regex/1.0.0:
     dev: true
     resolution:
@@ -4006,6 +4022,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
+  /identitate/1.0.1:
+    dependencies:
+      pathington: 1.1.7
+    dev: false
+    resolution:
+      integrity: sha512-xnDJ0JYhiZjBDuJRKbHoVzj5yP9FhATxLyUYswQyPdnJrwzGVBqS6DOmvKJi1lk7P+4dkL+hhUhuOZIcOUtG5A==
   /ieee754/1.1.12:
     dev: true
     resolution:
@@ -4014,6 +4036,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
+  /immer/2.1.5:
+    dev: false
+    resolution:
+      integrity: sha512-xyjQyTBYIeiz6jd02Hg12jV+9QISwF1crLcwTlzHpWH4e0ryNWj1kacpTwimK3bJV5NKKXw458G2vpqoB/inFA==
   /import-fresh/2.0.0:
     dependencies:
       caller-path: 2.0.0
@@ -4077,7 +4103,6 @@ packages:
   /invariant/2.2.4:
     dependencies:
       loose-envify: 1.4.0
-    dev: true
     resolution:
       integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   /ipaddr.js/1.8.0:
@@ -4424,6 +4449,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
+  /json-stringify-safe/5.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
   /json5/0.5.1:
     dev: true
     hasBin: true
@@ -5135,6 +5164,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
+  /pathington/1.1.7:
+    dev: false
+    resolution:
+      integrity: sha512-JxzhUzagDfNIOm4qqwQqP3rWeo7rNNOfIahy4n+3GTEdwXLqw5cJHUR0soSopQtNEv763lzxb6eA2xBllpR8zw==
   /pbkdf2/3.0.17:
     dependencies:
       create-hash: 1.2.0
@@ -5890,6 +5923,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
+  /react-redux/7.1.0-alpha.5:
+    dependencies:
+      '@babel/runtime': 7.4.5
+      hoist-non-react-statics: 3.3.0
+      invariant: 2.2.4
+      loose-envify: 1.4.0
+      prop-types: 15.7.2
+      react-is: 16.8.6
+    dev: false
+    peerDependencies:
+      react: ^16.8.3
+      redux: ^2.0.0 || ^3.0.0 || ^4.0.0-0
+    resolution:
+      integrity: sha512-bLDaXcNWcoiXKIBz/waf+oImYIBhR8h1YgXo4GKgBEyMJXtMqZkkNqD4w7JNlTsN2Xxo2/1E4akcmAo+wzJAnw==
   /react/16.8.6:
     dependencies:
       loose-envify: 1.4.0
@@ -5937,6 +5984,44 @@ packages:
     dev: true
     resolution:
       integrity: sha1-WiAL+S4ON3UXUv5FsKszD9S2vpk=
+  /redux-devtools-extension/2.13.8/redux@4.0.1:
+    dependencies:
+      redux: 4.0.1
+    dev: false
+    id: registry.npmjs.org/redux-devtools-extension/2.13.8
+    peerDependencies:
+      redux: ^3.1.0 || ^4.0.0
+    resolution:
+      integrity: sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
+  /redux-immutable-state-invariant/2.1.0:
+    dependencies:
+      invariant: 2.2.4
+      json-stringify-safe: 5.0.1
+    dev: false
+    resolution:
+      integrity: sha512-3czbDKs35FwiBRsx/3KabUk5zSOoTXC+cgVofGkpBNv3jQcqIe5JrHcF5AmVt7B/4hyJ8MijBIpCJ8cife6yJg==
+  /redux-starter-kit/0.5.1:
+    dependencies:
+      immer: 2.1.5
+      redux: 4.0.1
+      redux-devtools-extension: /redux-devtools-extension/2.13.8/redux@4.0.1
+      redux-immutable-state-invariant: 2.1.0
+      redux-thunk: 2.3.0
+      selectorator: 4.0.3
+    dev: false
+    resolution:
+      integrity: sha512-CWnjwPGdPhzqDnYYTNG5I0VjK8x3f21Nuf5xpPlOrHOhstagwxvwCZFoydOQ8TIV78ah1/WeoIQdlbks49KyIQ==
+  /redux-thunk/2.3.0:
+    dev: false
+    resolution:
+      integrity: sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
+  /redux/4.0.1:
+    dependencies:
+      loose-envify: 1.4.0
+      symbol-observable: 1.2.0
+    dev: false
+    resolution:
+      integrity: sha512-R7bAtSkk7nY6O/OYMVR9RiBI+XghjF9rlbl5806HJbQph0LJVHZrU5oaO4q70eUKiqMRqm4y07KLTlMZ2BlVmg==
   /regenerate-unicode-properties/7.0.0:
     dependencies:
       regenerate: 1.4.0
@@ -6062,6 +6147,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+  /reselect/4.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
   /resolve-from/1.0.1:
     dev: true
     engines:
@@ -6176,6 +6265,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-IWnObHt413ucAYKsD9J1QShUKkbKLQQHdxRyw73sw4FN26iWr3DY/H34xGPe4nmL1DwXyWmSWmMrA9TfQbE/XQ==
+  /selectorator/4.0.3:
+    dependencies:
+      fast-equals: 1.6.3
+      identitate: 1.0.1
+      reselect: 4.0.0
+      unchanged: 2.1.0
+    dev: false
+    resolution:
+      integrity: sha512-A8+paRhzTab4Qm/38RAVnCgEZFbpn5xIWLyTCDqvyU3Obhmo94RS6UK1H00bVH7+U609sOhqbFJha09POsWURA==
   /semver/5.6.0:
     dev: true
     hasBin: true
@@ -6562,6 +6660,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-GBkJbnTuFpM4jFbiERHDWhZc/S/kpHToqmZag3aEBjPYK44JAN2QBjvrGIxLOoCyMZjuFQIfTO2eJd8uwLY/9g==
+  /symbol-observable/1.2.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
   /table/4.0.2:
     dependencies:
       ajv: 5.5.2
@@ -6705,6 +6809,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+  /unchanged/2.1.0:
+    dependencies:
+      curriable: 1.2.5
+      pathington: 1.1.7
+    dev: false
+    resolution:
+      integrity: sha512-CYVU0Mz35N821Pjxf+iG6JMPx/Yb6wStUq8uuhR52/+AU3vMiueOTrJ6u1vBKYSke7a75FAi2/jCdQkXcHaNGQ==
   /unicode-canonical-property-names-ecmascript/1.0.4:
     dev: true
     engines:
@@ -6927,3 +7038,5 @@ specifiers:
   parcel-plugin-eslint: ^1.0.4
   react: ^16.8.6
   react-dom: ^16.8.6
+  react-redux: ^7.1.0-alpha.5
+  redux-starter-kit: ^0.5.1
