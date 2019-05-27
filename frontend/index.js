@@ -175,6 +175,9 @@ const ProjectActions = ({ project }) => {
   const restartProject = () => {
     api.post(`/projects/${project.domain}/stop`)
   }
+  const deleteProject = () => {
+    api.delete(`/projects/${project.id}`)
+  }
   return (
     <div>
       <button onClick={restartProject}>Restart</button>
@@ -189,21 +192,23 @@ const communityIDs = [
 ]
 
 async function getMyPRs () {
-  const res = await fetch('https://api.github.com/search/issues?q=is:pr+repo:FogCreek/Glitch-Community+author:modernserf')
+  const res = await fetch('https://api.github.com/repos/FogCreek/Glitch-Community/pulls')
   const prs = await res.json()
   const out = {}
   for (const pr of prs) {
-    const [maybe]= pr.title
+    if (pr.user.login !== 'modernserf') continue
+    out[pr.head.ref] = pr
   }
+  return out
 }
  
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
   const { value: recentProjects } = useResource('users', 'id', currentUser.id, 'projects')
-  // const { value: pullRequests } = use
-  if (!recentProjects) return <Loading />
+  const { value: pullRequestsByName } = useAsyncFunction(getMyPRs)
+  if (!recentProjects || !pullRequestsByName) return <Loading />
   
-  const communintyRemixes = recentProjects.filter(p => communityIDs.includes(p.baseId))
+  const communintyRemixes = recentProjects.filter(p => communityIDs.includes(p.baseId) && !communityIDs.includes(p.id))
   
   return (
     <section>
@@ -213,17 +218,24 @@ const RecentProjects = () => {
           <tr>
             <th>domain</th>
             <th>description</th>
+            <th>PR</th>
             <th>actions</th>
           </tr>
         </thead>
         <tbody>
-          {communintyRemixes.map(project => (
-          <tr key={project.id}>
-            <td>{project.domain}</td>
-            <td>{project.description}</td>
-            <td><ProjectActions project={project} /></td>
-          </tr>
-        ))}
+          {communintyRemixes.map(project => {
+            const pr = pullRequestsByName[project.domain]
+            return(
+              <tr key={project.id}>
+                <td>{project.domain}</td>
+                <td>{project.description}</td>
+                <td>{pr && (
+                    <a href={pr.url}>{pr.title}</a>
+                  )}</td>
+                <td><ProjectActions project={project} /></td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </section>
