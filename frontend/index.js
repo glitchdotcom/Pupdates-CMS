@@ -52,13 +52,27 @@ const Loading = () => <div>Loading...</div>
 
 const Login = () => {
   const [status, setStatus] = useState('init')
-  const submitEmail = (email) => {
-    fetch('/email/sendLoginEmail', { emailAddress: email });
+  const [_, setPersistentToken] = useLocalStorage('persistentToken')
+  const submitEmail = (emailAddress) => {
+    setStatus('submittedEmail')
+    fetch(`${API_URL}/email/sendLoginEmail`, { 
+      method: 'POST', 
+      body: JSON.stringify({ emailAddress }),
+      mode: 'cors'
+    });
   }
-  
+  const submitSigninCode = async (code) => {
+    setStatus('submittedSignInCode')
+    const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
+    if (!res.ok) {
+      setStatus('error')
+      return
+    }
+    const { persistentToken } = await res.json()
+    setPersistentToken(persistentToken)
+    window.reload()
+  }
 }
-
-
 
 const CurrentUserController = ({ children}) => {
   const [persistentToken] = useLocalStorage('persistentToken')
@@ -74,14 +88,11 @@ const CurrentUserController = ({ children}) => {
   )
 }
 
-
-
-
 const Main = () => {
   return (
-    <div>
+    <CurrentUserController>
       <div>Hello, world!</div>     
-    </div>
+    </CurrentUserController>
   );
 };
 
