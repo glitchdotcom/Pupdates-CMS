@@ -27,7 +27,7 @@ function useLocalStorage (key, defaultValue = null) {
   return [value, setAndPersistValue]
 }
 
-function useAsyncFunction (fn, deps = []) {
+function useAsyncFunction (fn, ...deps) {
   const [state, setState] = useState({ status: 'pending' })
   useEffect(() => {
     let isCurrentRequest = true
@@ -119,7 +119,7 @@ const Login = () => {
 const CurrentUserController = ({ children }) => {
   const [persistentToken] = useLocalStorage('persistentToken')
   
-  const { status, value: currentUser } = useAsyncFunction(getUserForPersistentToken, [persistentToken])
+  const { status, value: currentUser } = useAsyncFunction(getUserForPersistentToken, persistentToken)
   
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -132,19 +132,57 @@ const CurrentUserController = ({ children }) => {
 
 const useAPI = () => {
   const currentUser = useCurrentUser()
-  const api = useMemo(() => {
+  return useMemo(() => {
     const apiWrapper = {
       get: (path) => fetch(`${API_URL}${path}`, {
         headers: { 'Authorization': currentUser.persistentToken },
       }).then(res => res.json()),
-      post: (path, data) => fetch(`${API_URL}${path}`, {
+      post: (path, body) => fetch(`${API_URL}${path}`, {
         method: 'POST',
         mode: 'cors',
-        headers: { 'Authorization': currentUser.persistentToken },
-      })
+        body: body ? JSON.stringify(body) : undefined,
+        headers: { 
+          'Authorization': currentUser.persistentToken,
+          ...(body ? { 'Content-Type': 'application/json' } : {}),
+        },
+      }),
+      getResource: (type, key, value, subResource) => {
+        if (subResource) {
+          return apiWrapper.get(`/${type}/by/${key}/${subResource}?${key}=${value}`)
+            .then(res => res.items)
+        }
+        return apiWrapper.get(`/${type}/by/${key}?${key}=${value}`)
+      }
     }
+    return apiWrapper
   }, [currentUser])
 }
+
+const useResource = (type, key, value, subResource) => {
+  const api = useAPI()
+  return useAsyncFunction(api.getResource, type, key, value, subResource)
+}
+
+const RecentProjects = () => {
+  const currentUser = useCurrentUser()
+  const { value: recentProjects } = useResource('user', 'id', currentUser.id, 'projects')
+  if (!recentProjects) return <Loading />
+  
+  return (
+    <section>
+      <h1>Recent Projects</h1>
+      <table>
+        <tbody></tbody>
+        {recentProjects.map(project => (
+          <li key={project.id}>
+            <div></div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 
 
 const Main = () => {
