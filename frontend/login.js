@@ -34,7 +34,9 @@ const EmailForm = ({ onSubmit }) => {
           <Button type="primary" submit>Get access code</Button>
         </Box>
       </form>
-      <Button type="secondary" onClick={onSubmit}>Enter sign-in code</Button>
+      <Box padding={{ top: 3 }}>
+        <Button type="secondary" onClick={onSubmit}>Enter sign-in code</Button>
+      </Box>
     </>
   )
 }
@@ -49,11 +51,10 @@ const CodeForm = () => {
   }
   return (
     <form onSubmit={onSubmitForm}>
-      <label>
-        <div>Sign in code</div>
-        <input type="text" value={code} onChange={e => setCode(e.target.value)}/>
-      </label>
-      <Button type="primary" submit>submit</Button>
+      <Input type="text" label="Sign-in code" value={code} onChange={setCode} />
+      <Box padding={{ top: 2 }}>
+        <Button type="primary" submit>Sign in</Button>
+      </Box>
     </form>
   )
 }

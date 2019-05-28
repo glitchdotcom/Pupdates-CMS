@@ -8,6 +8,7 @@ import { actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as currentUserActions } from './current-user'
 import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
 import Login from './login'
+import Button from './button'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
@@ -73,8 +74,8 @@ const ProjectActions = ({ project }) => {
   }
   return (
     <div>
-      <button onClick={restartProject}>Restart</button>
-      <button onClick={deleteProject}>Delete</button>
+      <Button size="small" onClick={restartProject}>Restart</Button>
+      <Button size="small" onClick={deleteProject}>Delete</Button>
     </div>
   ) 
 }
@@ -121,7 +122,7 @@ const SwapButton = () => {
   } 
   return (
     <div>
-      <button onClick={confirmThenSwap}>Swap</button>
+      <Button type="danger" onClick={confirmThenSwap}>Swap</Button>
       <div>{swapStatus}</div>
     </div>
   )
@@ -131,7 +132,7 @@ const PageHeader = () => {
   const dispatch = useDispatch()
   return (
     <header>
-      <button onClick={() => dispatch(currentUserActions.loggedOut())}>log out</button>
+      <Button type="secondary" onClick={() => dispatch(currentUserActions.loggedOut())}>log out</Button>
     </header>
   )
 }

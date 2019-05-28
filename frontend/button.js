@@ -19,6 +19,17 @@ export const TransparentButton = styled(BaseButton)`
   width: 100%;
 `
 
+const buttonStyles = {
+  primary: { color: 'white', backgroundColor: '#66c', hoverColor: '#669', filled: true },
+  secondary: { color: '#66c', backgroundColor: 'white', hoverColor: '#eee' },
+  '': { color: '#222', backgroundColor: 'white', hoverColor: '#eee' },
+}
+
+const buttonSizes = {
+  large: '1rem',
+  small: ''
+}
+
 const NormalButton = styled(BaseButton)`
   border-radius: 0.5rem;
   border: ${(props) => props.filled ? `2px solid ${props.backgroundColor}` : `2px solid ${props.color}`};
@@ -27,19 +38,13 @@ const NormalButton = styled(BaseButton)`
   padding: 0.25rem 1rem;
   text-align: center;
   font-weight: 600;
+  font-size: ${props => buttonSizes[props.size]}
   &:hover {
     background-color: ${(props) => props.hoverColor};
     border-color: ${props => props.filled ? props.hoverColor : props.color};
   }
 `
-
-const buttonStyles = {
-  primary: { color: 'white', backgroundColor: '#66c', hoverColor: '#669', filled: true },
-  secondary: { color: '#66c', backgroundColor: 'white', hoverColor: '#eee' },
-  '': { color: '#222', backgroundColor: 'white', hoverColor: '#eee' },
-}
-
-const Button = ({ type = '', submit, ...props }) => {
+const Button = ({ type = '', size = 'large,' submit, ...props }) => {
   return (
     <NormalButton type={submit ? 'submit' : 'button'} {...buttonStyles[type]} {...props} />
   )

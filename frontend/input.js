@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import Box from './box'
 
 const Label = styled.label`
   display: block;
@@ -14,7 +15,9 @@ const BaseInput = styled.input`
 
 const Input = ({ value, onChange, label, type = 'text' }) => (
   <Label>
-    {label}
+    <Box padding={{ bottom: 1 }}>
+      {label}
+    </Box>
     <BaseInput type={type} value={value} onChange={(e) => onChange(e.target.value)} />
   </Label>
 )
