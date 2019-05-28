@@ -72,14 +72,18 @@ const { slice, reducer, actions } = createSlice({
       const expires = Date.now() + (1000 * 60 * 5)
       
       if (request.relation) {
-        const id = request.value
+        // TODO: what if this is missing?
+        const id = request.idType === 'id' ? request.value : state.indices[request.entity][request.idType][request.value]
         state.indices[request.entity][request.relation][id] = Object.keys(response)
         const referencedEntity = resourceConfig[request.entity].references[request.relation]
         insertValues(state, response, referencedEntity, expires) 
       } else {
         insertValues(state, response, request.entity, expires) 
       }
-    }
+    },
+    deletedProject: (state, { payload: projectID }) => {
+      state.entities.projects[projectID] = undefined
+    },
   }
 })
 
@@ -123,12 +127,14 @@ async function getEntities ({ persistentToken, entity, idType, value, relation }
   }
   const encoded = encodeURIComponent(value)
   if (relation) {
-    const res = await fetch(`${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
+    const res = await fetch(
+      `${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100&orderDirection=DESC`, 
+      params)
     if (!res.ok) throw new Error('request failed')
     const { items } = await res.json()
     return byID(items)
   }
-  const res = await fetch(`${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
+  const res = await fetch(`${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}`, params)
   if (!res.ok) throw new Error('request failed')
   const items = await res.json()
   return byID(Object.values(items))
@@ -138,7 +144,7 @@ const loading = { status: 'loading' }
 
 const lookup = ({ entity, idType, value, relation }) => (state) => {
   const now = Date.now()
-  const id = idType === 'id' ? value : state.resources.indices[getKey({ entity, idType, value })]
+  const id = idType === 'id' ? value : state.resources.indices[entity][idType][value]
   if (!id) return loading
   
   if (relation) {
@@ -163,7 +169,6 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
 export function useResource (entity, idType, value, relation) {
   const dispatch = useDispatch()
   const result = useSelector(lookup({ entity, idType, value, relation }))
-  console.log(result)
   useEffect(() => {
     if (result.status === 'loading') {
       dispatch(actions.requested({ entity, idType, value, relation }))
