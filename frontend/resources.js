@@ -87,6 +87,11 @@ const { slice, reducer, actions } = createSlice({
     restartedProject: (state) => state,
     swappedProjects: (state) => state,
     remixedProjectAsTeam: (state) => state,
+    remixedProjectAsTeamCompleted: (state, { payload: { project, userID, teamID } }) => {
+      state.entities.projects[project.id] = project;
+      prepend(state.indices.users.projects[userID], project.id);
+      prepend(state.indices.teams.projects[teamID].unshift(project.id);
+    }
   }
 })
 
@@ -119,7 +124,7 @@ const handlers = {
   },
   [actions.restartedProject]: async (store, id) => {
     const project = store.getState().resources.entities.projects[id]
-    const { persistentToken } = useCurrentUser.selector(store.getState())
+    const { id: currentUserID, persistentToken } = useCurrentUser.selector(store.getState())
     await api.post(`/projects/${project.domain}/stop`, { persistentToken })
   },
   [actions.swappedProjects]: async (store, { source, target }) => {
@@ -127,13 +132,15 @@ const handlers = {
     await api.post(`/projects/swapDomains?source=${source}&target=${target}&authorization=${persistentToken}`)
   },
   [actions.remixedProjectAsTeam]: async (store, { project, team, description }) => {
-    const { persistentToken } = useCurrentUser.selector(store.getState())
+    const { id: currentUserID, persistentToken } = useCurrentUser.selector(store.getState())
     // create new remix
     const newProject = await api.post(`/projects/${project}/remix`, { persistentToken })
     // update description
     await api.patch(`/projects/${newProject.id}`, { body: { description } , persistentToken })
     // add to team
-    await api.post(`/teams/${team}/projects/${newProject.id}`)
+    await api.post(`/teams/${team}/projects/${newProject.id}`, { persistentToken })
+    
+    store.dispatch(actions.remixedProjectAsTeamCompleted({ teamID: team, userID: currentUserID,  project: newProject }))
   }
 }
 
