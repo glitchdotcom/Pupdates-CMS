@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
-import { configureStore } from 'redux-starter-kit'
+import { configureStore, createSlice } from 'redux-starter-kit'
 import { Provider, useDispatch } from 'react-redux'
 
 import { API_URL, actions as appActions } from './app-core'
@@ -20,6 +20,34 @@ const configureStoreFromSlices = (...slices) => {
     middleware: rootMiddleware,
   })
 }
+
+const resources = createSlice({
+  slice: 'resources',
+  initialState: {
+    entities: {
+      projects: {},
+      users: {},
+    },
+    relations: {
+      users
+    },
+    requests: {}
+  },
+  reducers: {
+    loaded: (state, { payload }) => {
+      state.requests[request.key] = undefined
+      
+      if ()payload.request.subResource) {
+        state.relations  
+      }
+    }
+  }
+})
+
+
+
+
+
 
 const store = configureStoreFromSlices(
   currentUserSlice
@@ -65,7 +93,13 @@ const useAPI = () => {
           ...(body ? { 'Content-Type': 'application/json' } : {}),
         },
       }),
-      delete: (path) => fetch(`${API_URL}${path}`, {})
+      delete: (path) => fetch(`${API_URL}${path}`, {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: { 
+          'Authorization': currentUser.persistentToken,
+        },
+      }),
       getResource: (type, key, value, subResource) => {
         if (subResource) {
           const params = '&limit=100&orderKey=createdAt&orderDirection=DESC'
