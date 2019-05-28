@@ -9,6 +9,7 @@ import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as current
 import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
 import Login from './login'
 import Button from './button'
+import Input from './input'
 import Box, { Flex } from './box'
 
 const configureStoreFromSlices = (...slices) => {
@@ -91,12 +92,12 @@ const communityIDs = [
   "2bdfb3f8-05ef-4035-a06e-2043962a3a13"
 ]
 
-async function getMyPRs () {
+async function getMyPRs (username) {
   const res = await fetch('https://api.github.com/repos/FogCreek/Glitch-Community/pulls')
   const prs = await res.json()
   const out = {}
   for (const pr of prs) {
-    if (pr.user.login !== 'modernserf') continue
+    if (pr.user.login !== username) continue
     out[pr.head.ref] = pr
   }
   return out
@@ -122,15 +123,21 @@ const Table = styled.table`
 
 const SwapButton = () => {
   const [swapStatus, setSwapStatus] = useState('ready')
+  const dispatch = useDispatch()
   const confirmThenSwap = () => {
     if (!confirm("Are you sure you want to swap community & community-staging?")) return
+    dispatch({
+      ...resourceActions.swappedProjects({ source: 'community-staging', target: 'community' }),
+      onSuccess: () => { setSwapStatus('ok') },
+      onError: () => { setSwa}
+    })
     setSwapStatus('ok')
   } 
   return (
-    <div>
+    <>
       <Button type="dangerZone" onClick={confirmThenSwap}>Swap</Button>
       <div>{swapStatus}</div>
-    </div>
+    </>
   )
 }
 
@@ -145,16 +152,27 @@ const PageHeader = () => {
 
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
+  const [githubUsername, setGithubUsername] = useState(currentUser.login)
   const { value: recentProjects } = useChildResource('users', currentUser.id, 'projects')
-  const { value: pullRequestsByName } = useAsyncFunction(getMyPRs)
+  const { value: pullRequestsByName } = useAsyncFunction(getMyPRs, githubUsername)
   if (!recentProjects || !pullRequestsByName) return <Loading />
   
   const communintyRemixes = recentProjects.filter(p => communityIDs.includes(p.baseId) && !communityIDs.includes(p.id))
   
   return (
     <section>
-      <Header>Community Remixes</Header>
-      <SwapButton />
+      <Box as="header" padding={{ top: 2, bottom: 4 }}>
+        <Header>Community Remixes</Header>
+        <Box padding={{ top: 1 }}>
+          <SwapButton />
+        </Box>
+        
+        <details>
+          <summary>Settings</summary>
+          <Input type="text" label="GitHub username" value={githubUsername} onChange={setGithubUsername} />
+        </details>
+      </Box>
+      
       <Table>
         <thead>
           <tr>
