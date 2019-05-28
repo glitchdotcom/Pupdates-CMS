@@ -2,12 +2,33 @@ import React, { createContext, useState, useContext, useEffect, useMemo } from '
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { configureStore, createSlice } from 'redux-starter-kit'
+import { Provider } from 'react-redux'
+import { matchTypes, after }
 
-const store = configureStore({
-  reducers: {},
-  middleware: [],
+const currentUser = createSlice({
+  slice: 'currentUser',
+  initialState: {
+    status: 'init',
+    persistentToken: null,
+    currentUser: {},
+  },
+  reducers: {
+    loadedUser: (state, { payload }) => ({
+      ...state,
+      state: 'loaded',
+      currentUser: payload,
+    })
+  },
 })
 
+currentUser.middleware = []
+
+const store = configureStore({
+  reducers: {
+    currentUser: currentUser.reducer,
+  },
+  middleware: [...currentUser.middleware],
+})
 
 const CurrentUserContext = createContext()
 const useCurrentUser = () => useContext(CurrentUserContext)
@@ -277,11 +298,13 @@ const RootContainer = styled.div`
 
 const Main = () => {
   return (
-    <RootContainer>
-      <CurrentUserController>
-        <RecentProjects />
-      </CurrentUserController>
-    </RootContainer>
+    <Provider store={store}>
+      <RootContainer>
+        <CurrentUserController>
+          <RecentProjects />
+        </CurrentUserController>
+      </RootContainer>
+    </Provider>
   )
 }
 
