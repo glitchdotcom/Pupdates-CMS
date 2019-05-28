@@ -6,7 +6,7 @@ import { Provider, useDispatch } from 'react-redux'
 
 import { actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus } from './current-user'
-import resourcesSlice, { useResource, actions as resourceActions } from './resources'
+import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
 import Login from './login'
 
 const configureStoreFromSlices = (...slices) => {
@@ -102,7 +102,7 @@ const Table = styled.table`
  
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
-  const { value: recentProjects } = useResource('users', 'id', currentUser.id, 'projects')
+  const { value: recentProjects } = useChildResource('users', currentUser.id, 'projects')
   const { value: pullRequestsByName } = useAsyncFunction(getMyPRs)
   if (!recentProjects || !pullRequestsByName) return <Loading />
   

@@ -57,8 +57,9 @@ const middleware = [
     }
   }),
   after(matchTypes(actions.submittedEmail), async (_, { payload: emailAddress, onSuccess, onError }) => {
-    // get temporary token for anon user
-    // TODO: what purpose does this serve?   
+    // sendLoginEmail is used for both sign in and sign up, 
+    // and associates any projects created while anonymous with your email address
+    // so it needs a persistentToken (even if, as in this case, we're not doing anything with it)    
     const { persistentToken } = await fetch(`${API_URL}/users/anon`, { method: 'POST', mode: 'cors' }).then(res => res.json())
     const res = await fetch(`${API_URL}/email/sendLoginEmail`, { 
       method: 'POST', 

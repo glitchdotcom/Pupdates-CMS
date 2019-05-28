@@ -5,6 +5,7 @@ import { after, matchTypes } from './redux-aop'
 import { useCurrentUser } from './current-user'
 import { API_URL } from './app-core'
 
+// TODO: do this datalog-style, with entity-attribute-value schema
 const resourceConfig = {
   collections: {
     secondaryKeys: ['fullUrl'],
@@ -188,7 +189,7 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
   return result
 }
 
-export function useResource (entity, idType, value, relation) {
+function useBaseResource ({ entity, idType, value, relation }) {
   const dispatch = useDispatch()
   const result = useSelector(lookup({ entity, idType, value, relation }))
   useEffect(() => {
@@ -198,6 +199,14 @@ export function useResource (entity, idType, value, relation) {
   }, [result.status, entity, idType, value, relation])
   
   return result
+}
+
+export function useResource (entity, value, idType = 'id') {
+  return useBaseResource({ entity, idType, value })
+}
+
+export function useChildResource (entity, id, relation) {
+  return useBaseResource({ entity, idType: 'id', value: id, relation })
 }
 
 export { actions }
