@@ -194,7 +194,7 @@ const App = () => {
 
 
 const RootContainer = styled.div`
-  font-family: sans-serif;
+  font-family: 'Benton Sans', sans-serif;
   color: #222;
   max-width: 960px;
   margin: 0 auto;

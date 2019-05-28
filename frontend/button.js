@@ -11,6 +11,7 @@ const BaseButton = styled.button`
   margin: none;
   padding: none;
   background-color: transparent;
+  cursor: pointer;
 `
 
 export const TransparentButton = styled(BaseButton)`
@@ -25,12 +26,13 @@ const NormalButton = styled(BaseButton)`
   background-color: ${(props) => props.backgroundColor};
   padding: 0.25rem 1rem;
   text-align: center;
+  font-weight: 600;
 `
 
 const buttonStyles = {
-  primary: { color: 'white', backgroundColor: '#66c', filled: true },
-  secondary: { color: '#66c', backgroundColor: 'white' },
-  '': { color: '#222', backgroundColor: 'white' },
+  primary: { color: 'white', backgroundColor: '#66c', hoverColor: '#669', filled: true },
+  secondary: { color: '#66c', backgroundColor: 'white', hoverColor: '#ccc' },
+  '': { color: '#222', backgroundColor: 'white', hoverColor: '' },
 }
 
 const Button = ({ type = '', submit, ...props }) => {

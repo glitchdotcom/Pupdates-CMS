@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { actions } from './current-user'
 import Button from './button'
+import Input from './input'
 
 const FormError = styled.div`
   color: white;
@@ -27,11 +28,7 @@ const EmailForm = ({ onSubmit }) => {
   return (
     <>
       <form onSubmit={onSubmitForm}>
-        <label>
-          <div>Email</div>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
-          {error && <FormError>{error}</FormError>}
-        </label>
+        <Input label="Email" value={email} onChange={setEmail} />
         <Button type="primary" submit>Get access code</Button>
       </form>
       <Button type="secondary" onClick={onSubmit}>Enter sign-in code</Button>
