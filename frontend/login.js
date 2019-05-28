@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { actions } from './current-user'
+import Button from './button'
 
 const FormError = styled.div`
   color: white;
@@ -31,9 +32,9 @@ const EmailForm = ({ onSubmit }) => {
           <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
           {error && <FormError>{error}</FormError>}
         </label>
-        <button type="submit">submit</button>
+        <Button type="submit">Get access code</Button>
       </form>
-      <button onClick={onSubmit}>Enter sign-in code</button>
+      <Button onClick={onSubmit}>Enter sign-in code</Button>
     </>
   )
 }
@@ -52,7 +53,7 @@ const CodeForm = () => {
         <div>Sign in code</div>
         <input type="text" value={code} onChange={e => setCode(e.target.value)}/>
       </label>
-      <button type="submit">submit</button>
+      <Button type="submit">submit</Button>
     </form>
   )
 }
@@ -72,12 +73,10 @@ const Login = () => {
   
   return (
     <LoginPage>
-      {}
+      {status === 'init' && <EmailForm onSubmit={submitEmail} />}
+      {status === 'submittedEmail' && <CodeForm />}
     </LoginPage>
   )
-  
-  if (status === 'init') return <EmailForm onSubmit={submitEmail} />
-  return <CodeForm />
 }
 
 export default Login
