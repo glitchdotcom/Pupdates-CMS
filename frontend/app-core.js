@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 export const API_URL = 'https://api.glitch.com'
 
@@ -51,4 +52,25 @@ export const createSelectorWithHook = (selector) => {
   const hook = () => useSelector(selector)
   hook.selector = selector
   return hook
+}
+
+export function useAsyncFunction (fn, ...deps) {
+  const [state, setState] = useState({ status: 'pending' })
+  useEffect(() => {
+    let isCurrentRequest = true
+    fn(...deps).then(
+      value => {
+        if (!isCurrentRequest) return
+        setState({ status: 'resolved', value })
+      },
+      error => {
+        if (!isCurrentRequest) return
+        setState({ status: 'rejected', error })
+      }
+    )
+    return () => {
+      isCurrentRequest = false
+    }
+  }, deps)
+  return state
 }
