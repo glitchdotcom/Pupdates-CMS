@@ -1,6 +1,9 @@
+import { useEffect } from 'react'
 import { createSlice } from 'redux-starter-kit'
+import { useSelector, useDispatch } from 'react-redux'
 import { after, matchTypes } from './redux-aop'
 import { useCurrentUser } from './current-user'
+import { API_URL } from './app-core';
 
 const { slice, reducer, actions } = createSlice({
   slice: 'resources',
@@ -31,6 +34,8 @@ const { slice, reducer, actions } = createSlice({
       state.pendingRequests[getKey(request)] = undefined
       const expires = Date.now() + (1000 * 60 * 5)
       
+      // TODO: populate indices
+      
       if (request.relation) {
         state.relations[request.entity][request.relation] = { expires, value: Object.keys(response) }
         for (const key in response) {
@@ -60,8 +65,11 @@ const middleware = [
 ]
 
 // always returns { [id]: entity }, regardless of API type
-function getEntities ({ persistentToken, entity, idType, value, relation }) {
-  
+async function getEntities ({ persistentToken, entity, idType, value, relation }) {
+  if (relation) {
+    const encoded = encodeURIComponent(value)
+    const res = await fetch(`${API_URL}/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`)
+  }
 }
 
 const loading = { status: 'loading' }
@@ -72,25 +80,36 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
   if (!id) return loading
   
   if (relation) {
-    const ids = state.relations[entity][relation][id]
-    if (!ids) return loading
-    const { expires, value } = ids
+    const relation = state.relations[entity][relation][id]
+    if (!relation) return loading
+    const { expires, value: ids } = relation
     if (expires < now) return loading
-    const hydratedValues = value.map(itemID => state.entities[relation][itemID])
-    if (hydratedValues.some(value ))
+    const relationValues = []
+    for (const itemID of ids) {
+      const entity = state.entities[relation][itemID]
+      if (!entity) return loading
+      const { expires, value } = entity
+      if (expires < now) return loading
+      relationValues.push(value)
+    }
+    return { status: 'ready', value: relationValues }    
   }
+  
+  const entity = state.entities[relation][id]
+  if (!entity || entity.expires < now) return loading
+  return entity
 }
-
-
 
 export function useResource (entity, idType, value, relation) {
   const dispatch = useDispatch()
   const result = useSelector(lookup({ entity, idType, value, relation }))
   useEffect(() => {
     if (result.loading) {
-      dispatch(actions.requested({ entity, idType: 'id', value: id }))
+      dispatch(actions.requested({ entity, idType, value, relation }))
     }
   }, [entity, idType, value, relation])
+  
+  return result
 }
 
 export default { slice, reducer, middleware }
