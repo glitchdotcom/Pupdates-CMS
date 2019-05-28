@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
-import { configureStore, createSlice } from 'redux-starter-kit'
+import { configureStore } from 'redux-starter-kit'
 import { Provider, useDispatch } from 'react-redux'
 
-import { API_URL, actions as appActions } from './app-core'
+import { actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus } from './current-user'
 import resourcesSlice, { useResource, actions as resourceActions } from './resources'
 import Login from './login'

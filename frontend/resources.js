@@ -3,7 +3,7 @@ import { createSlice } from 'redux-starter-kit'
 import { useSelector, useDispatch } from 'react-redux'
 import { after, matchTypes } from './redux-aop'
 import { useCurrentUser } from './current-user'
-import { API_URL } from './app-core';
+import { API_URL } from './app-core'
 
 const resourceConfig = {
   collections: {
