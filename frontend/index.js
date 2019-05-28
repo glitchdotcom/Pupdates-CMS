@@ -1,6 +1,13 @@
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
+import { configureStore, createSlice } from 'redux-starter-kit'
+
+const store = configureStore({
+  reducers: {},
+  middleware: [],
+})
+
 
 const CurrentUserContext = createContext()
 const useCurrentUser = () => useContext(CurrentUserContext)
