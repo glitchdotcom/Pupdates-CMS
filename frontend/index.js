@@ -11,14 +11,25 @@ import Login from './login'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
-  const rootMiddleware = []
-  for (const { slice, reducer, middleware } of slices) {
+  const rootHandlers = {}
+  for (const { slice, reducer, handlers } of slices) {
     rootReducer[slice] = reducer
-    rootMiddleware.push(...middleware)
+    for (const [actionType, handler] of Object.entries(handlers)) {
+      if (rootHandlers[actionType]) {
+        rootHandlers[actionType].push(handler)
+      } else {
+        rootHandlers[actionType] = [handler]
+      }
+    }
   }
   return configureStore({
     reducer: rootReducer,
-    middleware: rootMiddleware,
+    middleware: (store) => (action) => (next) => {
+      const nextAction = next(action)
+      if (!nextAction.type || !rootHandlers[nextAction.type]) return
+      Promise.all(rootHandlers[nextAction.type](store, nextAction.payload))
+        .then(nextAction.onSuccess, nextAction.onError)
+    },
   })
 }
 

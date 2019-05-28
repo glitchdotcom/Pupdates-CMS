@@ -103,25 +103,28 @@ function insertValues (state, response, entity, expires) {
 const getKey = ({ entity, idType, value, relation }) => 
   [entity, idType, value, relation].filter(x => x).join('/')
 
-const middleware = [
-  after(matchTypes(actions.requested), async (store, { payload: request }) => {
+const handlers = {
+  [actions.requested]: async (store, request) => {
     if (store.getState().resources.pendingRequests[getKey(request)]) return
     store.dispatch(actions.fetched(request))
 
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const response = await getEntities({ persistentToken, ...request })
     store.dispatch(actions.loaded({ request, response }))
-  }),
-  after(matchTypes(actions.deleted), (store, { payload: { entity, id } }) => {
+  },
+  [actions.deleted]: async (store, { entity, id }) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
-    api.delete(`/${entity}/${id}`, { persistentToken })
-  }),
-  after(matchTypes(actions.restartedProject), (store, { payload: id }) => {
+    await api.delete(`/${entity}/${id}`, { persistentToken })
+  },
+  [actions.restartedProject]: async (store, id) => {
     const project = store.getState().resources.entities.projects[id]
     const { persistentToken } = useCurrentUser.selector(store.getState())
-    api.post(`/projects/${project.domain}/stop`, { persistentToken })
-  })
-]
+    await api.post(`/projects/${project.domain}/stop`, { persistentToken })
+  },
+  [actions.swappedProjects]: async (store, { source, target }, ) => {
+    await api.post(`/projects/swapDomains?source=${source}&target=${target}`)
+  }
+}
 
 const byID = (items) => items.reduce((obj, item) => {
   obj[item.id] = item
@@ -191,4 +194,4 @@ export function useChildResource (entity, id, relation) {
 
 export { actions }
 
-export default { slice, reducer, middleware }
+export default { slice, reducer, handlers }

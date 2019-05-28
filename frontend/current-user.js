@@ -46,8 +46,8 @@ const { slice, reducer, actions } = createSlice({
   },
 })
 
-const middleware = [
-  after(matchTypes(appActions.mounted), async (store) => {
+const handlers = {
+  [appActions.mounted]: async (store) => {
     const persistentToken = getFromStorage('persistentToken')
     if (!persistentToken) return store.dispatch(actions.loadedLoggedOutUser())
     try {
@@ -56,29 +56,27 @@ const middleware = [
     } catch (e) {
       store.dispatch(actions.loadedLoggedOutUser())
     }
-  }),
-  after(matchTypes(actions.submittedEmail), async (_, { payload: emailAddress, onSuccess, onError }) => {
+  },
+  [actions.submittedEmail]: async (_, emailAddress) => {
     // sendLoginEmail is used for both sign in and sign up, 
     // and associates any projects created while anonymous with your email address
     // so it needs a persistentToken (even if, as in this case, we're not doing anything with it)    
     const { persistentToken } = await api.post('/users/anon')
-    const res = await api.post('/email/sendLoginEmail', {
+    await api.post('/email/sendLoginEmail', {
       body: { emailAddress },
       persistentToken,
     })
-    if (res.ok && onSuccess) onSuccess(res)
-    if (!res.ok && onError) onError(res)
-  }),
-  after(matchTypes(actions.submittedSignInCode), async (store, { payload: code }) => {
+  },
+  [actions.submittedSignInCode]: async (store, code) => {
     const { persistentToken } = await api.post(`/auth/email/${code}`)
     const currentUser = await getUserForPersistentToken(persistentToken)
     setStorage('persistentToken', persistentToken)
     store.dispatch(actions.loadedLoggedInUser(currentUser))
-  }),
-  after(matchTypes(actions.loggedOut), async () => {
+  },
+  [actions.loggedOut]: async () => {
     clearStorage('persistentToken')
-  }),
-]
+  }
+}
 
 async function getUserForPersistentToken (persistentToken) {
   const data = await api.get(`/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
@@ -93,4 +91,4 @@ export { actions }
 export const useLoggedInStatus = createSelectorWithHook(state => state.currentUser.status)
 export const useCurrentUser = createSelectorWithHook(state => state.currentUser.currentUser)
 
-export default { slice, reducer, middleware }
+export default { slice, reducer, handlers }
