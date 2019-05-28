@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { useAsyncFunction } from './app-core'
 import { useCurrentUser } from './current-user'
-import { useChildResource, actions as resourceActions } from './resources'
+import { useResource, useChildResource, actions as resourceActions } from './resources'
 import Button from './button'
 import Input from './input'
 import Box, { Flex } from './box'
@@ -65,7 +65,24 @@ const Table = styled.table`
   tr:nth-of-type(even) {
     background-color: #f9f9ff;
   }
-` 
+`
+
+const NewRemix = () => {
+  const [description, setDescription] = useState('')
+  const dispatch = useDispatch()
+  const { community } = useResource('projects', 'community', 'domain') 
+  const onClick = () => {
+    resourceActions.remixedProject(community)
+  }
+  
+  if (!community) return null
+  return (
+    <>
+      <TextInput label="Description" value={description} onChange={setDescription} />
+      <Button type="primary">Create ~community Remix</Button>
+    </>
+  )
+}
 
 const SwapButton = () => {
   const [swapStatus, setSwapStatus] = useState('ready')
@@ -101,6 +118,10 @@ const CommunityRemixes = () => {
       <Box as="header" padding={{ top: 2, bottom: 4 }}>
         <Header>Community Remixes</Header>
         <Flex align="stretch">
+          <Box padding={2}>
+            <NewRemix />
+          </Box>
+          
           <Box padding={2} flex="1 0 auto" style={{ border: '2px solid red' }}>
             <SwapButton />
           </Box>
