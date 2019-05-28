@@ -29,21 +29,34 @@ const resources = createSlice({
       users: {},
     },
     relations: {
-      users
+      users: {
+        projects: {},
+      }
     },
-    requests: {}
+    pendingRequests: {}
   },
   reducers: {
-    loaded: (state, { payload }) => {
-      state.requests[request.key] = undefined
+    loaded: (state, { payload: { request, response } }) => {
+      // using immer
+      state.pendingRequests[request.key] = undefined
+      const expires = Date.now() + (1000 * 60 * 5)
       
-      if ()payload.request.subResource) {
-        state.relations  
+      if (request.relation) {
+        state.relations[request.entity][request.relation] = Object.keys(response)
+        for (const key in response) {
+          state.entities[request.relation][key] = { expires, value: response[key] }
+        }
+      } else {
+        for (const key in response) {
+          state.entities[request.entity][key] = { expires, value: response[key] }
+        }
       }
     }
   }
 })
 
+// always returns { [id]: entity }, regardless of API type
+function getEntities ({ entity, key, value, relation }) {}
 
 
 
