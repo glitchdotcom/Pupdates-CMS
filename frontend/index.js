@@ -6,6 +6,7 @@ import { Provider, useDispatch } from 'react-redux'
 
 import { API_URL, actions as appActions } from './app-core'
 import { currentUser, useCurrentUser, useLoggedInStatus } from './current-user'
+import Login from './login'
 
 const store = configureStore({
   reducer: {
@@ -37,58 +38,6 @@ function useAsyncFunction (fn, ...deps) {
 }
 
 const Loading = () => <div>Loading...</div>
-
-const EmailForm = ({ onSubmit }) => {
-  const [email, setEmail] = useState('') 
-  const onSubmitForm = (e) => {
-    e.preventDefault()
-    onSubmit(email)
-  }
-  return (
-    <form onSubmit={onSubmitForm}>
-      <label>
-        <div>Email</div>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
-      </label>
-      <button type="submit">submit</button>
-    </form>
-  )
-}
-
-const CodeForm = ({ onSubmit }) => {
-  const [code, setCode] = useState('') 
-  const onSubmitForm = (e) => {
-    e.preventDefault()
-    onSubmit(code)
-  }
-  return (
-    <form onSubmit={onSubmitForm}>
-      <label>
-        <div>Sign in code</div>
-        <input type="text" value={code} onChange={e => setCode(e.target.value)}/>
-      </label>
-      <button type="submit">submit</button>
-    </form>
-  )
-}
-
-const Login = () => {
-  const [status, setStatus] = useState('init') // init | submittedEmail 
-  const dispatch = useDispatch()
-  const submitEmail = (email) => {
-    setStatus('submittedEmail')
-    dispatch({ 
-      ...currentUser.actions.submittedEmail(email), 
-      onError: () => { console.error('email error') },
-    })
-  }
-  const submitSigninCode = async (code) => {
-    dispatch(currentUser.actions.submittedSignInCode(code))
-  }
-  
-  if (status === 'init') return <EmailForm onSubmit={submitEmail} />
-  return <CodeForm onSubmit={submitSigninCode} />
-}
 
 const useAPI = () => {
   const currentUser = useCurrentUser()

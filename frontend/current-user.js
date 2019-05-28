@@ -56,7 +56,7 @@ currentUser.middleware = [
       store.dispatch(currentUser.actions.loadedLoggedOutUser())
     }
   }),
-  after(matchTypes(currentUser.actions.submittedEmail), async (_, { payload: emailAddress, onError }) => {
+  after(matchTypes(currentUser.actions.submittedEmail), async (_, { payload: emailAddress, onSuccess, onError }) => {
     const res = await fetch(`${API_URL}/email/sendLoginEmail`, { 
       method: 'POST', 
       body: JSON.stringify({ emailAddress }),
@@ -66,7 +66,8 @@ currentUser.middleware = [
         'Authorization': null,
       },
     })
-    if (!res.ok && onError) 
+    if (res.ok && onSuccess) onSuccess(res)
+    if (!res.ok && onError) onError(res)
   }),
   after(matchTypes(currentUser.actions.submittedSignInCode), async (store, { payload: code }) => {
     const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
