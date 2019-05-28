@@ -97,11 +97,10 @@ const getKey = ({ entity, idType, value, relation }) =>
   [entity, idType, value, relation].filter(x => x).join('/')
 
 const middleware = [
-  after(matchTypes(actions.requested), (store, { payload: request }) => {
+  after(matchTypes(actions.requested), async (store, { payload: request }) => {
     if (store.getState().resources.pendingRequests[getKey(request)]) return
     store.dispatch(actions.fetched(request))
-  }),
-  after(matchTypes(actions.fetched), async (store, { payload: request }) => {    
+
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const response = await getEntities({ persistentToken, ...request })
     store.dispatch(actions.loaded({ request, response }))

@@ -6,6 +6,7 @@ import { Provider, useDispatch } from 'react-redux'
 
 import { API_URL, actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus } from './current-user'
+import resourcesSlice, { useResource } from './resources'
 import Login from './login'
 
 const configureStoreFromSlices = (...slices) => {
@@ -21,12 +22,9 @@ const configureStoreFromSlices = (...slices) => {
   })
 }
 
-
-
-
-
 const store = configureStoreFromSlices(
-  currentUserSlice
+  currentUserSlice,
+  resourcesSlice
 )
 
 function useAsyncFunction (fn, ...deps) {
@@ -76,24 +74,9 @@ const useAPI = () => {
           'Authorization': currentUser.persistentToken,
         },
       }),
-      getResource: (type, key, value, subResource) => {
-        if (subResource) {
-          const params = '&limit=100&orderKey=createdAt&orderDirection=DESC'
-          return apiWrapper.get(
-            `/v1/${type}/by/${key}/${subResource}?${key}=${encodeURIComponent(value)}${params}`)
-            .then(res => res.items)
-        }
-        return apiWrapper.get(`/${type}/by/${key}?${key}=${encodeURIComponent(value)}`)
-          .then(res => res[value])
-      }
     }
     return apiWrapper
   }, [currentUser])
-}
-
-const useResource = (type, key, value, subResource) => {
-  const api = useAPI()
-  return useAsyncFunction(api.getResource, type, key, value, subResource)
 }
 
 const ProjectActions = ({ project }) => {
