@@ -9,7 +9,7 @@ const { slice, reducer, actions } = createSlice({
       projects: {},
       users: {},
     },
-    indexes: {},
+    index: {},
     relations: {
       users: {
         projects: {},
@@ -32,7 +32,7 @@ const { slice, reducer, actions } = createSlice({
       const expires = Date.now() + (1000 * 60 * 5)
       
       if (request.relation) {
-        state.relations[request.entity][request.relation] = Object.keys(response)
+        state.relations[request.entity][request.relation] = { expires, value: Object.keys(response) }
         for (const key in response) {
           state.entities[request.relation][key] = { expires, value: response[key] }
         }
@@ -64,20 +64,33 @@ function getEntities ({ persistentToken, entity, idType, value, relation }) {
   
 }
 
-export function useResource (entity, id, relation) {
+const loading = { status: 'loading' }
+
+const lookup = ({ entity, idType, value, relation }) => (state) => {
+  const now = Date.now()
+  const id = idType === 'id' ? value : state.index[getKey({ entity, idType, value })]
+  if (!id) return loading
+  
+  if (relation) {
+    const ids = state.relations[entity][relation][id]
+    if (!ids) return loading
+    const { expires, value } = ids
+    if (expires < now) return loading
+    const hydratedValues = value.map(itemID => state.entities[relation][itemID])
+    if (hydratedValues.some(value ))
+  }
+}
+
+
+
+export function useResource (entity, idType, value, relation) {
   const dispatch = useDispatch()
-  const result = useSelector(state => {
-    if (relation) {
-      const ids = state.relations[entity][relation][id]
-      if (!ids) return { status: 'loading' }
-      const 
-    }
-  })
+  const result = useSelector(lookup({ entity, idType, value, relation }))
   useEffect(() => {
-     if (result.loading) {
-       
-     }
-  })
+    if (result.loading) {
+      dispatch(actions.requested({ entity, idType: 'id', value: id }))
+    }
+  }, [entity, idType, value, relation])
 }
 
 export default { slice, reducer, middleware }
