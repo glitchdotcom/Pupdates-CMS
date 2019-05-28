@@ -19,7 +19,7 @@ function clearStorage (key) {
   localStorage.removeItem(key)
 }
 
-export const currentUser = createSlice({
+export const { reducer, actions } = createSlice({
   slice: 'currentUser',
   initialState: {
     status: 'loading',
@@ -46,37 +46,40 @@ export const currentUser = createSlice({
   },
 })
 
-currentUser.middleware = [
+export const middleware = [
   after(matchTypes(appActions.mounted), async (store) => {
     const persistentToken = getFromStorage('persistentToken')
     try {
       const user = await getUserForPersistentToken(persistentToken)
-      store.dispatch(currentUser.actions.loadedLoggedInUser(user))
+      store.dispatch(actions.loadedLoggedInUser(user))
     } catch (e) {
-      store.dispatch(currentUser.actions.loadedLoggedOutUser())
+      store.dispatch(actions.loadedLoggedOutUser())
     }
   }),
-  after(matchTypes(currentUser.actions.submittedEmail), async (_, { payload: emailAddress, onSuccess, onError }) => {
+  after(matchTypes(actions.submittedEmail), async (_, { payload: emailAddress, onSuccess, onError }) => {
+    // get temporary token for anon user
+    // TODO: what purpose does this serve?   
+    const { persistentToken } = await fetch(`${API_URL}/users/anon`, { method: 'POST', mode: 'cors' }).then(res => res.json())
     const res = await fetch(`${API_URL}/email/sendLoginEmail`, { 
       method: 'POST', 
       body: JSON.stringify({ emailAddress }),
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': null,
+        'Authorization': persistentToken,
       },
     })
     if (res.ok && onSuccess) onSuccess(res)
     if (!res.ok && onError) onError(res)
   }),
-  after(matchTypes(currentUser.actions.submittedSignInCode), async (store, { payload: code }) => {
+  after(matchTypes(actions.submittedSignInCode), async (store, { payload: code }) => {
     const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
     const { persistentToken } = await res.json()
     const currentUser = await getUserForPersistentToken(persistentToken)
     setStorage('persistentToken', persistentToken)
-    store.dispatch(currentUser.actions.loadedLoggedInUser(currentUser))
+    store.dispatch(actions.loadedLoggedInUser(currentUser))
   }),
-  after(matchTypes(currentUser.actions.loggedOut), async () => {
+  after(matchTypes(actions.loggedOut), async () => {
     clearStorage('persistentToken')
   }),
 ]
@@ -95,4 +98,3 @@ async function getUserForPersistentToken (persistentToken) {
 export const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
 
 export const useCurrentUser = () => useSelector(store => store.currentUser.currentUser)
-

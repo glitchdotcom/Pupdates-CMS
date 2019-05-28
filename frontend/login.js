@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
-import { currentUser } from './current-user'
+import { actions } from './current-user'
 
 const FormError = styled.div`
   color: white;
@@ -18,20 +18,23 @@ const EmailForm = ({ onSubmit }) => {
   const onSubmitForm = (e) => {
     e.preventDefault()
     dispatch({ 
-      ...currentUser.actions.submittedEmail(email), 
+      ...actions.submittedEmail(email), 
       onSuccess: onSubmit,
       onError: () => { setError('oops') },
     })
   }
   return (
-    <form onSubmit={onSubmitForm}>
-      <label>
-        <div>Email</div>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
-        {error && <FormError>{error}</FormError>}
-      </label>
-      <button type="submit">submit</button>
-    </form>
+    <>
+      <form onSubmit={onSubmitForm}>
+        <label>
+          <div>Email</div>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
+          {error && <FormError>{error}</FormError>}
+        </label>
+        <button type="submit">submit</button>
+      </form>
+      <button onClick={onSubmit}>Enter sign-in code</button>
+    </>
   )
 }
 
@@ -41,7 +44,7 @@ const CodeForm = () => {
   
   const onSubmitForm = (e) => {
     e.preventDefault()
-    dispatch(currentUser.actions.submittedSignInCode(code))
+    dispatch(actions.submittedSignInCode(code))
   }
   return (
     <form onSubmit={onSubmitForm}>

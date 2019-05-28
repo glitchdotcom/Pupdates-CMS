@@ -121,7 +121,7 @@ const Table = styled.table`
   th, td {
     padding: 0.5rem;
   }
-  tr:nth-child(even) {
+  tr:nth-of-type(even) {
     background-color: #fef;
   }
 ` 
