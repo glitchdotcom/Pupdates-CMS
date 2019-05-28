@@ -24,7 +24,7 @@ const configureStoreFromSlices = (...slices) => {
   }
   return configureStore({
     reducer: rootReducer,
-    middleware: (store) => (action) => (next) => {
+    middleware: (store) => (next) => (action) => {
       const nextAction = next(action)
       if (!nextAction.type || !rootHandlers[nextAction.type]) return
       Promise.all(rootHandlers[nextAction.type](store, nextAction.payload))
@@ -118,7 +118,7 @@ const SwapButton = () => {
     setSwapStatus('ok')
   } 
   return (
-   <div>
+    <div>
       <button onClick={confirmThenSwap}>Swap</button>
       <div>{swapStatus}</div>
     </div>
