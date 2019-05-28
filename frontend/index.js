@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { configureStore } from 'redux-starter-kit'
@@ -6,10 +6,9 @@ import { Provider, useDispatch } from 'react-redux'
 
 import { actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as currentUserActions } from './current-user'
-import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
+import resourcesSlice from './resources'
 import Login from './login'
 import Button from './button'
-import Input from './input'
 import Box, { Flex } from './box'
 import CommunityRemixes from './community-remixes'
 
@@ -44,15 +43,20 @@ const store = configureStoreFromSlices(
   resourcesSlice
 )
 
-const LogOut = () => {
+const Loading = () => <div>Loading...</div>
+
+const PageHeader = () => {
   const dispatch = useDispatch()
+  const currentUser = useCurrentUser()
   return (
-    <Flex as="header" justify="flex-end" padding={{y: 2}}>
+    <Flex as="header" align="center" justify="flex-end" padding={{y: 2}}>
+      <Box padding={{ right: 2 }}>
+        Logged in as {currentUser.login}
+      </Box>
       <Button type="secondary" onClick={() => dispatch(currentUserActions.loggedOut())}>log out</Button>
     </Flex>
   )
 }
-
 
 const App = () => {
   const dispatch = useDispatch()

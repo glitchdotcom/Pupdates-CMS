@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 
 import { useAsyncFunction } from './app-core'
-import { useCurrentUser, actions as currentUserActions } from './current-user'
+import { useCurrentUser } from './current-user'
 import { useChildResource, actions as resourceActions } from './resources'
 import Button from './button'
 import Input from './input'
@@ -63,7 +63,7 @@ const Table = styled.table`
     padding: 0.25rem;
   }
   tr:nth-of-type(even) {
-    background-color: #fef;
+    background-color: #f9f9ff;
   }
 ` 
 
@@ -114,10 +114,10 @@ const CommunityRemixes = () => {
       <Table>
         <thead>
           <tr>
-            <th>domain</th>
-            <th>description</th>
-            <th>PR</th>
-            <th>actions</th>
+            <th>Domain</th>
+            <th>Description</th>
+            <th>Open PR?</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
