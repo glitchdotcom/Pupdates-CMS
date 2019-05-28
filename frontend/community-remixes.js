@@ -49,13 +49,13 @@ async function getMyPRs (username) {
   return out
 }
 
-const weights = [100]
-const sizes = ['0.5rem', '0.8rem', '1rem', '1.5rem', '2rem', '3rem', '4rem'];
+// const weights = [100]
+// const sizes = ['0.5rem', '0.8rem', '1rem', '1.5rem', '2rem', '3rem', '4rem'];
 
-const Text = styled.div`
-  font-weight: ${props => weights[props.weight] || 'normal'};
-  font-size: ${props => sizes[props.size] || 'inherit'};
-`
+// const Text = styled.div`
+//   font-weight: ${props => weights[props.weight] || 'normal'};
+//   font-size: ${props => sizes[props.size] || 'inherit'};
+// `
 
 const Header = styled.h1`
   font-weight: bold;
@@ -81,13 +81,18 @@ const NewRemix = () => {
   const { value: community } = useResource('projects', 'community', 'domain')
   const { value: performanceBoost } = useResource('teams', 'Performance-Boost', 'url')
   const onClick = () => {
-    resourceActions.remixedProjectAsTeam({ project: community.id, team: performanceBoost.id, description })
+    dispatch({
+      ...resourceActions.remixedProjectAsTeam({ project: community.id, team: performanceBoost.id, description }),
+      onSuccess: () => {
+        setDescription('')
+      }
+    })
   }
   return (
     <>
       <Input label="Remix description" value={description} onChange={setDescription} />
       <Box padding={{ top: 2 }}>
-        <Button type="primary">Create Remix on Performance Boost</Button>
+        <Button type="primary" onClick={onClick}>Create Remix on Performance Boost</Button>
       </Box>
     </>
   )

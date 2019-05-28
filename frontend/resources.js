@@ -123,11 +123,17 @@ const handlers = {
     await api.post(`/projects/${project.domain}/stop`, { persistentToken })
   },
   [actions.swappedProjects]: async (store, { source, target }) => {
-    await api.post(`/projects/swapDomains?source=${source}&target=${target}`)
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    await api.post(`/projects/swapDomains?source=${source}&target=${target}&authorization=${persistentToken}`)
   },
   [actions.remixedProjectAsTeam]: async (store, { project, team, description }) => {
-    const newProject = await api.post(`/projects/${project}/remix`)
-    const 
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    // create new remix
+    const newProject = await api.post(`/projects/${project}/remix`, { persistentToken })
+    // update description
+    await api.patch(`/projects/${newProject.id}`, { body: { description } , persistentToken })
+    // add to team
+    await api.post(`/teams/${team}/projects/${newProject.id}`)
   }
 }
 
