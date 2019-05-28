@@ -18,6 +18,15 @@ function parseSize (size) {
 
 const Box = styled.div`
   padding: ${(props) => parseSize(props.padding)};
+  flex: ${props => props.flex || undefined};
+`
+
+export const Flex = styled(Box)`
+  display: flex;
+  flex-direction: ${props => props.column ? 'column' : 'row'};
+  flex-wrap: ${props => props.wrap ? 'wrap' : 'nowrap'};
+  align-items: ${props => props.align || 'flex-start'};
+  justify-content: ${props => props.justify || 'flex-start'};
 `
 
 export default Box

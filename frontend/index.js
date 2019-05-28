@@ -9,7 +9,7 @@ import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as current
 import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
 import Login from './login'
 import Button from './button'
-import Box from './box'
+import Box, { Flex } from './box'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
@@ -133,13 +133,13 @@ const SwapButton = () => {
     </div>
   )
 }
- 
+
 const PageHeader = () => {
   const dispatch = useDispatch()
   return (
-    <header>
+    <Flex as="header" justify="flex-end" padding={{y: 2}}>
       <Button type="secondary" onClick={() => dispatch(currentUserActions.loggedOut())}>log out</Button>
-    </header>
+    </Flex>
   )
 }
 
