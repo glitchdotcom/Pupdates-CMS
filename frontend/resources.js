@@ -5,19 +5,55 @@ import { after, matchTypes } from './redux-aop'
 import { useCurrentUser } from './current-user'
 import { API_URL } from './app-core';
 
+const resourceConfig = {
+  collections: {
+    secondaryKeys: ['fullUrl'],
+    references: { projects: 'projects' },
+  },
+  projects: {
+    secondaryKeys: ['domain'],
+    references: { collections: 'collections', teams: 'teams', users: 'users' },
+  },
+  teams: {
+    secondaryKeys: ['url'],
+    references: { 
+      collections: 'collections', 
+      users: 'users', 
+      projects: 'projects', 
+      pinnedProjects: 'projects' 
+    },
+  },
+  users: {
+    secondaryKeys: ['login'],
+    references: { 
+      collections: 'collections', 
+      teams: 'teams', 
+      projects: 'projects', 
+      pinnedProjects: 'projects',
+      deletedProjects: 'projects',
+    },
+    // TODO: do something with user/emails?
+  },
+}
+
+function createInitialState (config) {
+  const entities = {}
+  const indices = {}
+  for (const [entityName, {secondaryKeys, references}] of Object.entries(config)) {
+    entities[entityName] = {}
+    indices[entityName] = {}
+    for (const secondaryKey of secondaryKeys) {
+      indices[entityName][secondaryKey] = {}
+    }
+    for (const reference of )
+  }
+  return { entities, indices }
+}
+
 const { slice, reducer, actions } = createSlice({
   slice: 'resources',
   initialState: {
-    entities: {
-      projects: {},
-      users: {},
-    },
-    index: {},
-    relations: {
-      users: {
-        projects: {},
-      }
-    },
+    ...createInitialState(resourceConfig),
     pendingRequests: {}
   },
   reducers: {
