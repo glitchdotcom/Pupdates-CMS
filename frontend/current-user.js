@@ -97,8 +97,14 @@ async function getUserForPersistentToken (persistentToken) {
 
 export { actions }
 
-export const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
+const createSelectorWithHook = (selector) => {
+  const hook = (...args) => useSelector()
+}
 
-export const useCurrentUser = () => useSelector(store => store.currentUser.currentUser)
+export const loggedInStatus = state => state.currentUser.status
+export const currentUser = state => state.currentUser.currentUser
+
+export const useLoggedInStatus = () => useSelector(loggedInStatus)
+export const useCurrentUser = () => useSelector(currentUser)
 
 export default { slice, reducer, middleware }

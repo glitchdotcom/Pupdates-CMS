@@ -21,43 +21,6 @@ const configureStoreFromSlices = (...slices) => {
   })
 }
 
-const resources = createSlice({
-  slice: 'resources',
-  initialState: {
-    entities: {
-      projects: {},
-      users: {},
-    },
-    relations: {
-      users: {
-        projects: {},
-      }
-    },
-    pendingRequests: {}
-  },
-  reducers: {
-    loaded: (state, { payload: { request, response } }) => {
-      // using immer
-      state.pendingRequests[request.key] = undefined
-      const expires = Date.now() + (1000 * 60 * 5)
-      
-      if (request.relation) {
-        state.relations[request.entity][request.relation] = Object.keys(response)
-        for (const key in response) {
-          state.entities[request.relation][key] = { expires, value: response[key] }
-        }
-      } else {
-        for (const key in response) {
-          state.entities[request.entity][key] = { expires, value: response[key] }
-        }
-      }
-    }
-  }
-})
-
-// always returns { [id]: entity }, regardless of API type
-function getEntities ({ entity, key, value, relation }) {}
-
 
 
 
