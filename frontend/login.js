@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { actions } from './current-user'
 import Button from './button'
 import Input from './input'
+import Box from './box'
 
 const FormError = styled.div`
   color: white;
@@ -29,7 +30,9 @@ const EmailForm = ({ onSubmit }) => {
     <>
       <form onSubmit={onSubmitForm}>
         <Input type="email" label="Email" value={email} onChange={setEmail} />
-        <Button type="primary" submit>Get access code</Button>
+        <Box padding={{ top: 2 }}>
+          <Button type="primary" submit>Get access code</Button>
+        </Box>
       </form>
       <Button type="secondary" onClick={onSubmit}>Enter sign-in code</Button>
     </>
@@ -59,7 +62,6 @@ const LoginPage = styled.section`
   margin: 1em auto;
   max-width: 300px;
   border: 1px solid #eee;
-  padding: 1rem;
 `
 
 const Login = () => {
@@ -70,8 +72,10 @@ const Login = () => {
   
   return (
     <LoginPage>
-      {status === 'init' && <EmailForm onSubmit={submitEmail} />}
-      {status === 'submittedEmail' && <CodeForm />}
+      <Box padding={3}>
+        {status === 'init' && <EmailForm onSubmit={submitEmail} />}
+        {status === 'submittedEmail' && <CodeForm />}
+      </Box>
     </LoginPage>
   )
 }
