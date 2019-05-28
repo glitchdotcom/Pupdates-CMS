@@ -160,9 +160,11 @@ const CommunityRemixes = () => {
             const pr = pullRequestsByName[project.domain]
             return(
               <tr key={project.id}>
-                <td>{project.domain}</td>
+                <td>
+                  <a href={`https://glitch.com/edit/#!/${project.domain}`}>{project.domain}</a>
+                </td>
                 <td>{project.description}</td>
-                <td>{pr && <a href={pr.url}>{pr.title}</a>}</td>
+                <td>{pr && <a href={pr.html_url}>{pr.title}</a>}</td>
                 <td><ProjectActions project={project} /></td>
               </tr>
             )

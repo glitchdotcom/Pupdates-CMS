@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useCurrentUser } from './current-user'
 import { api } from './app-core'
 
+const ttl = 1000 * 60 * 5
+
 // TODO: do this datalog-style, with entity-attribute-value schema
 const resourceConfig = {
   collections: {
@@ -69,7 +71,7 @@ const { slice, reducer, actions } = createSlice({
     loaded: (state, { payload: { request, response } }) => {
       // using immer
       state.pendingRequests[getKey(request)] = undefined
-      const expires = Date.now() + (1000 * 60 * 5)
+      const expires = Date.now() + ttl
       
       if (request.relation) {
         // TODO: what if this is missing?
@@ -88,7 +90,7 @@ const { slice, reducer, actions } = createSlice({
     swappedProjects: (state) => state,
     remixedProjectAsTeam: (state) => state,
     remixedProjectAsTeamCompleted: (state, { payload: { project, userID, teamID } }) => {
-      state.entities.projects[project.id] = project;
+      state.entities.projects[project.id] = { expires: Date.now() + ttl, value: project };
       prepend(state.indices.users.projects, userID, project.id);
       prepend(state.indices.teams.projects, teamID, project.id);
     }
