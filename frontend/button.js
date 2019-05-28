@@ -18,13 +18,25 @@ export const TransparentButton = styled(BaseButton)`
   width: 100%;
 `
 
-const Button = styled(({ className, type = "button", ...props }) => (
-  <BaseButton className={className} type={type} {...props} />
-))`
+const NormalButton = styled(BaseButton)`
   border-radius: 0.5rem;
-  border: 2px solid #222;
+  border: ${(props) => props.filled ? `2px solid ${props.backgroundColor}` : `2px solid ${props.color}`};
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.backgroundColor};
   padding: 0.25rem 1rem;
   text-align: center;
 `
+
+const buttonStyles = {
+  primary: { color: 'white', backgroundColor: '#66c', filled: true },
+  secondary: { color: '#66c', backgroundColor: 'white' },
+  '': { color: '#222', backgroundColor: 'white' },
+}
+
+const Button = ({ type = '', submit, ...props }) => {
+  return (
+    <NormalButton type={submit ? 'submit' : 'button'} {...buttonStyles[type]} {...props} />
+  )
+}
 
 export default Button

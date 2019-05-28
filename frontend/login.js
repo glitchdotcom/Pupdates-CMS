@@ -32,9 +32,9 @@ const EmailForm = ({ onSubmit }) => {
           <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
           {error && <FormError>{error}</FormError>}
         </label>
-        <Button type="submit">Get access code</Button>
+        <Button type="primary" submit>Get access code</Button>
       </form>
-      <Button onClick={onSubmit}>Enter sign-in code</Button>
+      <Button type="secondary" onClick={onSubmit}>Enter sign-in code</Button>
     </>
   )
 }
@@ -53,7 +53,7 @@ const CodeForm = () => {
         <div>Sign in code</div>
         <input type="text" value={code} onChange={e => setCode(e.target.value)}/>
       </label>
-      <Button type="submit">submit</Button>
+      <Button type="primary" submit>submit</Button>
     </form>
   )
 }
