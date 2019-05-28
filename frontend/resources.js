@@ -34,21 +34,22 @@ const { slice, reducer, actions } = createSlice({
       state.pendingRequests[getKey(request)] = undefined
       const expires = Date.now() + (1000 * 60 * 5)
       
-      // TODO: populate indices
-      
       if (request.relation) {
-        state.relations[request.entity][request.relation] = { expires, value: Object.keys(response) }
-        for (const key in response) {
-          state.entities[request.relation][key] = { expires, value: response[key] }
-        }
+        state.relations[request.entity][request.relation] = Object.keys(response)
+        insertValues(state, response, request.relation, expires) 
       } else {
-        for (const key in response) {
-          state.entities[request.entity][key] = { expires, value: response[key] }
-        }
+        insertValues(state, response, request.entity, expires) 
       }
     }
   }
 })
+
+// TODO: populate indices here
+function insertValues (state, response, entity, expires) {
+  for (const [id, value] of Object.entries(response)) {
+    state.entities[entity][id] = { expires, value }
+  }
+}
 
 const getKey = ({ entity, idType, value, relation }) => 
   [entity, idType, value, relation].filter(x => x).join('/')
@@ -64,12 +65,29 @@ const middleware = [
   })
 ]
 
+const byID = (items) => items.reduce((obj, item) => {
+  obj[item.id] = item
+  return obj
+}, {})
+
 // always returns { [id]: entity }, regardless of API type
 async function getEntities ({ persistentToken, entity, idType, value, relation }) {
-  if (relation) {
-    const encoded = encodeURIComponent(value)
-    const res = await fetch(`${API_URL}/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`)
+  const params = {
+    headers: {
+      'Authorization': persistentToken,
+    }
   }
+  const encoded = encodeURIComponent(value)
+  if (relation) {
+    const res = await fetch(`${API_URL}/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
+    if (!res.ok) throw new Error('request failed')
+    const { items } = await res.json()
+    return byID(items)
+  }
+  const res = await fetch(`${API_URL}/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
+  if (!res.ok) throw new Error('request failed')
+  const items = await res.json()
+  return byID(Object.values(items))
 }
 
 const loading = { status: 'loading' }
@@ -80,10 +98,8 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
   if (!id) return loading
   
   if (relation) {
-    const relation = state.relations[entity][relation][id]
-    if (!relation) return loading
-    const { expires, value: ids } = relation
-    if (expires < now) return loading
+    const ids = state.relations[entity][relation][id]
+    if (!ids) return loading
     const relationValues = []
     for (const itemID of ids) {
       const entity = state.entities[relation][itemID]
