@@ -28,7 +28,7 @@ const EmailForm = ({ onSubmit }) => {
   return (
     <>
       <form onSubmit={onSubmitForm}>
-        <Input label="Email" value={email} onChange={setEmail} />
+        <Input type="email" label="Email" value={email} onChange={setEmail} />
         <Button type="primary" submit>Get access code</Button>
       </form>
       <Button type="secondary" onClick={onSubmit}>Enter sign-in code</Button>

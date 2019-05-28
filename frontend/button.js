@@ -27,12 +27,16 @@ const NormalButton = styled(BaseButton)`
   padding: 0.25rem 1rem;
   text-align: center;
   font-weight: 600;
+  &:hover {
+    background-color: ${(props) => props.hoverColor};
+    border-color: ${props => props.filled ? props.hoverColor : props.color};
+  }
 `
 
 const buttonStyles = {
   primary: { color: 'white', backgroundColor: '#66c', hoverColor: '#669', filled: true },
-  secondary: { color: '#66c', backgroundColor: 'white', hoverColor: '#ccc' },
-  '': { color: '#222', backgroundColor: 'white', hoverColor: '' },
+  secondary: { color: '#66c', backgroundColor: 'white', hoverColor: '#eee' },
+  '': { color: '#222', backgroundColor: 'white', hoverColor: '#eee' },
 }
 
 const Button = ({ type = '', submit, ...props }) => {
