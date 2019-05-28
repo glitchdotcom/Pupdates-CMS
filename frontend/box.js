@@ -26,9 +26,9 @@ export const Flex = styled(Box)`
   flex-wrap: ${props => props.wrap ? 'wrap' : 'nowrap'};
   align-items: ${props => props.align || 'flex-start'};
   justify-content: ${props => props.justify || 'flex-start'};
-  margin: ${props => props.gap && `-${sizes[props.gap]}`}
-  & > * {
-    margin: ${props => props.gap && sizes[props.gap]}
+  margin: ${props => props.gap && `-${sizes[props.gap]}`};
+  > * {
+    margin: ${props => props.gap && sizes[props.gap]};
   }
 `
 

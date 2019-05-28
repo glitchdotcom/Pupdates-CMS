@@ -111,7 +111,7 @@ const SwapButton = () => {
     })
   } 
   return (
-    <Flex align="center" gap={2}>
+    <Flex align="center" gap={1}>
       <Button type="dangerZone" onClick={confirmThenSwap}>Swap</Button>
       <div>{swapStatus}</div>
     </Flex>
