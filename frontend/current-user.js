@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit'
 import { useSelector } from 'react-redux'
 import { matchTypes, after } from './redux-aop'
-import { API_URL, actions as appActions } from './app-core'
+import { api, actions as appActions } from './app-core'
 
 // localStorage
 
@@ -60,21 +60,16 @@ const middleware = [
     // sendLoginEmail is used for both sign in and sign up, 
     // and associates any projects created while anonymous with your email address
     // so it needs a persistentToken (even if, as in this case, we're not doing anything with it)    
-    const { persistentToken } = await fetch(`${API_URL}/users/anon`, { method: 'POST', mode: 'cors' }).then(res => res.json())
-    const res = await fetch(`${API_URL}/email/sendLoginEmail`, { 
-      method: 'POST', 
-      body: JSON.stringify({ emailAddress }),
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': persistentToken,
-      },
+    const { persistentToken } = await api.post('/users/anon')
+    const res = await api.post('/email/sendLoginEmail', {
+      body: { emailAddress },
+      persistentToken,
     })
     if (res.ok && onSuccess) onSuccess(res)
     if (!res.ok && onError) onError(res)
   }),
   after(matchTypes(actions.submittedSignInCode), async (store, { payload: code }) => {
-    const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
+    const res = await api.post(`/auth/email/${code}`, { method: 'POST', mode: 'cors' })
     const { persistentToken } = await res.json()
     const currentUser = await getUserForPersistentToken(persistentToken)
     setStorage('persistentToken', persistentToken)

@@ -99,6 +99,20 @@ const Table = styled.table`
     background-color: #fef;
   }
 ` 
+
+const SwapButton = () => {
+  const [swapStatus, setSwapStatus] = useState('ready')
+  const confirmThenSwap = () => {
+    if (!confirm("Are you sure you want to swap community & community-staging?")) return
+    setSwapStatus('ok')
+  } 
+  return (
+   <div>
+      <button onClick={confirmThenSwap}>Swap</button>
+      <div>{swapStatus}</div>
+    </div>
+  )
+}
  
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
@@ -111,6 +125,7 @@ const RecentProjects = () => {
   return (
     <section>
       <Header>Community Remixes</Header>
+      <SwapButton />
       <Table>
         <thead>
           <tr>
