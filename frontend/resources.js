@@ -86,6 +86,7 @@ const { slice, reducer, actions } = createSlice({
     },
     restartedProject: (state) => state,
     swappedProjects: (state) => state,
+    remixedProjectAsTeam: (state) => state,
   }
 })
 
@@ -121,8 +122,12 @@ const handlers = {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     await api.post(`/projects/${project.domain}/stop`, { persistentToken })
   },
-  [actions.swappedProjects]: async (store, { source, target }, ) => {
+  [actions.swappedProjects]: async (store, { source, target }) => {
     await api.post(`/projects/swapDomains?source=${source}&target=${target}`)
+  },
+  [actions.remixedProjectAsTeam]: async (store, { project, team, description }) => {
+    const newProject = await api.post(`/projects/${project}/remix`)
+    const 
   }
 }
 
