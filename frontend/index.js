@@ -9,6 +9,7 @@ import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as current
 import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
 import Login from './login'
 import Button from './button'
+import Box from './box'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
@@ -74,8 +75,12 @@ const ProjectActions = ({ project }) => {
   }
   return (
     <div>
-      <Button size="small" onClick={restartProject}>Restart</Button>
-      <Button size="small" onClick={deleteProject}>Delete</Button>
+      <Box padding={1}>
+        <Button type="secondary" size="small" onClick={restartProject}>Restart</Button>
+      </Box>
+      <Box padding={1}>
+        <Button type="secondary" size="small" onClick={deleteProject}>Delete</Button>
+      </Box>
     </div>
   ) 
 }
@@ -104,10 +109,11 @@ const Header = styled.h1`
 
 const Table = styled.table`
   th {
+    font-weight: 600;
     text-align: left;
   }
   th, td {
-    padding: 0.5rem;
+    padding: 0.25rem;
   }
   tr:nth-of-type(even) {
     background-color: #fef;
@@ -122,7 +128,7 @@ const SwapButton = () => {
   } 
   return (
     <div>
-      <Button type="danger" onClick={confirmThenSwap}>Swap</Button>
+      <Button type="dangerZone" onClick={confirmThenSwap}>Swap</Button>
       <div>{swapStatus}</div>
     </div>
   )
@@ -199,6 +205,7 @@ const RootContainer = styled.div`
   color: #222;
   max-width: 960px;
   margin: 0 auto;
+  line-height: 1.25;
 `
 
 const AppContainer = () => {
