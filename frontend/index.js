@@ -5,16 +5,25 @@ import { configureStore } from 'redux-starter-kit'
 import { Provider, useDispatch } from 'react-redux'
 
 import { API_URL, actions as appActions } from './app-core'
-import { currentUser, useCurrentUser, useLoggedInStatus } from './current-user'
+import currentUserSlice, { useCurrentUser, useLoggedInStatus } from './current-user'
 import Login from './login'
 
-const store = configureStore({
-  reducer: {
-    currentUser: currentUser.reducer,
-  },
-  middleware: [...currentUser.middleware],
-})
+const configureStoreFromSlices = (...slices) => {
+  const rootReducer = {}
+  const rootMiddleware = []
+  for (const { slice, reducer, middleware } of slices) {
+    rootReducer[slice] = reducer
+    rootMiddleware.push(...middleware)
+  }
+  return configureStore({
+    reducer: rootReducer,
+    middleware: rootMiddleware,
+  })
+}
 
+const store = configureStoreFromSlices(
+  currentUserSlice
+)
 
 function useAsyncFunction (fn, ...deps) {
   const [state, setState] = useState({ status: 'pending' })
@@ -56,6 +65,7 @@ const useAPI = () => {
           ...(body ? { 'Content-Type': 'application/json' } : {}),
         },
       }),
+      delete: (path) => fetch(`${API_URL}${path}`, {})
       getResource: (type, key, value, subResource) => {
         if (subResource) {
           const params = '&limit=100&orderKey=createdAt&orderDirection=DESC'

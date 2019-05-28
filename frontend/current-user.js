@@ -19,7 +19,7 @@ function clearStorage (key) {
   localStorage.removeItem(key)
 }
 
-export const { reducer, actions } = createSlice({
+const { slice, reducer, actions } = createSlice({
   slice: 'currentUser',
   initialState: {
     status: 'loading',
@@ -46,7 +46,7 @@ export const { reducer, actions } = createSlice({
   },
 })
 
-export const middleware = [
+const middleware = [
   after(matchTypes(appActions.mounted), async (store) => {
     const persistentToken = getFromStorage('persistentToken')
     try {
@@ -95,6 +95,10 @@ async function getUserForPersistentToken (persistentToken) {
   }
 }
 
+export { actions }
+
 export const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
 
 export const useCurrentUser = () => useSelector(store => store.currentUser.currentUser)
+
+export default { slice, reducer, middleware }
