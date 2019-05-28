@@ -70,16 +70,20 @@ const Table = styled.table`
 const NewRemix = () => {
   const [description, setDescription] = useState('')
   const dispatch = useDispatch()
-  const { community } = useResource('projects', 'community', 'domain') 
+  const { value: community } = useResource('projects', 'community', 'domain')
+  const { value: performanceBoost } = useResource('teams', 'Performance-Boost', 'url')
   const onClick = () => {
-    resourceActions.remixedProject(community)
+    resourceActions.remixedProjectAsTeam({ project: community.id, team: performanceBoost.id })
   }
-  
-  if (!community) return null
   return (
     <>
-      <TextInput label="Description" value={description} onChange={setDescription} />
-      <Button type="primary">Create ~community Remix</Button>
+      <div>
+        Create a ~community remix on Performance Boost
+      </div>
+      <Input label="Description" value={description} onChange={setDescription} />
+      <Box padding={{ top: 2 }}>
+        <Button type="primary">Create Remix</Button>
+      </Box>
     </>
   )
 }
@@ -118,15 +122,15 @@ const CommunityRemixes = () => {
       <Box as="header" padding={{ top: 2, bottom: 4 }}>
         <Header>Community Remixes</Header>
         <Flex align="stretch">
-          <Box padding={2}>
+          <Box padding={2} flex="1 1 auto">
             <NewRemix />
           </Box>
           
-          <Box padding={2} flex="1 0 auto" style={{ border: '2px solid red' }}>
+          <Box padding={2} flex="1 1 auto" style={{ border: '2px solid red' }}>
             <SwapButton />
           </Box>
           
-          <Box padding={2} flex="1 0 auto">
+          <Box padding={2} flex="1 1 auto">
             <Input type="text" label="GitHub username" value={githubUsername} onChange={setGithubUsername} />
           </Box>
         </Flex>

@@ -133,7 +133,6 @@ const byID = (items) => items.reduce((obj, item) => {
 
 // always returns { [id]: entity }, regardless of API type
 async function getEntities ({ persistentToken, entity, idType, value, relation }) {
-
   const encoded = encodeURIComponent(value)
   if (relation) {
     const { items } = await api.get(
@@ -142,7 +141,7 @@ async function getEntities ({ persistentToken, entity, idType, value, relation }
     )
     return byID(items)
   }
-  const items = await api.get(`/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}`, { persistentToken })
+  const items = await api.get(`/v1/${entity}/by/${idType}?${idType}=${encoded}`, { persistentToken })
   return byID(Object.values(items))
 }
 
@@ -167,7 +166,7 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
     return { status: 'ready', value: relationValues }    
   }
   
-  const result = state.resources.entities[relation][id]
+  const result = state.resources.entities[entity][id]
   if (!result || result.expires < now) return loading
   return result
 }
