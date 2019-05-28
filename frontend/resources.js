@@ -72,7 +72,8 @@ const { slice, reducer, actions } = createSlice({
       const expires = Date.now() + (1000 * 60 * 5)
       
       if (request.relation) {
-        state.indices[request.entity][request.relation] = Object.keys(response)
+        const id = request.value
+        state.indices[request.entity][request.relation][id] = Object.keys(response)
         const referencedEntity = resourceConfig[request.entity].references[request.relation]
         insertValues(state, response, referencedEntity, expires) 
       } else {
@@ -115,18 +116,19 @@ const byID = (items) => items.reduce((obj, item) => {
 // always returns { [id]: entity }, regardless of API type
 async function getEntities ({ persistentToken, entity, idType, value, relation }) {
   const params = {
+    mode: 'cors',
     headers: {
       'Authorization': persistentToken,
     }
   }
   const encoded = encodeURIComponent(value)
   if (relation) {
-    const res = await fetch(`${API_URL}/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
+    const res = await fetch(`${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
     if (!res.ok) throw new Error('request failed')
     const { items } = await res.json()
     return byID(items)
   }
-  const res = await fetch(`${API_URL}/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
+  const res = await fetch(`${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100`, params)
   if (!res.ok) throw new Error('request failed')
   const items = await res.json()
   return byID(Object.values(items))
@@ -136,37 +138,37 @@ const loading = { status: 'loading' }
 
 const lookup = ({ entity, idType, value, relation }) => (state) => {
   const now = Date.now()
-  const id = idType === 'id' ? value : state.index[getKey({ entity, idType, value })]
+  const id = idType === 'id' ? value : state.resources.indices[getKey({ entity, idType, value })]
   if (!id) return loading
   
   if (relation) {
-    const ids = state.indices[entity][relation][id]
+    const ids = state.resources.indices[entity][relation][id]
     if (!ids) return loading
     const relationValues = []
-    const referencedEntity = resourceConfig[entity].references[relation]
+    const referencedEntityType = resourceConfig[entity].references[relation]
     for (const itemID of ids) {
-      const entity = state.entities[referencedEntity][itemID]
-      if (!entity) return loading
-      const { expires, value } = entity
-      if (expires < now) return loading
-      relationValues.push(value)
+      const result = state.resources.entities[referencedEntityType][itemID]
+      if (!result) return loading
+      if (result.expires < now) return loading
+      relationValues.push(result.value)
     }
     return { status: 'ready', value: relationValues }    
   }
   
-  const entity = state.entities[relation][id]
-  if (!entity || entity.expires < now) return loading
-  return entity
+  const result = state.resources.entities[relation][id]
+  if (!result || result.expires < now) return loading
+  return result
 }
 
 export function useResource (entity, idType, value, relation) {
   const dispatch = useDispatch()
   const result = useSelector(lookup({ entity, idType, value, relation }))
+  console.log(result)
   useEffect(() => {
-    if (result.loading) {
+    if (result.status === 'loading') {
       dispatch(actions.requested({ entity, idType, value, relation }))
     }
-  }, [entity, idType, value, relation])
+  }, [result.status, entity, idType, value, relation])
   
   return result
 }
