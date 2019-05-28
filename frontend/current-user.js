@@ -47,7 +47,7 @@ export const currentUser = createSlice({
 })
 
 currentUser.middleware = [
-  after(matchTypes('app/mounted'), async (store) => {
+  after(matchTypes(appActions.mounted), async (store) => {
     const persistentToken = getFromStorage('persistentToken')
     try {
       const user = await getUserForPersistentToken(persistentToken)
@@ -56,8 +56,8 @@ currentUser.middleware = [
       store.dispatch(currentUser.actions.loadedLoggedOutUser())
     }
   }),
-  after(matchTypes(currentUser.actions.submittedEmail), (_, { payload: emailAddress }) => {
-    fetch(`${API_URL}/email/sendLoginEmail`, { 
+  after(matchTypes(currentUser.actions.submittedEmail), async (_, { payload: emailAddress, onError }) => {
+    const res = await fetch(`${API_URL}/email/sendLoginEmail`, { 
       method: 'POST', 
       body: JSON.stringify({ emailAddress }),
       mode: 'cors',
@@ -66,6 +66,7 @@ currentUser.middleware = [
         'Authorization': null,
       },
     })
+    if (!res.ok && onError) 
   }),
   after(matchTypes(currentUser.actions.submittedSignInCode), async (store, { payload: code }) => {
     const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })

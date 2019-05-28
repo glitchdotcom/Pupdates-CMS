@@ -73,12 +73,13 @@ const CodeForm = ({ onSubmit }) => {
 }
 
 const Login = () => {
-  const [status, setStatus] = useState('init') // init | submittedEmail
+  const [status, setStatus] = useState('init') // init | submittedEmail 
   const dispatch = useDispatch()
   const submitEmail = (email) => {
     setStatus('submittedEmail')
-    dispatch(currentUser.actions.submittedEmail(email)).catch(err => {
-      console.warn(err)
+    dispatch({ 
+      ...currentUser.actions.submittedEmail(email), 
+      onError: () => { console.error('email error') },
     })
   }
   const submitSigninCode = async (code) => {
