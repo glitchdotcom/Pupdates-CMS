@@ -32,7 +32,6 @@ const resourceConfig = {
       pinnedProjects: 'projects',
       deletedProjects: 'projects',
     },
-    // TODO: do something with user/emails?
   },
 }
 
@@ -45,7 +44,9 @@ function createInitialState (config) {
     for (const secondaryKey of secondaryKeys) {
       indices[entityName][secondaryKey] = {}
     }
-    for (const reference of )
+    for (const reference of Object.keys(references)) {
+      indices[entityName][reference] = {}
+    }
   }
   return { entities, indices }
 }
@@ -71,8 +72,9 @@ const { slice, reducer, actions } = createSlice({
       const expires = Date.now() + (1000 * 60 * 5)
       
       if (request.relation) {
-        state.relations[request.entity][request.relation] = Object.keys(response)
-        insertValues(state, response, request.relation, expires) 
+        state.indices[request.entity][request.relation] = Object.keys(response)
+        const referencedEntity = resourceConfig[request.entity].references[request.relation]
+        insertValues(state, response, referencedEntity, expires) 
       } else {
         insertValues(state, response, request.entity, expires) 
       }
@@ -80,9 +82,13 @@ const { slice, reducer, actions } = createSlice({
   }
 })
 
-// TODO: populate indices here
 function insertValues (state, response, entity, expires) {
   for (const [id, value] of Object.entries(response)) {
+    // populate indices
+    for (const secondaryKey of resourceConfig[entity].secondaryKeys) {
+      state.indices[entity][secondaryKey][value[secondaryKey]] = value.id
+    }
+    // populate actual data
     state.entities[entity][id] = { expires, value }
   }
 }
@@ -91,11 +97,12 @@ const getKey = ({ entity, idType, value, relation }) =>
   [entity, idType, value, relation].filter(x => x).join('/')
 
 const middleware = [
-  after(matchTypes(actions.requested), async (store, { payload: request }) => {
-    const state = store.getState()
-    if (state.resources.pendingRequests[getKey(request)]) return
-    const { persistentToken } = useCurrentUser.selector(state)
-    
+  after(matchTypes(actions.requested), (store, { payload: request }) => {
+    if (store.getState().resources.pendingRequests[getKey(request)]) return
+    store.dispatch(actions.fetched(request))
+  }),
+  after(matchTypes(actions.fetched), async (store, { payload: request }) => {    
+    const { persistentToken } = useCurrentUser.selector(store.getState())
     const response = await getEntities({ persistentToken, ...request })
     store.dispatch(actions.loaded({ request, response }))
   })
@@ -134,11 +141,12 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
   if (!id) return loading
   
   if (relation) {
-    const ids = state.relations[entity][relation][id]
+    const ids = state.indices[entity][relation][id]
     if (!ids) return loading
     const relationValues = []
+    const referencedEntity = resourceConfig[entity].references[relation]
     for (const itemID of ids) {
-      const entity = state.entities[relation][itemID]
+      const entity = state.entities[referencedEntity][itemID]
       if (!entity) return loading
       const { expires, value } = entity
       if (expires < now) return loading
