@@ -3,7 +3,10 @@ export const any = () => true
 
 export const not = (matchFn) => (action) => !matchFn(action)
 
-export const matchTypes = (...actionTypes) => (action) => action.type && actionTypes.includes(action.type)
+export const matchTypes = (...actionTypes) => {
+  const actionTypeStrings = actionTypes.map(t => String(t))
+  return (action) => action.type && actionTypeStrings.includes(action.type)
+}
 
 // middleware
 export function before (matchFn, handler) {
@@ -17,6 +20,6 @@ export function before (matchFn, handler) {
 export function after (matchFn, handler) {
   return (store) => (next) => (action) => {
     if (!matchFn(action)) return next(action)
-    handler(store, next(action))
+    return handler(store, next(action))
   }
 }

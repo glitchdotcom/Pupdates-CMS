@@ -19,7 +19,7 @@ function clearStorage (key) {
   localStorage.removeItem(key)
 }
 
-const currentUser = createSlice({
+export const currentUser = createSlice({
   slice: 'currentUser',
   initialState: {
     status: 'loading',
@@ -53,7 +53,6 @@ currentUser.middleware = [
       const user = await getUserForPersistentToken(persistentToken)
       store.dispatch(currentUser.actions.loadedLoggedInUser(user))
     } catch (e) {
-      console.warn({ error: e })
       store.dispatch(currentUser.actions.loadedLoggedOutUser())
     }
   }),
@@ -64,20 +63,16 @@ currentUser.middleware = [
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        // TODO: need auth header here?
+        'Authorization': null,
       },
     })
   }),
   after(matchTypes(currentUser.actions.submittedSignInCode), async (store, { payload: code }) => {
-    try {
-      const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
-      const { persistentToken } = await res.json()
-      const currentUser = await getUserForPersistentToken(persistentToken)
-      setStorage('persistentToken', persistentToken)
-      store.dispatch(currentUser.actions.loadedLoggedInUser(currentUser))
-    } catch (e) {
-      store.dispatch(currentUser.actions.loadedLoggedOutUser())
-    }
+    const res = await fetch(`${API_URL}/auth/email/${code}`, { method: 'POST', mode: 'cors' })
+    const { persistentToken } = await res.json()
+    const currentUser = await getUserForPersistentToken(persistentToken)
+    setStorage('persistentToken', persistentToken)
+    store.dispatch(currentUser.actions.loadedLoggedInUser(currentUser))
   }),
   after(matchTypes(currentUser.actions.loggedOut), async () => {
     clearStorage('persistentToken')
@@ -95,7 +90,7 @@ async function getUserForPersistentToken (persistentToken) {
   }
 }
 
-const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
+export const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
 
-const useCurrentUser = () => useSelector(store => store.currentUser.currentUser)
+export const useCurrentUser = () => useSelector(store => store.currentUser.currentUser)
 
