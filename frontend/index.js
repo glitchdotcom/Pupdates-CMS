@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect, useMemo } from '
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { configureStore, createSlice } from 'redux-starter-kit'
-import { Provider, } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import { matchTypes, after } from 'redux-aop'
 
 const app = {
@@ -14,20 +14,21 @@ const app = {
 const currentUser = createSlice({
   slice: 'currentUser',
   initialState: {
-    status: 'init',
+    status: 'loading',
     currentUser: null,
   },
   reducers: {
-    loggedIn: (state, { payload }) => ({
+    loadedLoggedInUser: (state, { payload }) => ({
       ...state,
-      state: 'ready',
+      status: 'loggedIn',
       currentUser: payload,
     }),
-    loggedOut: (state, { payload }) => ({
+    loadedLoggedOutUser: (state, { payload }) => ({
       ...state,
-      state: 'ready',
+      status: 'loggedOut',
       currentUser: null,
-    })
+    }),
+    loggedIn: (state) => ({ ...state, status: 'loading' })
   },
 })
 
@@ -36,12 +37,19 @@ currentUser.middleware = [
     const persistentToken = getFromStorage('persistentToken')
     try {
       const currentUser = getUserForPersistentToken(persistentToken)
-      store.dispatch(currentUser.actions.loggedIn(currentUser))
+      store.dispatch(currentUser.actions.loadedLoggedInUser(currentUser))
     } catch (e) {
-      store.dispatch(currentUser.actions.loggedOut())
+      store.dispatch(currentUser.actions.loadedLoggedOutUser())
     }
+  }),
+  after(matchTypes(currentUser.actions.loggedIn), (store, { payload: persistentToken }) => {
+    
   })
 ]
+
+const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
+
+
 
 const store = configureStore({
   reducers: {
@@ -74,14 +82,6 @@ function getFromStorage (key, defaultValue) {
 
 function setStorage (key, newValue) {
   localStorage.setItem(key, JSON.stringify(newValue))
-}
-
-function useLocalStorage (key, defaultValue = null) {
-  const [value, setValue] = useState(() => {
-    
-  })
-  
-  return [value, setAndPersistValue]
 }
 
 function useAsyncFunction (fn, ...deps) {
@@ -165,6 +165,7 @@ const Login = () => {
     }
     const { persistentToken } = await res.json()
     setPersistentToken(persistentToken)
+    actions.dispatch(currentUser.loggedIn)
     window.location.reload()
   }
   
@@ -316,11 +317,14 @@ const RecentProjects = () => {
 
 const App = () => {
   const dispatch = useDispatch()
+  const status = useLoggedInStatus()
   useEffect(() => {
     dispatch(app.actions.mounted())
   }, [])
-  // TODO: use current user status
-  return <div>Hello, world</div>
+  
+  if (status === 'loading') return <Loading/>
+  if (status === 'loggedOut') return <Login />
+  return <RecentProjects />
 }
 
 
