@@ -24,12 +24,14 @@ const configureStoreFromSlices = (...slices) => {
   }
   return configureStore({
     reducer: rootReducer,
-    middleware: (store) => (next) => (action) => {
-      const nextAction = next(action)
-      if (!nextAction.type || !rootHandlers[nextAction.type]) return
-      Promise.all(rootHandlers[nextAction.type](store, nextAction.payload))
-        .then(nextAction.onSuccess, nextAction.onError)
-    },
+    middleware: [
+      (store) => (next) => (action) => {
+        const nextAction = next(action)
+        if (!nextAction.type || !rootHandlers[nextAction.type]) return
+        Promise.all(rootHandlers[nextAction.type](store, nextAction.payload))
+          .then(nextAction.onSuccess, nextAction.onError)
+      }
+    ],
   })
 }
 

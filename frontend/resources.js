@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { createSlice } from 'redux-starter-kit'
 import { useSelector, useDispatch } from 'react-redux'
-import { after, matchTypes } from './redux-aop'
 import { useCurrentUser } from './current-user'
 import { api } from './app-core'
 
@@ -194,4 +193,4 @@ export function useChildResource (entity, id, relation) {
 
 export { actions }
 
-export default { slice, reducer, handlers }
+export default { slice, reducer, handlers,  }
