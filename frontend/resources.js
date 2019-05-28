@@ -3,7 +3,7 @@ import { createSlice } from 'redux-starter-kit'
 import { useSelector, useDispatch } from 'react-redux'
 import { after, matchTypes } from './redux-aop'
 import { useCurrentUser } from './current-user'
-import { API_URL } from './app-core'
+import { api } from './app-core'
 
 // TODO: do this datalog-style, with entity-attribute-value schema
 const resourceConfig = {
@@ -114,24 +114,12 @@ const middleware = [
   }),
   after(matchTypes(actions.deleted), (store, { payload: { entity, id } }) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
-    fetch(`${API_URL}/${entity}/${id}`, {
-      method: 'DELETE',
-      mode: 'cors',
-      headers: {
-        'Authorization': persistentToken,
-      }
-    })
+    api.delete(`/${entity}/${id}`, { persistentToken })
   }),
   after(matchTypes(actions.restartedProject), (store, { payload: id }) => {
     const project = store.getState().resources.entities.projects[id]
     const { persistentToken } = useCurrentUser.selector(store.getState())
-    fetch(`${API_URL}/projects/${project.domain}/stop`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Authorization': persistentToken,
-      }
-    })
+    api.post(`/projects/${project.domain}/stop`, { persistentToken })
   })
 ]
 
@@ -142,24 +130,16 @@ const byID = (items) => items.reduce((obj, item) => {
 
 // always returns { [id]: entity }, regardless of API type
 async function getEntities ({ persistentToken, entity, idType, value, relation }) {
-  const params = {
-    mode: 'cors',
-    headers: {
-      'Authorization': persistentToken,
-    }
-  }
+
   const encoded = encodeURIComponent(value)
   if (relation) {
-    const res = await fetch(
-      `${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100&orderDirection=DESC`, 
-      params)
-    if (!res.ok) throw new Error('request failed')
-    const { items } = await res.json()
+    const { items } = await api.get(
+      `/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}&limit=100&orderDirection=DESC`, 
+      { persistentToken }
+    )
     return byID(items)
   }
-  const res = await fetch(`${API_URL}/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}`, params)
-  if (!res.ok) throw new Error('request failed')
-  const items = await res.json()
+  const items = await api.get(`/v1/${entity}/by/${idType}/${relation}?${idType}=${encoded}`, { persistentToken })
   return byID(Object.values(items))
 }
 

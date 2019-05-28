@@ -1,7 +1,7 @@
 import { createSlice } from 'redux-starter-kit'
 import { useSelector } from 'react-redux'
 import { matchTypes, after } from './redux-aop'
-import { api, actions as appActions } from './app-core'
+import { api, actions as appActions, createSelectorWithHook } from './app-core'
 
 // localStorage
 
@@ -49,6 +49,7 @@ const { slice, reducer, actions } = createSlice({
 const middleware = [
   after(matchTypes(appActions.mounted), async (store) => {
     const persistentToken = getFromStorage('persistentToken')
+    if (!persistentToken) return store.dispatch(actions.loadedLoggedOutUser())
     try {
       const user = await getUserForPersistentToken(persistentToken)
       store.dispatch(actions.loadedLoggedInUser(user))
@@ -69,8 +70,7 @@ const middleware = [
     if (!res.ok && onError) onError(res)
   }),
   after(matchTypes(actions.submittedSignInCode), async (store, { payload: code }) => {
-    const res = await api.post(`/auth/email/${code}`, { method: 'POST', mode: 'cors' })
-    const { persistentToken } = await res.json()
+    const { persistentToken } = await api.post(`/auth/email/${code}`)
     const currentUser = await getUserForPersistentToken(persistentToken)
     setStorage('persistentToken', persistentToken)
     store.dispatch(actions.loadedLoggedInUser(currentUser))
@@ -81,10 +81,7 @@ const middleware = [
 ]
 
 async function getUserForPersistentToken (persistentToken) {
-  if (!persistentToken) throw new Error("No token provided")
-  const res = await fetch(`${API_URL}/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
-  if (!res.ok) throw new Error(res)
-  const data = await res.json()
+  const data = await api.get(`/v1/users/by/persistentToken?persistentToken=${persistentToken}`)
   return {
     ...data.undefined,
     persistentToken,
@@ -92,13 +89,6 @@ async function getUserForPersistentToken (persistentToken) {
 }
 
 export { actions }
-
-// use hook in app code, use selector in middleware 
-const createSelectorWithHook = (selector) => {
-  const hook = () => useSelector(selector)
-  hook.selector = selector
-  return hook
-}
 
 export const useLoggedInStatus = createSelectorWithHook(state => state.currentUser.status)
 export const useCurrentUser = createSelectorWithHook(state => state.currentUser.currentUser)
