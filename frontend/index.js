@@ -1,9 +1,9 @@
-import React, { createContext, useState, useContext, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { configureStore, createSlice } from 'redux-starter-kit'
 import { Provider, useDispatch, useSelector } from 'react-redux'
-import { matchTypes, after } from 'redux-aop'
+import { matchTypes, after } from './redux-aop'
 
 // localStorage
 
@@ -45,7 +45,7 @@ const currentUser = createSlice({
       status: 'loggedIn',
       currentUser: payload,
     }),
-    loadedLoggedOutUser: (state, { payload }) => ({
+    loadedLoggedOutUser: (state) => ({
       ...state,
       status: 'loggedOut',
       currentUser: null,
@@ -64,9 +64,10 @@ currentUser.middleware = [
   after(matchTypes('app/mounted'), async (store) => {
     const persistentToken = getFromStorage('persistentToken')
     try {
-      const currentUser = await getUserForPersistentToken(persistentToken)
-      store.dispatch(currentUser.actions.loadedLoggedInUser(currentUser))
+      const user = await getUserForPersistentToken(persistentToken)
+      store.dispatch(currentUser.actions.loadedLoggedInUser(user))
     } catch (e) {
+      console.warn({ error: e })
       store.dispatch(currentUser.actions.loadedLoggedOutUser())
     }
   }),
@@ -110,17 +111,14 @@ async function getUserForPersistentToken (persistentToken) {
 
 const useLoggedInStatus = () => useSelector(store => store.currentUser.status)
 
-
-
 const store = configureStore({
-  reducers: {
+  reducer: {
     currentUser: currentUser.reducer,
   },
   middleware: [...currentUser.middleware],
 })
 
-const useCurrentUser = () => useSelector(store => store.cur)
-
+const useCurrentUser = () => useSelector(store => store.currentUser.currentUser)
 
 function useAsyncFunction (fn, ...deps) {
   const [state, setState] = useState({ status: 'pending' })
@@ -308,9 +306,7 @@ const RecentProjects = () => {
               <tr key={project.id}>
                 <td>{project.domain}</td>
                 <td>{project.description}</td>
-                <td>{pr && (
-                    <a href={pr.url}>{pr.title}</a>
-                  )}</td>
+                <td>{pr && <a href={pr.url}>{pr.title}</a>}</td>
                 <td><ProjectActions project={project} /></td>
               </tr>
             )

@@ -14,7 +14,7 @@ export function before (matchFn, handler) {
   }
 }
 
-function after (matchFn, handler) {
+export function after (matchFn, handler) {
   return (store) => (next) => (action) => {
     if (!matchFn(action)) return next(action)
     handler(store, next(action))
