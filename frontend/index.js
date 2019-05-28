@@ -5,7 +5,7 @@ import { configureStore } from 'redux-starter-kit'
 import { Provider, useDispatch } from 'react-redux'
 
 import { actions as appActions } from './app-core'
-import currentUserSlice, { useCurrentUser, useLoggedInStatus } from './current-user'
+import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as currentUserActions } from './current-user'
 import resourcesSlice, { useChildResource, actions as resourceActions } from './resources'
 import Login from './login'
 
@@ -28,7 +28,7 @@ const configureStoreFromSlices = (...slices) => {
       (store) => (next) => (action) => {
         const nextAction = next(action)
         if (!nextAction.type || !rootHandlers[nextAction.type]) return
-        Promise.all(rootHandlers[nextAction.type](store, nextAction.payload))
+        Promise.all(rootHandlers[nextAction.type].map(handler => handler(store, nextAction.payload)))
           .then(nextAction.onSuccess, nextAction.onError)
       }
     ],
@@ -127,6 +127,15 @@ const SwapButton = () => {
   )
 }
  
+const PageHeader = () => {
+  const dispatch = useDispatch()
+  return (
+    <header>
+      <button onClick={() => dispatch(currentUserActions.loggedOut())}>log out</button>
+    </header>
+  )
+}
+
 const RecentProjects = () => {
   const currentUser = useCurrentUser()
   const { value: recentProjects } = useChildResource('users', currentUser.id, 'projects')
@@ -175,7 +184,12 @@ const App = () => {
   
   if (status === 'loading') return <Loading/>
   if (status === 'loggedOut') return <Login />
-  return <RecentProjects />
+  return (
+    <div>
+      <PageHeader />
+      <RecentProjects />
+    </div>
+  )
 }
 
 

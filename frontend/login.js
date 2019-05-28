@@ -57,11 +57,24 @@ const CodeForm = () => {
   )
 }
 
+const LoginPage = styled.section`
+  margin: 1em auto;
+  max-width: 300px;
+  border: 1px solid #eee;
+  padding: 1rem;
+`
+
 const Login = () => {
   const [status, setStatus] = useState('init') // init | submittedEmail 
   const submitEmail = () => {
     setStatus('submittedEmail')  
   }
+  
+  return (
+    <LoginPage>
+      {}
+    </LoginPage>
+  )
   
   if (status === 'init') return <EmailForm onSubmit={submitEmail} />
   return <CodeForm />

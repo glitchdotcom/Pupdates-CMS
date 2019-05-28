@@ -85,6 +85,7 @@ const { slice, reducer, actions } = createSlice({
       state.entities[entity][id] = undefined
     },
     restartedProject: (state) => state,
+    swappedProjects: (state) => state,
   }
 })
 
