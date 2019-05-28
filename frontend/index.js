@@ -2,26 +2,46 @@ import React, { createContext, useState, useContext, useEffect, useMemo } from '
 import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { configureStore, createSlice } from 'redux-starter-kit'
-import { Provider } from 'react-redux'
-import { matchTypes, after }
+import { Provider, } from 'react-redux'
+import { matchTypes, after } from 'redux-aop'
+
+const app = {
+  actions: {
+    mounted: () => ({ type: 'app/mounted' })
+  }
+}
 
 const currentUser = createSlice({
   slice: 'currentUser',
   initialState: {
     status: 'init',
-    persistentToken: null,
-    currentUser: {},
+    currentUser: null,
   },
   reducers: {
-    loadedUser: (state, { payload }) => ({
+    loggedIn: (state, { payload }) => ({
       ...state,
-      state: 'loaded',
+      state: 'ready',
       currentUser: payload,
+    }),
+    loggedOut: (state, { payload }) => ({
+      ...state,
+      state: 'ready',
+      currentUser: null,
     })
   },
 })
 
-currentUser.middleware = []
+currentUser.middleware = [
+  after(matchTypes('app/mounted'), async (store) => {
+    const persistentToken = getFromStorage('persistentToken')
+    try {
+      const currentUser = getUserForPersistentToken(persistentToken)
+      store.dispatch(currentUser.actions.loggedIn(currentUser))
+    } catch (e) {
+      store.dispatch(currentUser.actions.loggedOut())
+    }
+  })
+]
 
 const store = configureStore({
   reducers: {
@@ -46,16 +66,21 @@ async function getUserForPersistentToken (persistentToken) {
   }
 }
 
+function getFromStorage (key, defaultValue) {
+  const storedValue = localStorage.getItem(key)
+  if (storedValue) return JSON.parse(storedValue)
+  return defaultValue
+}
+
+function setStorage (key, newValue) {
+  localStorage.setItem(key, JSON.stringify(newValue))
+}
+
 function useLocalStorage (key, defaultValue = null) {
   const [value, setValue] = useState(() => {
-    const storedValue = localStorage.getItem(key)
-    if (storedValue) return JSON.parse(storedValue)
-    return defaultValue
+    
   })
-  const setAndPersistValue = (newValue) => {
-    setValue(newValue)
-    localStorage.setItem(key, JSON.stringify(newValue))
-  }
+  
   return [value, setAndPersistValue]
 }
 
@@ -289,6 +314,16 @@ const RecentProjects = () => {
   )
 }
 
+const App = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(app.actions.mounted())
+  }, [])
+  // TODO: use current user status
+  return <div>Hello, world</div>
+}
+
+
 const RootContainer = styled.div`
   font-family: sans-serif;
   color: #222;
@@ -296,16 +331,14 @@ const RootContainer = styled.div`
   margin: 0 auto;
 `
 
-const Main = () => {
+const AppContainer = () => {
   return (
     <Provider store={store}>
       <RootContainer>
-        <CurrentUserController>
-          <RecentProjects />
-        </CurrentUserController>
+        <App />
       </RootContainer>
     </Provider>
   )
 }
 
-ReactDOM.render(<Main />, document.querySelector('#app'))
+ReactDOM.render(<AppContainer />, document.querySelector('#app'))
