@@ -9,6 +9,7 @@ const { slice, reducer, actions } = createSlice({
       projects: {},
       users: {},
     },
+    indexes: {},
     relations: {
       users: {
         projects: {},
@@ -33,11 +34,11 @@ const { slice, reducer, actions } = createSlice({
       if (request.relation) {
         state.relations[request.entity][request.relation] = Object.keys(response)
         for (const key in response) {
-          state.entities[request.relation][key] = { status: 'ready', expires, value: response[key] }
+          state.entities[request.relation][key] = { expires, value: response[key] }
         }
       } else {
         for (const key in response) {
-          state.entities[request.entity][key] = { status: 'ready', expires, value: response[key] }
+          state.entities[request.entity][key] = { expires, value: response[key] }
         }
       }
     }
@@ -63,8 +64,20 @@ function getEntities ({ persistentToken, entity, idType, value, relation }) {
   
 }
 
-export function useResource (entity, idType, value, relation) {
-  
+export function useResource (entity, id, relation) {
+  const dispatch = useDispatch()
+  const result = useSelector(state => {
+    if (relation) {
+      const ids = state.relations[entity][relation][id]
+      if (!ids) return { status: 'loading' }
+      const 
+    }
+  })
+  useEffect(() => {
+     if (result.loading) {
+       
+     }
+  })
 }
 
 export default { slice, reducer, middleware }
