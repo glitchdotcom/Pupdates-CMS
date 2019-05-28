@@ -6,7 +6,7 @@ import { Provider, useDispatch } from 'react-redux'
 
 import { API_URL, actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus } from './current-user'
-import resourcesSlice, { useResource } from './resources'
+import resourcesSlice, { useResource, actions as resourceActions } from './resources'
 import Login from './login'
 
 const configureStoreFromSlices = (...slices) => {
@@ -50,42 +50,13 @@ function useAsyncFunction (fn, ...deps) {
 
 const Loading = () => <div>Loading...</div>
 
-const useAPI = () => {
-  const currentUser = useCurrentUser()
-  return useMemo(() => {
-    const apiWrapper = {
-      get: (path) => fetch(`${API_URL}${path}`, {
-        mode: 'cors',
-        headers: { 'Authorization': currentUser.persistentToken },
-      }).then(res => res.json()),
-      post: (path, body) => fetch(`${API_URL}${path}`, {
-        method: 'POST',
-        mode: 'cors',
-        body: body ? JSON.stringify(body) : undefined,
-        headers: { 
-          'Authorization': currentUser.persistentToken,
-          ...(body ? { 'Content-Type': 'application/json' } : {}),
-        },
-      }),
-      delete: (path) => fetch(`${API_URL}${path}`, {
-        method: 'DELETE',
-        mode: 'cors',
-        headers: { 
-          'Authorization': currentUser.persistentToken,
-        },
-      }),
-    }
-    return apiWrapper
-  }, [currentUser])
-}
-
 const ProjectActions = ({ project }) => {
-  const api = useAPI()
+  const dispatch = useDispatch()
   const restartProject = () => {
-    api.post(`/projects/${project.domain}/stop`)
+    dispatch(resourceActions.restartedProject(project.id))
   }
   const deleteProject = () => {
-    api.delete(`/projects/${project.id}`)
+    dispatch(resourceActions.deleted({ entity: 'projects', id: project.id }))
   }
   return (
     <div>

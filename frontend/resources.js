@@ -81,9 +81,10 @@ const { slice, reducer, actions } = createSlice({
         insertValues(state, response, request.entity, expires) 
       }
     },
-    deletedProject: (state, { payload: projectID }) => {
-      state.entities.projects[projectID] = undefined
+    deleted: (state, { payload: { entity, id } }) => {
+      state.entities[entity][id] = undefined
     },
+    restartedProject: (state) => state,
   }
 })
 
@@ -109,6 +110,27 @@ const middleware = [
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const response = await getEntities({ persistentToken, ...request })
     store.dispatch(actions.loaded({ request, response }))
+  }),
+  after(matchTypes(actions.deleted), (store, { payload: { entity, id } }) => {
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    fetch(`${API_URL}/${entity}/${id}`, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: {
+        'Authorization': persistentToken,
+      }
+    })
+  }),
+  after(matchTypes(actions.restartedProject), (store, { payload: id }) => {
+    const project = store.getState().resources.entities.projects[id]
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    fetch(`${API_URL}/projects/${project.domain}/stop`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Authorization': persistentToken,
+      }
+    })
   })
 ]
 
@@ -154,7 +176,7 @@ const lookup = ({ entity, idType, value, relation }) => (state) => {
     const referencedEntityType = resourceConfig[entity].references[relation]
     for (const itemID of ids) {
       const result = state.resources.entities[referencedEntityType][itemID]
-      if (!result) return loading
+      if (!result) continue
       if (result.expires < now) return loading
       relationValues.push(result.value)
     }
@@ -177,5 +199,7 @@ export function useResource (entity, idType, value, relation) {
   
   return result
 }
+
+export { actions }
 
 export default { slice, reducer, middleware }
