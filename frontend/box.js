@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/styled'
 
 const sizes = ['0', '0.25rem', '0.5rem', '1rem', '2rem', '4rem']
@@ -27,6 +26,10 @@ export const Flex = styled(Box)`
   flex-wrap: ${props => props.wrap ? 'wrap' : 'nowrap'};
   align-items: ${props => props.align || 'flex-start'};
   justify-content: ${props => props.justify || 'flex-start'};
+  margin: ${props => props.gap && `-${sizes[props.gap]}`}
+  & > * {
+    margin: ${props => props.gap && sizes[props.gap]}
+  }
 `
 
 export default Box

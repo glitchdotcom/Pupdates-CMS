@@ -111,9 +111,9 @@ const SwapButton = () => {
     })
   } 
   return (
-    <Flex align="center">
+    <Flex align="center" gap={2}>
       <Button type="dangerZone" onClick={confirmThenSwap}>Swap</Button>
-      <Box padding={{ left: 1 }}>{swapStatus}</Box>
+      <div>{swapStatus}</div>
     </Flex>
   )
 }
@@ -131,8 +131,8 @@ const CommunityRemixes = () => {
     <section>
       <Box as="header" padding={{ top: 2, bottom: 4 }}>
         <Header>Community Remixes</Header>
-        <Flex align="stretch">
-          <Box padding={2} flex="1 1 auto">
+        <Flex align="stretch" gap={2}>
+          <Box flex="1 1 auto">
             <NewRemix />
           </Box>
           
@@ -140,7 +140,7 @@ const CommunityRemixes = () => {
             <SwapButton />
           </Box>
           
-          <Box padding={2} flex="1 1 auto">
+          <Box flex="1 1 auto">
             <Input type="text" label="GitHub username" value={githubUsername} onChange={setGithubUsername} />
           </Box>
         </Flex>
