@@ -107,7 +107,7 @@ const SwapButton = () => {
     dispatch({
       ...resourceActions.swappedProjects({ source: 'community-staging', target: 'community' }),
       onSuccess: () => { setSwapStatus('ok') },
-      onError: () => { setSwapStatus('error') },
+      onError: () => { setSwapStatus('maybe error? check if it worked') },
     })
   } 
   return (
