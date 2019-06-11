@@ -136,5 +136,5 @@ const getAllPages = async (url) => {
   return results;
 };
 
-module.exports = { getHomeData };
+module.exports = { getHomeData, getAllPages };
 
