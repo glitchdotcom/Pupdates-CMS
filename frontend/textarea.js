@@ -12,15 +12,15 @@ const BaseTextArea = styled.textarea`
   width: 100%;
   border: 1px solid #eee;
   padding: 0.25rem;
-  min-height: 6rem;
+  min-height: ${({ minRows }) => minRows * 1.5}em;
 `
 
-const TextArea = ({ value, onChange, label }) => (
+const TextArea = ({ value, onChange, label, minRows = 4 }) => (
   <Label>
     <Box padding={{ bottom: 1 }}>
       {label}
     </Box>
-    <BaseTextArea value={value} onChange={(e) => onChange(e.target.value)} />
+    <BaseTextArea value={value} onChange={(e) => onChange(e.target.value)} minRows={minRows} />
   </Label>
 )
 

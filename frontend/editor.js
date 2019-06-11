@@ -63,7 +63,15 @@ const FeatureCallouts = ({ content }) => {
 
 const UnifiedStories = ({ content }) => (
   <Box>
-    
+    <Field>
+      <Input label="Headline" value={content.hed} />
+    </Field>
+    <Field>
+      <Input label="Dek" value={content.dek} /> 
+    </Field>
+    <Field>
+      <TextArea label="Summary (markdown)" value={content.summary} minRows={10} />
+    </Field>
   </Box>
 )
 
@@ -74,9 +82,14 @@ const Editor = () => (
     <FeatureCallouts content={exampleData.featureCallouts} />
     
     <SectionTitle>Unified Stories</SectionTitle>
+    <UnifiedStories content={exampleData.unifiedStories} />
+    
     <SectionTitle>Featured Embed</SectionTitle>
+    
     <SectionTitle>Apps We Love</SectionTitle>
+    
     <SectionTitle>Curated Collections</SectionTitle>
+    
     <SectionTitle>Start Building</SectionTitle>
   </section>
 )
