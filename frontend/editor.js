@@ -207,7 +207,7 @@ const FeaturedEmbed = () => (
         <Input label="Title" path={['featuredEmbed', 'title']}/>
       </Field>
       <Field>
-        <TextArea label="Description" path={['featuredEmbed', 'description']}/>
+        <TextArea label="Description" path={['featuredEmbed', 'description']} minRows={6}/>
       </Field>
       <Field>
         <Input label="Link url" path={['featuredEmbed', 'href']}/>
@@ -303,7 +303,7 @@ const Editor = () => {
   return (
     <Box as="section" padding={{bottom: 4}}>
       <Text as="h1" size={1}>
-        Glitch Home Editor
+        Glitch Community Home Editor
       </Text>
       <Text as="p">All changes auto-save</Text>
 

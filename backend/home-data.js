@@ -91,7 +91,7 @@ async function getFeaturedProjects(featuredProjects) {
 }
 
 async function getHomeData() {
-  const rawData = JSON.parse(await fs.readFile('./dist/home.json'))
+  const rawData = JSON.parse(await fs.readFile('.data/home.json'))
   
   const data = await allByKeys({
     cultureZine: getCultureZine(),

@@ -24,9 +24,6 @@ app.use((req, res, next) => {
 });
 
 app.get("/home.json", async (req, res) => {
-  console.log(req)
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   const data = await getHomeData();
   res.json(data);
 });
@@ -39,7 +36,7 @@ app.post('/home.json', async (req, res) => {
   const teams = await getAllPages(`/v1/users/by/persistentToken/teams?persistentToken=${persistentToken}&limit=100`);
   if (!teams.some((team) => team.id === GLITCH_TEAM_ID)) throw new Error('Forbidden');
     
-  await fs.promises.writeFile('dist/home.json', JSON.stringify(req.body));
+  await fs.promises.writeFile('.data/home.json', JSON.stringify(req.body));
   res.sendStatus(200);
 });
 
