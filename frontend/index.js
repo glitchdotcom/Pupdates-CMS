@@ -6,11 +6,10 @@ import { Provider, useDispatch } from 'react-redux'
 
 import { actions as appActions } from './app-core'
 import currentUserSlice, { useCurrentUser, useLoggedInStatus, actions as currentUserActions } from './current-user'
-import resourcesSlice from './resources'
 import Login from './login'
 import Button from './button'
 import Box, { Flex } from './box'
-import Editor from './editor'
+import Editor, { editorSlice } from './editor'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
@@ -40,10 +39,10 @@ const configureStoreFromSlices = (...slices) => {
 
 const store = configureStoreFromSlices(
   currentUserSlice,
-  resourcesSlice
+  editorSlice
 )
 
-const Loading = () => <div>Loading...</div>
+  const Loading = () => <div>Loading...</div>
 
 const PageHeader = () => {
   const dispatch = useDispatch()

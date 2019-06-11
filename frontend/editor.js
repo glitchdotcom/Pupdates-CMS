@@ -1,11 +1,11 @@
-import React, { cloneElement } from 'react'
+import React, { cloneElement, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSlice } from 'redux-starter-kit'
 
-import Input from './input'
-import TextArea from './textarea'
-import Image from './image'
+import BaseInput from './input'
+import BaseTextArea from './textarea'
+import BaseImage from './image'
 import Box, { Flex } from './box'
 import Text from './text'
 import exampleData from './example-data'
@@ -25,7 +25,7 @@ const { slice, reducer, actions } = createSlice({
     updatedField: (state, { payload: { path, value } }) => {
       const most = path.slice(0, -1)
       const last = path[path.length - 1]
-      get(state, most)[last] = value
+      get(state.data, most)[last] = value
     }
   },
 })
@@ -71,6 +71,9 @@ const connected = (Component) => ({ path, ...props }) => {
   const onChange = (value) => dispatch({ type: 'updatedHome', payload: { value, path } })
   return <Component {...props} value={value} onChange={onChange} />
 }
+
+const Input = connected(BaseInput)
+const TextArea = connected(BaseTextArea)
 
 const featureCalloutPreviewImages = {
   apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
@@ -215,7 +218,7 @@ const AppsWeLove = ({ content }) => (
 )
 
 const CuratedCollections = ({ content }) => (
-  <FlexList items={content} gap={1}>
+  <FlexList items={content} gap={1} getKey={item => item.fullUrl}>
     {item => (
       <Box>
         <Field>
@@ -237,7 +240,7 @@ const BuildingImage = styled(Image)`
 `
 
 const BuildingOnGlitch = ({ content }) => (
-  <FlexList items={content} gap={1}>
+  <FlexList items={content} gap={1} getKey={item => item.href}>
     {item => (
       <Box>
         <BuildingImage src={item.img} />
@@ -258,33 +261,44 @@ const BuildingOnGlitch = ({ content }) => (
   </FlexList>
 )
 
-const Editor = () => (
-  <section>
-    <Text as="h1" size={1}>
-      Glitch Home Editor
-    </Text>
-    <Text as="p">All changes auto-save</Text>
-    
-    <SectionTitle>Feature Callouts</SectionTitle>
-    <FeatureCallouts content={exampleData.featureCallouts} />
-    
-    <SectionTitle>Unified Stories</SectionTitle>
-    <UnifiedStories content={exampleData.unifiedStories} />
-    
-    <SectionTitle>Featured Embed</SectionTitle>
-    <FeaturedEmbed content={exampleData.featuredEmbed} />
-    
-    <SectionTitle>Apps We Love</SectionTitle>
-    <AppsWeLove content={exampleData.appsWeLove} />
-    
-    <SectionTitle>Curated Collections</SectionTitle>
-    <CuratedCollections content={exampleData.curatedCollections} />
-    
-    <SectionTitle>Start Building</SectionTitle>
-    <BuildingOnGlitch content={exampleData.buildingOnGlitch} />
-  </section>
-)
+const Loading = () => <div>Loading...</div>;
 
+const Editor = () => {
+  const dispatch = useDispatch()
+  const homeDataStatus = useSelector(state => state.homeData.status)
+  useEffect(() => {
+    dispatch(actions.loadedData(exampleData))
+  }, [])
+  
+  if (homeDataStatus === 'loading') return <Loading />
+  
+  return (
+    <section>
+      <Text as="h1" size={1}>
+        Glitch Home Editor
+      </Text>
+      <Text as="p">All changes auto-save</Text>
+
+      <SectionTitle>Feature Callouts</SectionTitle>
+      <FeatureCallouts content={exampleData.featureCallouts} />
+
+      <SectionTitle>Unified Stories</SectionTitle>
+      <UnifiedStories content={exampleData.unifiedStories} />
+
+      <SectionTitle>Featured Embed</SectionTitle>
+      <FeaturedEmbed content={exampleData.featuredEmbed} />
+
+      <SectionTitle>Apps We Love</SectionTitle>
+      <AppsWeLove content={exampleData.appsWeLove} />
+
+      <SectionTitle>Curated Collections</SectionTitle>
+      <CuratedCollections content={exampleData.curatedCollections} />
+
+      <SectionTitle>Start Building</SectionTitle>
+      <BuildingOnGlitch content={exampleData.buildingOnGlitch} />
+    </section>
+  )
+}
 
 export default Editor
 
