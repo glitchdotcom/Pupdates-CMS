@@ -9,17 +9,10 @@ import { useResource, useChildResource, actions as resourceActions } from './res
 import Button from './button'
 import Input from './input'
 import TextArea from './textarea'
-import ImageInput from './image-input'
-import 
+import Image from './image'
 import Box, { Flex } from './box'
 import exampleData from './example-data'
 
-
-const featureCalloutsReducer = createReducer([], {
-  update: (state, { payload: { id, value }}) => {
-    Object.assign(state.find(item => item.id === id), value)
-  }
-})
 
 const sizes = ['inherit', '3rem', '2rem', '1.5rem', '1rem', '0.8rem']
 
@@ -29,47 +22,40 @@ const Text = styled.div`
 `
 
 const SectionTitle = ({ children }) => (
-  <Box padding={{ y: 3 }}>
-    <Text size={1} weight="bold">{children}</Text>
+  <Box padding={{ top: 4, bottom: 1 }}>
+    <Text as="h1" size={2} weight="bold">{children}</Text>
   </Box>
 )
 
 const SubTitle = ({ children }) => (
   <Box padding={{ y: 2 }}>
-    <Text size={2} weight="bold">{children}</Text>
+    <Text as="h2" size={3} weight="bold">{children}</Text>
   </Box>
 )
 
 const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
 
-const FeatureCallout = ({ value, onChange }) => (
-  <Box flex="1 0 auto">
-    <SubTitle>{value.id}</SubTitle>
-    <Field>
-      <Input label="Label" value={value.label} onChange={(label) => onChange({ label })}/>
-    </Field>
-    <Field>
-      <TextArea label="Description" value={value.description} onChange={(description) => onChange({ description })} />
-    </Field>
-    <Field>
-      <Input label="Call to action" value={value.cta} onChange={(cta) => onChange({ cta })}/>
-    </Field>
-    <Field>
-      <Input label="Link url" value={value.href} onChange={(href) => onChange({ href })}/>
-    </Field>
-  </Box>
+const FeatureCallouts = ({ content }) =>  (
+  <List as={Flex} gap={1} item={content}>
+    {item => (
+      <Box flex="1 0 auto">
+        <SubTitle>{item.id}</SubTitle>
+        <Field>
+          <Input label="Label" value={item.label}/>
+        </Field>
+        <Field>
+          <TextArea label="Description" value={item.description} />
+        </Field>
+        <Field>
+          <Input label="Call to action" value={item.cta} />
+        </Field>
+        <Field>
+          <Input label="Link url" value={item.href} />
+        </Field>
+      </Box>
+    )}
+  </List>
 )
-
-const FeatureCallouts = ({ content }) => {
-  const [state, dispatch] = useReducer(featureCalloutsReducer, content)
-  return (
-    <Flex gap={1}>
-      {state.map(item => (
-        <FeatureCallout key={item.id} value={item} onChange={(value) => dispatch({ type: 'update', payload: { id: item.id, value } })} />
-      ))}
-    </Flex>
-  )
-}
 
 const RelatedContent = ({ item }) => (
   <Box padding={{ top: 2, bottom: 1 }}>
@@ -102,17 +88,28 @@ const UnifiedStories = ({ content }) => (
       <Input label="Dek" value={content.dek} /> 
     </Field>
     <Field>
-      <ImageInput label="Preview image" src={content.featuredImage} alt={content.featuredImageDescription} />
+      <Flex gap={1}>
+        <Box flex="0 1 50%">
+          <Input label="Preview image" value={content.featuredImage} />
+          <Field>
+            <Input label="Description" value={content.featuredImageDescription} />
+          </Field>
+         <Field>
+            <Input label="Link url" value={content.href} /> 
+          </Field>
+          <Field>
+            <Input label="Link text" value={content.cta} /> 
+          </Field>
+        </Box>
+        <Box flex="0 1 50%">
+          <Image src={content.featuredImage} alt={content.featuredImageDescription} />
+        </Box>
+      </Flex>
     </Field>
     <Field>
       <TextArea label="Summary (markdown)" value={content.summary} minRows={6} />
     </Field>
-    <Field>
-      <Input label="Link url" value={content.href} /> 
-    </Field>
-    <Field>
-      <Input label="Link text" value={content.cta} /> 
-    </Field>
+   
     <SubTitle>Related Content</SubTitle>
     <List items={content.relatedContent}>
       {item => <RelatedContent item={item} />}
@@ -162,14 +159,22 @@ const FeaturedEmbed = ({ content }) => (
 const AppsWeLove = ({ content }) => (
   <List items={content}>
     {(item) => (
-      <Box>
-        <Field>
-          <Input label="App domain" value={item.domain}/>
-        </Field>
-        <Field>
-          <ImageInput label="Preview image" src={item.img} alt={item.title} />
-        </Field>
-      </Box>
+      <Flex gap={1}>
+        <Box flex="0 1 50%">
+          <Field>
+            <Input label="Title" value={item.title} />
+          </Field>
+          <Field>
+            <Input label="App domain" value={item.domain}/>
+          </Field>
+          <Field>
+            <Input label="Preview image" value={item.img} />
+          </Field>
+        </Box>
+        <Box flex="0 1 50%">
+          <Image src={item.img} alt={item.title} />
+        </Box>
+      </Flex>
     )}
   </List>
 )
