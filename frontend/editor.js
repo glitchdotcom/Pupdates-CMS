@@ -45,6 +45,16 @@ const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
 
+const connected = (Component) => ({ path, ...props }) => {
+  const value = useSelector(state => get(state.formData, path))
+  const dispatch = useDispatch()
+  const 
+}
+  <Component {...props} value={get(value, path)} onChagne
+)
+
+
+
 const featureCalloutPreviewImages = {
   apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
   create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
@@ -55,7 +65,7 @@ const FeatureCallouts = ({ content }) =>  (
   <FlexList gap={1} items={content}>
     {item => (
       <Box>
-        <SubTitle>{item.id}</SubTitle>
+        <Image src={featureCalloutPreviewImages[item.id]} alt=""/>
         <Field>
           <Input label="Title" value={item.label}/>
         </Field>
