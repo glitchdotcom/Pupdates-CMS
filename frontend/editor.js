@@ -24,23 +24,20 @@ const sizes = ['inherit', '3rem', '2rem', '1.5rem', '1rem', '0.8rem']
 
 const Text = styled.div`
   font-size: ${({ size }) => sizes[size || 0]};
-  font-weight: #{({ weight }) => weight || 'inherit'};
+  font-weight: ${({ weight }) => weight || 'inherit'};
 `
 
 const SectionTitle = ({ children }) => (
-  <Box p></Box>
+  <Box padding={{ y: 3 }}>
+    <Text size={1} weight="bold">{children}</Text>
+  </Box>
 )
 
-
-const SectionTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 1rem 0;
-`
-
-const SubTitle = styled.h2`
-  font-weight: bold;
-`
+const SubTitle = ({ children }) => (
+  <Box padding={{ y: 2 }}>
+    <Text size={2} weight="bold">{children}</Text>
+  </Box>
+)
 
 const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
 
@@ -122,6 +119,38 @@ const UnifiedStories = ({ content }) => (
   </Box>
 )
 
+const EmbedPreview = () => (
+  <EmbedIframe
+    title="embed"
+    src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
+    alt={`${domain} on Glitch`}
+    allow="geolocation; microphone; camera; midi; encrypted-media"
+    height="100%"
+    width="100%"
+    border="0"
+    allowvr="yes"
+  />
+)
+
+const FeaturedEmbed = ({ content }) => (
+  <Box>
+    <Field>
+      <Input label="Title" value={content.title}/>
+    </Field>
+    <Field>
+      <TextArea label="Description" value={content.description}/>
+    </Field>
+    <Field>
+      <Input label="Link url" value={content.href}/>
+    </Field>
+    <Field>
+      <Input label="App domain" value={content.domain}/>
+      <EmbedPreview domain={content.domain} />
+    </Field>
+  </Box>
+)
+
+
 const Editor = () => (
   <section>
     <SectionTitle>Feature Callouts</SectionTitle>
@@ -131,6 +160,7 @@ const Editor = () => (
     <UnifiedStories content={exampleData.unifiedStories} />
     
     <SectionTitle>Featured Embed</SectionTitle>
+    <FeaturedEmbed 
     
     <SectionTitle>Apps We Love</SectionTitle>
     
