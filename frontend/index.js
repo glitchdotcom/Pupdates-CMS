@@ -10,6 +10,7 @@ import resourcesSlice from './resources'
 import Login from './login'
 import Button from './button'
 import Box, { Flex } from './box'
+import Editor from './editor'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
@@ -69,6 +70,7 @@ const App = () => {
   return (
     <div>
       <PageHeader />
+      <Editor />
     </div>
   )
 }

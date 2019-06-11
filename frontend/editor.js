@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
+improt { createReducer } from 'redux-starter-kit'
 
 import { useAsyncFunction } from './app-core'
 import { useCurrentUser } from './current-user'
@@ -175,5 +176,21 @@ const CommunityRemixes = () => {
   )
 }
 
-export default CommunityRemixes
+const featureCalloutsReducer = ({
+  add
+})
+
+const FeatureCallouts = ({ content }) => {
+  const [state, dispatch] = useReducer(featureCalloutsReducer, content)
+} 
+
+const Editor = () => (
+  <section>
+    hello, world!
+  </section>
+)
+
+
+
+export default Editor
 

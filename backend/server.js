@@ -16,22 +16,22 @@ app.use(express.json());
 
 app.use(express.static("dist/"));
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
-app.get("/home.json", (req, res) => {
-  res.sendFile('home.json', { root: 'dist' });
-});
+// app.get("/home.json", (req, res) => {
+//   res.sendFile('home.json', { root: 'dist' });
+// });
 
-app.patch('/home.json', async (req, res) => {
-  // TODO: validate auth header
+// app.patch('/home.json', async (req, res) => {
+//   // TODO: validate auth header
   
-  await fs.promises.writeFile('dist/home.json', req.body);
-  res.sendStatus(200);
-});
+//   await fs.promises.writeFile('dist/home.json', req.body);
+//   res.sendStatus(200);
+// });
 
 // if a file is not found in dist/, then serve dist/index.html.
 app.get("*", wrap(async (req, res) => {
