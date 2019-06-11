@@ -13,13 +13,21 @@ import Image from './image'
 import Box, { Flex } from './box'
 import exampleData from './example-data'
 
-
 const sizes = ['inherit', '3rem', '2rem', '1.5rem', '1rem', '0.8rem']
 
 const Text = styled.div`
   font-size: ${({ size }) => sizes[size || 0]};
   font-weight: ${({ weight }) => weight || 'inherit'};
 `
+
+const withProps = (Component, baseProps) => (props) => <Component {...baseProps} {...props} />
+
+const compose = (element) => {
+  const { type, } = 
+  
+}
+
+console.log(<Box padding={1} />)
 
 const SectionTitle = ({ children }) => (
   <Box padding={{ top: 4, bottom: 1 }}>
@@ -36,7 +44,7 @@ const SubTitle = ({ children }) => (
 const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
 
 const FeatureCallouts = ({ content }) =>  (
-  <List as={Flex} gap={1} item={content}>
+  <FlexList gap={1} items={content}>
     {item => (
       <Box flex="1 0 auto">
         <SubTitle>{item.id}</SubTitle>
@@ -54,7 +62,7 @@ const FeatureCallouts = ({ content }) =>  (
         </Field>
       </Box>
     )}
-  </List>
+  </FlexList>
 )
 
 const RelatedContent = ({ item }) => (
@@ -71,13 +79,15 @@ const RelatedContent = ({ item }) => (
   </Box>
 )
 
-const List = ({ items, children, ...props }) => (
+const List = ({ items, children, getKey = (x) => x.id, itemComponent: Item = 'li', ...props }) => (
   <Box as="ul" {...props}>
     {items.map(item => (
-      <li key={item.id}>{children(item)}</li>
+      <Item key={getKey(item)}>{children(item)}</Item>
     ))}
   </Box>
 )
+
+const FlexList = Flex.withComponent(List)
 
 const UnifiedStories = ({ content }) => (
   <Box>
@@ -157,7 +167,7 @@ const FeaturedEmbed = ({ content }) => (
 )
 
 const AppsWeLove = ({ content }) => (
-  <List items={content}>
+  <List items={content} getKey={(x) => x.domain}>
     {(item) => (
       <Flex gap={1}>
         <Box flex="0 1 50%">
