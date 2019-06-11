@@ -55,7 +55,7 @@ const FeatureCallouts = ({ content }) =>  (
       <Box>
         <SubTitle>{item.id}</SubTitle>
         <Field>
-          <Input label="Label" value={item.label}/>
+          <Input label="Title" value={item.label}/>
         </Field>
         <Field>
           <TextArea label="Description" value={item.description} />
@@ -193,10 +193,36 @@ const CuratedCollections = ({ content }) => (
           <Input label="Title" value={item.title} />
         </Field>
         <Field>
-          <Input label="Description" value={item.domain}/>
+          <TextArea label="Description" value={item.description}/>
         </Field>
         <Field>
-          <Input label="Preview image" value={item.img} />
+          <Input label="Collection url" value={item.fullUrl} />
+        </Field>
+      </Box>
+    )}
+  </FlexList>
+)
+
+const BuildingImage = styled(Image)`
+  height: 100px;
+`
+
+const BuildingOnGlitch = ({ content }) => (
+  <FlexList items={content} gap={1}>
+    {item => (
+      <Box>
+        <BuildingImage src={item.img} />
+        <Field>
+          <Input label="Title" value={item.title}/>
+        </Field>
+        <Field>
+          <TextArea label="Description" value={item.description} />
+        </Field>
+        <Field>
+          <Input label="Call to action" value={item.cta} />
+        </Field>
+        <Field>
+          <Input label="Link url" value={item.href} />
         </Field>
       </Box>
     )}
@@ -218,8 +244,10 @@ const Editor = () => (
     <AppsWeLove content={exampleData.appsWeLove} />
     
     <SectionTitle>Curated Collections</SectionTitle>
+    <CuratedCollections content={exampleData.curatedCollections} />
     
     <SectionTitle>Start Building</SectionTitle>
+    <BuildingOnGlitch content={exampleData.buildingOnGlitch} />
   </section>
 )
 
