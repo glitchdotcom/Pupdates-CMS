@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
-improt { createReducer } from 'redux-starter-kit'
+import { createReducer } from 'redux-starter-kit'
 
 import { useAsyncFunction } from './app-core'
 import { useCurrentUser } from './current-user'
 import { useResource, useChildResource, actions as resourceActions } from './resources'
 import Button from './button'
 import Input from './input'
+import Textarea from './textarea'
 import Box, { Flex } from './box'
 
 
@@ -177,16 +178,36 @@ const CommunityRemixes = () => {
 }
 
 const featureCalloutsReducer = ({
-  add
+  update: (state, { payload: { id, value }}) => {
+    Object.assign(state.find(item => item.id === id), value)
+  }
 })
+
+const FeatureCallout = ({ value, onChange }) => (
+  <div>
+    <h2>{value.id}</h2>
+    <Input label="label" value={value.label} onChange={(label) => onChange({ label })}/>
+    <TextArea label="description" value={value.description} onChange={(description) => onChange({ description })} />
+    <Input label="cta" value={value.cta} onChange={(cta) => onChange({ cta })}/>
+  </div>
+)
 
 const FeatureCallouts = ({ content }) => {
   const [state, dispatch] = useReducer(featureCalloutsReducer, content)
-} 
+  return (
+    <div>
+      {state.map(item => (
+        <FeatureCallout key={item.id} value={item} onChange={(value) => dispatch({ type: 'update', payload: { id: item.id, value } })} />
+      ))}
+    </div>
+  )
+}
+
+const defaultContent = [{ id: 'apps' }, { id: 'create' }, { id: 'teams' }]
 
 const Editor = () => (
   <section>
-    hello, world!
+    <FeatureCallouts content={defaultContent} />
   </section>
 )
 
