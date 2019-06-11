@@ -28,7 +28,7 @@
     "parcel-plugin-eslint": "^1.0.4"
   },
   "engines": {
-    "node": "11.x"
+    "node": "12.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/parcel"

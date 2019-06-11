@@ -10,7 +10,6 @@ import resourcesSlice from './resources'
 import Login from './login'
 import Button from './button'
 import Box, { Flex } from './box'
-import CommunityRemixes from './community-remixes'
 
 const configureStoreFromSlices = (...slices) => {
   const rootReducer = {}
@@ -70,7 +69,6 @@ const App = () => {
   return (
     <div>
       <PageHeader />
-      <CommunityRemixes />
     </div>
   )
 }
