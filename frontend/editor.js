@@ -10,6 +10,7 @@ import Button from './button'
 import Input from './input'
 import TextArea from './textarea'
 import ImageInput from './image-input'
+import 
 import Box, { Flex } from './box'
 import exampleData from './example-data'
 
@@ -119,35 +120,58 @@ const UnifiedStories = ({ content }) => (
   </Box>
 )
 
-const EmbedPreview = () => (
-  <EmbedIframe
+const EmbedIFrame = styled.iframe`
+  display: block;
+  width: 100%;
+  height: 400px;
+  border: 0;
+`
+
+const EmbedPreview = ({ domain}) => (
+  <EmbedIFrame
     title="embed"
     src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
     alt={`${domain} on Glitch`}
     allow="geolocation; microphone; camera; midi; encrypted-media"
-    height="100%"
-    width="100%"
-    border="0"
     allowvr="yes"
   />
 )
 
 const FeaturedEmbed = ({ content }) => (
-  <Box>
-    <Field>
-      <Input label="Title" value={content.title}/>
-    </Field>
-    <Field>
-      <TextArea label="Description" value={content.description}/>
-    </Field>
-    <Field>
-      <Input label="Link url" value={content.href}/>
-    </Field>
-    <Field>
-      <Input label="App domain" value={content.domain}/>
+  <Flex gap={2}>
+    <Box flex="1 0 auto">
+      <Field>
+        <Input label="Title" value={content.title}/>
+      </Field>
+      <Field>
+        <TextArea label="Description" value={content.description}/>
+      </Field>
+      <Field>
+        <Input label="Link url" value={content.href}/>
+      </Field>
+      <Field>
+        <Input label="App domain" value={content.domain}/>
+      </Field>
+    </Box>
+    <Box flex="1 0 auto">
       <EmbedPreview domain={content.domain} />
-    </Field>
-  </Box>
+    </Box>
+  </Flex>
+)
+
+const AppsWeLove = ({ content }) => (
+  <List items={content}>
+    {(item) => (
+      <Box>
+        <Field>
+          <Input label="App domain" value={item.domain}/>
+        </Field>
+        <Field>
+          <ImageInput label="Preview image" src={item.img} alt={item.title} />
+        </Field>
+      </Box>
+    )}
+  </List>
 )
 
 
@@ -160,9 +184,10 @@ const Editor = () => (
     <UnifiedStories content={exampleData.unifiedStories} />
     
     <SectionTitle>Featured Embed</SectionTitle>
-    <FeaturedEmbed 
+    <FeaturedEmbed content={exampleData.featuredEmbed} />
     
     <SectionTitle>Apps We Love</SectionTitle>
+    <AppsWeLove content={exampleData.appsWeLove} />
     
     <SectionTitle>Curated Collections</SectionTitle>
     
