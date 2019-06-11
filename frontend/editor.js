@@ -31,7 +31,6 @@ const FeatureCalloutTitle = styled.h2`
 
 const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
 
-
 const FeatureCallout = ({ value, onChange }) => (
   <Box flex="1 0 auto">
     <FeatureCalloutTitle>{value.id}</FeatureCalloutTitle>
