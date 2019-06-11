@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { cloneElement } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { createReducer } from 'redux-starter-kit'
@@ -20,33 +20,39 @@ const Text = styled.div`
   font-weight: ${({ weight }) => weight || 'inherit'};
 `
 
-const withProps = (Component, baseProps) => (props) => <Component {...baseProps} {...props} />
+const compose = (...baseElements) => baseElements
+  .map(element => (props) => cloneElement(element, props))
+  .reduce((Parent, Child) => ({ children, ...props }) => <Parent {...props}><Child>{children}</Child></Parent>)
 
-const compose = (element) => {
-  const { type, } = 
-  
-}
+          
+const SectionTitle = compose(
+  <Box padding={{ top: 4, bottom: 1 }} />,
+  <Text as="h1" size={2} weight="bold" />
+)
 
-console.log(<Box padding={1} />)
+const SubTitle = compose(
+  <Box padding={{ y: 2 }}/>,
+  <Text as="h2" size={3} weight="bold"/>
+)
 
-const SectionTitle = ({ children }) => (
-  <Box padding={{ top: 4, bottom: 1 }}>
-    <Text as="h1" size={2} weight="bold">{children}</Text>
+const List = ({ items, children, getKey = (x) => x.id, itemComponent: Item = 'li', ...props }) => (
+  <Box as="ul" {...props}>
+    {items.map(item => (
+      <Item key={getKey(item)}>{children(item)}</Item>
+    ))}
   </Box>
 )
 
-const SubTitle = ({ children }) => (
-  <Box padding={{ y: 2 }}>
-    <Text as="h2" size={3} weight="bold">{children}</Text>
-  </Box>
-)
+const FlexListBase = Flex.withComponent(List)
+const FlexItem = compose(<Box as="li" flex="1 0 auto" />)
+const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
-const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
+const Field = compose(<Box padding={{top: 2}}/>)
 
 const FeatureCallouts = ({ content }) =>  (
   <FlexList gap={1} items={content}>
     {item => (
-      <Box flex="1 0 auto">
+      <Box>
         <SubTitle>{item.id}</SubTitle>
         <Field>
           <Input label="Label" value={item.label}/>
@@ -78,16 +84,6 @@ const RelatedContent = ({ item }) => (
     </Field>
   </Box>
 )
-
-const List = ({ items, children, getKey = (x) => x.id, itemComponent: Item = 'li', ...props }) => (
-  <Box as="ul" {...props}>
-    {items.map(item => (
-      <Item key={getKey(item)}>{children(item)}</Item>
-    ))}
-  </Box>
-)
-
-const FlexList = Flex.withComponent(List)
 
 const UnifiedStories = ({ content }) => (
   <Box>
@@ -189,6 +185,23 @@ const AppsWeLove = ({ content }) => (
   </List>
 )
 
+const CuratedCollections = ({ content }) => (
+  <FlexList items={content} gap={1}>
+    {item => (
+      <Box>
+        <Field>
+          <Input label="Title" value={item.title} />
+        </Field>
+        <Field>
+          <Input label="Description" value={item.domain}/>
+        </Field>
+        <Field>
+          <Input label="Preview image" value={item.img} />
+        </Field>
+      </Box>
+    )}
+  </FlexList>
+)
 
 const Editor = () => (
   <section>
