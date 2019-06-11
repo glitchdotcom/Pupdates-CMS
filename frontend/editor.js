@@ -42,8 +42,8 @@ const handlers = {
   [actions.updatedField]: debounce(async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const state = store.getState().homeData.data
-    axios.post()
-    console.log('saving', state, persistentToken)
+    await axios.post('/home.json', state, { headers: { Authorization: persistentToken } })
+    console.log('updated ok')
   }, 3000)
 }
 
