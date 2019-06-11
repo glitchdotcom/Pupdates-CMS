@@ -1,20 +1,38 @@
 import React, { cloneElement } from 'react'
 import styled from '@emotion/styled'
-import { useDispatch } from 'react-redux'
-import { createReducer } from 'redux-starter-kit'
+import { useSelector, useDispatch } from 'react-redux'
+import { createSlice } from 'redux-starter-kit'
 
 import Input from './input'
 import TextArea from './textarea'
 import Image from './image'
 import Box, { Flex } from './box'
+import Text from './text'
 import exampleData from './example-data'
 
-const sizes = ['inherit', '3rem', '2rem', '1.5rem', '1rem', '0.8rem']
 
-const Text = styled.div`
-  font-size: ${({ size }) => sizes[size || 0]};
-  font-weight: ${({ weight }) => weight || 'inherit'};
-`
+const { slice, reducer, actions } = createSlice({
+  slice: 'homeData',
+  initialState: {
+    status: 'loading',
+    data: null,
+  },
+  reducers: {
+    loadedData: (state, { payload }) => ({
+      status: 'ready',
+      data: payload,
+    }),
+    updatedField: (state, { payload: { path, value } }) => {
+      const most = path.slice(0, -1)
+      const last = path[path.length - 1]
+      get(state, most)[last] = value
+    }
+  },
+})
+
+const handlers = {}
+
+export const editorSlice = { slice, reducer, actions, handlers }
 
 const compose = (...baseElements) => baseElements
   .map(element => (props) => cloneElement(element, props))
@@ -45,15 +63,14 @@ const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
 
+const get = (object, path) => path.reduce((target, key) => target[key], object)
+
 const connected = (Component) => ({ path, ...props }) => {
-  const value = useSelector(state => get(state.formData, path))
+  const value = useSelector(state => get(state.homeData, path))
   const dispatch = useDispatch()
-  const 
+  const onChange = (value) => dispatch({ type: 'updatedHome', payload: { value, path } })
+  return <Component {...props} value={value} onChange={onChange} />
 }
-  <Component {...props} value={get(value, path)} onChagne
-)
-
-
 
 const featureCalloutPreviewImages = {
   apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
