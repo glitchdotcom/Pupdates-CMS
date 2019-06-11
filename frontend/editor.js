@@ -9,6 +9,7 @@ import { useResource, useChildResource, actions as resourceActions } from './res
 import Button from './button'
 import Input from './input'
 import TextArea from './textarea'
+import ImageInput from './image-input'
 import Box, { Flex } from './box'
 import exampleData from './example-data'
 
@@ -67,6 +68,9 @@ const UnifiedStories = ({ content }) => (
     </Field>
     <Field>
       <Input label="Dek" value={content.dek} /> 
+    </Field>
+    <Field>
+      <ImageInput label="Preview image" src={content.featuredImage} alt={content.featuredImageDescription} />
     </Field>
     <Field>
       <TextArea label="Summary (markdown)" value={content.summary} minRows={10} />
