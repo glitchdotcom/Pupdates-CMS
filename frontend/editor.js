@@ -64,7 +64,7 @@ const FeatureCallouts = ({ content }) => {
 const UnifiedStories = ({ content }) => (
   <Box>
     <Field>
-      <Input label="Headline" value={content.hed} />
+      <TextArea label="Headline" value={content.hed} />
     </Field>
     <Field>
       <Input label="Dek" value={content.dek} /> 
@@ -93,7 +93,6 @@ const Editor = () => (
     <SectionTitle>Start Building</SectionTitle>
   </section>
 )
-
 
 
 export default Editor
