@@ -62,25 +62,26 @@ const FeatureCallouts = ({ content }) => {
 }
 
 const RelatedContent = ({ item }) => (
-  <Box>
+  <Box padding={{ top: 2, bottom: 1 }}>
     <Field>
-      <Input label="Title" value={item.title} />
+      <Input label="Title" value={item.title} condensed />
     </Field>
     <Field>
-      <Input label="Source" value={item.source} />
+      <Input label="Source" value={item.source} condensed />
     </Field>
     <Field>
-      <Input label="Link url" value={item.href} />
+      <Input label="Link url" value={item.href} condensed />
     </Field>
   </Box>
 )
 
 const List = ({ items, children, ...props }) => (
-  <ul {...props}>
-    {}
-  </ul>
+  <Box as="ul" {...props}>
+    {items.map(item => (
+      <li key={item.id}>{children(item)}</li>
+    ))}
+  </Box>
 )
-
 
 const UnifiedStories = ({ content }) => (
   <Box>
@@ -103,9 +104,9 @@ const UnifiedStories = ({ content }) => (
       <Input label="Link text" value={content.cta} /> 
     </Field>
     <SubTitle>Related Content</SubTitle>
-    <ul>{content.relatedContent.map(item => (
-      <li key={id}></li>  
-    ))}</ul>
+    <List items={content.relatedContent}>
+      {item => <RelatedContent item={item} />}
+    </List>
   </Box>
 )
 
