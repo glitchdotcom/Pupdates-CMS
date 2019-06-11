@@ -21,9 +21,10 @@ const Image = ({ src, defaultSrc, ...props }) => {
 const ImageInput = ({ label, src, alt, onChangeSrc, onChangeAlt }) => (
   <Flex gap={1}>
     <Box flex="0 1 50%">
-      <div>{label}</div>
-      <Input label="image" value={src} onChange={onChangeSrc} />
-      <Input label="description" value={alt} onChange={onChangeAlt} />
+      <Input label={label} value={src} onChange={onChangeSrc} />
+      <Box padding={{ top: 2 }}>
+        <Input label="description" value={alt} onChange={onChangeAlt} />
+      </Box>
     </Box>
     <Box flex="0 1 50%">
       <Image src={src} alt={alt} />

@@ -26,7 +26,7 @@ const SectionTitle = styled.h1`
   padding: 1rem 0;
 `
 
-const FeatureCalloutTitle = styled.h2`
+const SubTitle = styled.h2`
   font-weight: bold;
 `
 
@@ -34,7 +34,7 @@ const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
 
 const FeatureCallout = ({ value, onChange }) => (
   <Box flex="1 0 auto">
-    <FeatureCalloutTitle>{value.id}</FeatureCalloutTitle>
+    <SubTitle>{value.id}</SubTitle>
     <Field>
       <Input label="Label" value={value.label} onChange={(label) => onChange({ label })}/>
     </Field>
@@ -61,6 +61,27 @@ const FeatureCallouts = ({ content }) => {
   )
 }
 
+const RelatedContent = ({ item }) => (
+  <Box>
+    <Field>
+      <Input label="Title" value={item.title} />
+    </Field>
+    <Field>
+      <Input label="Source" value={item.source} />
+    </Field>
+    <Field>
+      <Input label="Link url" value={item.href} />
+    </Field>
+  </Box>
+)
+
+const List = ({ items, children, ...props }) => (
+  <ul {...props}>
+    {}
+  </ul>
+)
+
+
 const UnifiedStories = ({ content }) => (
   <Box>
     <Field>
@@ -73,11 +94,20 @@ const UnifiedStories = ({ content }) => (
       <ImageInput label="Preview image" src={content.featuredImage} alt={content.featuredImageDescription} />
     </Field>
     <Field>
-      <TextArea label="Summary (markdown)" value={content.summary} minRows={10} />
+      <TextArea label="Summary (markdown)" value={content.summary} minRows={6} />
     </Field>
+    <Field>
+      <Input label="Link url" value={content.href} /> 
+    </Field>
+    <Field>
+      <Input label="Link text" value={content.cta} /> 
+    </Field>
+    <SubTitle>Related Content</SubTitle>
+    <ul>{content.relatedContent.map(item => (
+      <li key={id}></li>  
+    ))}</ul>
   </Box>
 )
-
 
 const Editor = () => (
   <section>
