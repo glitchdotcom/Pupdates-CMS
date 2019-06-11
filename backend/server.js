@@ -26,12 +26,17 @@ app.get("/home.json", (req, res) => {
   res.sendFile('home.json', { root: 'dist' });
 });
 
-// app.patch('/home.json', async (req, res) => {
-//   // TODO: validate auth header
+const GLITCH_TEAM_ID = 74;
+
+app.post('/home.json', async (req, res) => {
+  const teams = await getAllPages(api, `/v1/users/by/persistentToken/teams?persistentToken=${persistentToken}&limit=100`);
+  if (!teams.some((team) => team.id === GLITCH_TEAM_ID)) throw new Error('Forbidden');
   
-//   await fs.promises.writeFile('dist/home.json', req.body);
-//   res.sendStatus(200);
-// });
+  // TODO: validate auth header
+  
+  await fs.promises.writeFile('dist/home.json', req.body);
+  res.sendStatus(200);
+});
 
 // if a file is not found in dist/, then serve dist/index.html.
 app.get("*", wrap(async (req, res) => {
