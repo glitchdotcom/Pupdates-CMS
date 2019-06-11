@@ -131,34 +131,34 @@ const UnifiedStories = () => (
       <TextArea label="Headline" path={['unifiedStories', 'hed']} />
     </Field>
     <Field>
-      <Input label="Dek" path={['unifiedStories', 'hed']} /> 
+      <Input label="Dek" path={['unifiedStories', 'dek']} /> 
     </Field>
     <Field>
       <Flex gap={1}>
         <Box flex="0 1 50%">
-          <Input label="Preview image" value={content.featuredImage} />
+          <Input label="Preview image" path={['unifiedStories', 'featuredImage']} />
           <Field>
-            <Input label="Description" value={content.featuredImageDescription} />
+            <Input label="Description" path={['unifiedStories', 'featuredImageDescription']} />
           </Field>
          <Field>
-            <Input label="Link url" value={content.href} /> 
+            <Input label="Link url" path={['unifiedStories', 'href']} /> 
           </Field>
           <Field>
-            <Input label="Link text" value={content.cta} /> 
+            <Input label="Link text" path={['unifiedStories', 'cta']} /> 
           </Field>
         </Box>
         <Box flex="0 1 50%">
-          <Image src={content.featuredImage} alt={content.featuredImageDescription} />
+          <Image src={usePath(['unifiedStories', 'featuredImage'])} />
         </Box>
       </Flex>
     </Field>
     <Field>
-      <TextArea label="Summary (markdown)" value={content.summary} minRows={6} />
+      <TextArea label="Summary (markdown)" path={['unifiedStories', 'summary']} minRows={6} />
     </Field>
    
     <SubTitle>Related Content</SubTitle>
-    <List items={content.relatedContent}>
-      {item => <RelatedContent item={item} />}
+    <List items={usePath(['unifiedStories', 'relatedContent'])}>
+      {(item, i) => <RelatedContent path={['unifiedStories', 'relatedContent', i]} />}
     </List>
   </Box>
 )
@@ -170,7 +170,7 @@ const EmbedIFrame = styled.iframe`
   border: 0;
 `
 
-const EmbedPreview = ({ domain}) => (
+const EmbedPreview = ({ domain }) => (
   <EmbedIFrame
     title="embed"
     src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
@@ -180,41 +180,41 @@ const EmbedPreview = ({ domain}) => (
   />
 )
 
-const FeaturedEmbed = ({ content }) => (
+const FeaturedEmbed = () => (
   <Flex gap={2}>
     <Box flex="1 0 auto">
       <Field>
-        <Input label="Title" value={content.title}/>
+        <Input label="Title" path={['featuredEmbed', 'title']}/>
       </Field>
       <Field>
-        <TextArea label="Description" value={content.description}/>
+        <TextArea label="Description" path={['featuredEmbed', 'description']}/>
       </Field>
       <Field>
-        <Input label="Link url" value={content.href}/>
+        <Input label="Link url" path={['featuredEmbed', 'href']}/>
       </Field>
       <Field>
-        <Input label="App domain" value={content.domain}/>
+        <Input label="App domain" path={['featuredEmbed', 'domain']}/>
       </Field>
     </Box>
     <Box flex="1 0 auto">
-      <EmbedPreview domain={content.domain} />
+      <EmbedPreview domain={usePath(['featuredEmbed', 'domain'])} />
     </Box>
   </Flex>
 )
 
-const AppsWeLove = ({ content }) => (
-  <List items={content} getKey={(x) => x.domain}>
-    {(item) => (
+const AppsWeLove = () => (
+  <List items={usePath(['appsWeLove'])} getKey={(x) => x.domain}>
+    {(item, i) => (
       <Flex gap={1}>
         <Box flex="0 1 50%">
           <Field>
-            <Input label="Title" value={item.title} />
+            <Input label="Title" path={['appsWeLove', i, 'title']}/>
           </Field>
           <Field>
-            <Input label="App domain" value={item.domain}/>
+            <Input label="App domain" path={['appsWeLove', i, 'domain']}/>
           </Field>
           <Field>
-            <Input label="Preview image" value={item.img} />
+            <Input label="Preview image" path={['appsWeLove', i, 'img']}/>
           </Field>
         </Box>
         <Box flex="0 1 50%">
@@ -225,8 +225,8 @@ const AppsWeLove = ({ content }) => (
   </List>
 )
 
-const CuratedCollections = ({ content }) => (
-  <FlexList items={content} gap={1} getKey={item => item.fullUrl}>
+const CuratedCollections = () => (
+  <FlexList items={usePath(['curatedCollections'])} gap={1} getKey={item => item.fullUrl}>
     {item => (
       <Box>
         <Field>
@@ -247,8 +247,8 @@ const BuildingImage = styled(Image)`
   height: 100px;
 `
 
-const BuildingOnGlitch = ({ content }) => (
-  <FlexList items={content} gap={1} getKey={item => item.href}>
+const BuildingOnGlitch = () => (
+  <FlexList items={usePath(['buildingOnGlitch'])} gap={1} getKey={item => item.href}>
     {item => (
       <Box>
         <BuildingImage src={item.img} />
@@ -290,20 +290,20 @@ const Editor = () => {
       <SectionTitle>Feature Callouts</SectionTitle>
       <FeatureCallouts />
 
-      {/*<SectionTitle>Unified Stories</SectionTitle>
-      <UnifiedStories content={exampleData.unifiedStories} />
+      <SectionTitle>Unified Stories</SectionTitle>
+      <UnifiedStories />
 
       <SectionTitle>Featured Embed</SectionTitle>
-      <FeaturedEmbed content={exampleData.featuredEmbed} />
+      <FeaturedEmbed />
 
       <SectionTitle>Apps We Love</SectionTitle>
-      <AppsWeLove content={exampleData.appsWeLove} />
+      <AppsWeLove />
 
-      <SectionTitle>Curated Collections</SectionTitle>
-      <CuratedCollections content={exampleData.curatedCollections} />
+      {/*<SectionTitle>Curated Collections</SectionTitle>
+      <CuratedCollections />
 
-      <SectionTitle>Start Building</SectionTitle>
-      <BuildingOnGlitch content={exampleData.buildingOnGlitch} />*/}
+      {/*<SectionTitle>Start Building</SectionTitle>
+      <BuildingOnGlitch />*/}
     </section>
   )
 }
