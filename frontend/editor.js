@@ -3,10 +3,6 @@ import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { createReducer } from 'redux-starter-kit'
 
-import { useAsyncFunction } from './app-core'
-import { useCurrentUser } from './current-user'
-import { useResource, useChildResource, actions as resourceActions } from './resources'
-import Button from './button'
 import Input from './input'
 import TextArea from './textarea'
 import Image from './image'
@@ -48,6 +44,12 @@ const FlexItem = compose(<Box as="li" flex="1 0 auto" />)
 const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
+
+const featureCalloutPreviewImages = {
+  apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
+  create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
+  teams: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteam-animation.svg?v=1560048765078',
+}
 
 const FeatureCallouts = ({ content }) =>  (
   <FlexList gap={1} items={content}>
@@ -231,6 +233,11 @@ const BuildingOnGlitch = ({ content }) => (
 
 const Editor = () => (
   <section>
+    <Text as="h1" size={1}>
+      Glitch Home Editor
+    </Text>
+    <Text as="p">All changes auto-save</Text>
+    
     <SectionTitle>Feature Callouts</SectionTitle>
     <FeatureCallouts content={exampleData.featureCallouts} />
     
