@@ -4,14 +4,20 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSlice } from 'redux-starter-kit'
 
-import { useAsyncFunction } from './app-core'
+import { useCurrentUser } from './current-user'
 import BaseInput from './input'
 import BaseTextArea from './textarea'
 import Image from './image'
 import Box, { Flex } from './box'
 import Text from './text'
-import exampleData from './example-data'
 
+const debounce = (fn, timeout) => {
+  let handle
+  return (...args) => {
+    clearTimeout(handle)
+    handle = setTimeout(() => fn(...args), timeout)
+  }
+}
 
 const { slice, reducer, actions } = createSlice({
   slice: 'homeData',
@@ -32,7 +38,13 @@ const { slice, reducer, actions } = createSlice({
   },
 })
 
-const handlers = {}
+const handlers = {
+  [actions.updatedField]: debounce(async (store) => {
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    const state = store.getState().homeData.data
+    console.log('saving', state, persistentToken)
+  }, 3000)
+}
 
 const usePath = (path) => {
   return useSelector(state => get(state.homeData.data, path))
@@ -282,7 +294,7 @@ const Editor = () => {
   const dispatch = useDispatch()
   const homeDataStatus = useSelector(state => state.homeData.status)
   useEffect(() => {
-    dispatch(actions.loadedData(exampleData))
+    loadInitialData().then(data => dispatch(actions.loadedData(data)))
   }, [])
   
   if (homeDataStatus === 'loading') return <Loading />

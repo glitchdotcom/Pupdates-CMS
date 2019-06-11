@@ -1,6 +1,7 @@
 dependencies:
   '@emotion/core': 10.0.10
   '@emotion/styled': 10.0.11
+  axios: 0.19.0
   express: 4.16.4
   react: 16.8.6
   react-dom: 16.8.6
@@ -1647,6 +1648,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-Hb0cg1ZY41zj+ZhAmdsAWFx4IBQ=
+  /axios/0.19.0:
+    dependencies:
+      follow-redirects: 1.5.10
+      is-buffer: 2.0.3
+    dev: false
+    resolution:
+      integrity: sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
   /axobject-query/2.0.2:
     dependencies:
       ast-types-flow: 0.0.7
@@ -3024,7 +3032,6 @@ packages:
   /debug/3.1.0:
     dependencies:
       ms: 2.0.0
-    dev: true
     resolution:
       integrity: sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
   /debug/3.2.6:
@@ -3698,6 +3705,14 @@ packages:
     dev: true
     resolution:
       integrity: sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
+  /follow-redirects/1.5.10:
+    dependencies:
+      debug: 3.1.0
+    dev: false
+    engines:
+      node: '>=4.0'
+    resolution:
+      integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
   /follow-redirects/1.5.9:
     dependencies:
       debug: 3.1.0
@@ -4152,6 +4167,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
+  /is-buffer/2.0.3:
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha512-U15Q7MXTuZlrbymiz95PJpZxu8IlipAp4dtS3wOdgPXx3mqBnslrWU14kxfHB+Py/+2PVKSr37dMAgM2A4uArw==
   /is-callable/1.1.4:
     dev: true
     engines:
@@ -7029,6 +7050,7 @@ specifiers:
   '@babel/preset-react': ^7.0.0
   '@emotion/core': ^10.0.5
   '@emotion/styled': ^10.0.5
+  axios: ^0.19.0
   babel-preset-env: ^1.7.0
   eslint-plugin-jsx-a11y: ^6.1.2
   eslint-plugin-react: ^7.11.1
