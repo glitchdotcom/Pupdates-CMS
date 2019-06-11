@@ -12,6 +12,7 @@ const BaseTextArea = styled.textarea`
   width: 100%;
   border: 1px solid #eee;
   padding: 0.25rem;
+  min-height: 6rem;
 `
 
 const TextArea = ({ value, onChange, label }) => (

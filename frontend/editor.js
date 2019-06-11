@@ -10,9 +10,10 @@ import Button from './button'
 import Input from './input'
 import TextArea from './textarea'
 import Box, { Flex } from './box'
+import exampleData from './example-data'
 
 
-const featureCalloutsReducer = ({
+const featureCalloutsReducer = createReducer([], {
   update: (state, { payload: { id, value }}) => {
     Object.assign(state.find(item => item.id === id), value)
   }
@@ -21,19 +22,31 @@ const featureCalloutsReducer = ({
 const SectionTitle = styled.h1`
   font-size: 2rem;
   font-weight: bold;
+  padding: 1rem 0;
 `
 
 const FeatureCalloutTitle = styled.h2`
   font-weight: bold;
 `
 
+const Field = ({ children }) => <Box padding={{top: 2}}>{children}</Box>
+
+
 const FeatureCallout = ({ value, onChange }) => (
   <Box flex="1 0 auto">
     <FeatureCalloutTitle>{value.id}</FeatureCalloutTitle>
-    <Input label="Label" value={value.label} onChange={(label) => onChange({ label })}/>
-    <TextArea label="Description" value={value.description} onChange={(description) => onChange({ description })} />
-    <Input label="Call to action" value={value.cta} onChange={(cta) => onChange({ cta })}/>
-    <Input label="Link url" value={value.href} onChange={(href) => onChange({ href })}/>
+    <Field>
+      <Input label="Label" value={value.label} onChange={(label) => onChange({ label })}/>
+    </Field>
+    <Field>
+      <TextArea label="Description" value={value.description} onChange={(description) => onChange({ description })} />
+    </Field>
+    <Field>
+      <Input label="Call to action" value={value.cta} onChange={(cta) => onChange({ cta })}/>
+    </Field>
+    <Field>
+      <Input label="Link url" value={value.href} onChange={(href) => onChange({ href })}/>
+    </Field>
   </Box>
 )
 
@@ -48,12 +61,18 @@ const FeatureCallouts = ({ content }) => {
   )
 }
 
-const defaultContent = [{ id: 'apps' }, { id: 'create' }, { id: 'teams' }]
+const UnifiedStories = ({ content }) => (
+  <Box>
+    
+  </Box>
+)
+
 
 const Editor = () => (
   <section>
     <SectionTitle>Feature Callouts</SectionTitle>
-    <FeatureCallouts content={defaultContent} />
+    <FeatureCallouts content={exampleData.featureCallouts} />
+    
     <SectionTitle>Unified Stories</SectionTitle>
     <SectionTitle>Featured Embed</SectionTitle>
     <SectionTitle>Apps We Love</SectionTitle>
