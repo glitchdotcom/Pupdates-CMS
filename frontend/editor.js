@@ -5,7 +5,7 @@ import { createSlice } from 'redux-starter-kit'
 
 import BaseInput from './input'
 import BaseTextArea from './textarea'
-import BaseImage from './image'
+import Image from './image'
 import Box, { Flex } from './box'
 import Text from './text'
 import exampleData from './example-data'
@@ -32,6 +32,10 @@ const { slice, reducer, actions } = createSlice({
 
 const handlers = {}
 
+const usePath = (path) => {
+  return useSelector(state => get(state.homeData.data, path))
+}
+
 export const editorSlice = { slice, reducer, actions, handlers }
 
 const compose = (...baseElements) => baseElements
@@ -51,8 +55,8 @@ const SubTitle = compose(
 
 const List = ({ items, children, getKey = (x) => x.id, itemComponent: Item = 'li', ...props }) => (
   <Box as="ul" {...props}>
-    {items.map(item => (
-      <Item key={getKey(item)}>{children(item)}</Item>
+    {items.map((item, index) => (
+      <Item key={getKey(item)}>{children(item, index)}</Item>
     ))}
   </Box>
 )
@@ -65,10 +69,11 @@ const Field = compose(<Box padding={{top: 2}}/>)
 
 const get = (object, path) => path.reduce((target, key) => target[key], object)
 
+
 const connected = (Component) => ({ path, ...props }) => {
-  const value = useSelector(state => get(state.homeData, path))
+  const value = usePath(path)
   const dispatch = useDispatch()
-  const onChange = (value) => dispatch({ type: 'updatedHome', payload: { value, path } })
+  const onChange = (value) => dispatch(actions.updatedField({ value, path }))
   return <Component {...props} value={value} onChange={onChange} />
 }
 
@@ -81,49 +86,52 @@ const featureCalloutPreviewImages = {
   teams: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteam-animation.svg?v=1560048765078',
 }
 
-const FeatureCallouts = ({ content }) =>  (
-  <FlexList gap={1} items={content}>
-    {item => (
-      <Box>
-        <Image src={featureCalloutPreviewImages[item.id]} alt=""/>
-        <Field>
-          <Input label="Title" value={item.label}/>
-        </Field>
-        <Field>
-          <TextArea label="Description" value={item.description} />
-        </Field>
-        <Field>
-          <Input label="Call to action" value={item.cta} />
-        </Field>
-        <Field>
-          <Input label="Link url" value={item.href} />
-        </Field>
-      </Box>
-    )}
-  </FlexList>
-)
+const FeatureCallouts = () => {
+  const items = usePath(['featureCallouts'])
+  return (
+    <FlexList gap={1} items={items}>
+      {({ id }, i) => (
+        <Box>
+          <Image src={featureCalloutPreviewImages[id]} alt=""/>
+          <Field>
+            <Input label="Title" path={['featureCallouts', i, 'label']}/>
+          </Field>
+          <Field>
+            <TextArea label="Description" path={['featureCallouts', i, 'description']}/>
+          </Field>
+          <Field>
+            <Input label="Call to action" path={['featureCallouts', i, 'cta']}/>
+          </Field>
+          <Field>
+            <Input label="Link url" path={['featureCallouts', i, 'href']}/>
+          </Field>
+        </Box>
+      )}
+    </FlexList>
+  )
+}
 
-const RelatedContent = ({ item }) => (
+const RelatedContent = ({ path }) => (
   <Box padding={{ top: 2, bottom: 1 }}>
     <Field>
-      <Input label="Title" value={item.title} condensed />
+      <Input label="Title" path={[...path, 'title']} condensed />
     </Field>
     <Field>
-      <Input label="Source" value={item.source} condensed />
+      <Input label="Source" path={[...path, 'source']} condensed />
     </Field>
     <Field>
-      <Input label="Link url" value={item.href} condensed />
+      <Input label="Link url" path={[...path, 'href']} condensed />
     </Field>
   </Box>
 )
 
-const UnifiedStories = ({ content }) => (
+const UnifiedStories = () => (
   <Box>
     <Field>
-      <TextArea label="Headline" value={content.hed} />
+      <TextArea label="Headline" path={['unifiedStories', 'hed']} />
     </Field>
     <Field>
-      <Input label="Dek" value={content.dek} /> 
+      <Input label="Dek" path={['unifiedStories', 'hed']} /> 
     </Field>
     <Field>
       <Flex gap={1}>
@@ -280,9 +288,9 @@ const Editor = () => {
       <Text as="p">All changes auto-save</Text>
 
       <SectionTitle>Feature Callouts</SectionTitle>
-      <FeatureCallouts content={exampleData.featureCallouts} />
+      <FeatureCallouts />
 
-      <SectionTitle>Unified Stories</SectionTitle>
+      {/*<SectionTitle>Unified Stories</SectionTitle>
       <UnifiedStories content={exampleData.unifiedStories} />
 
       <SectionTitle>Featured Embed</SectionTitle>
@@ -295,7 +303,7 @@ const Editor = () => {
       <CuratedCollections content={exampleData.curatedCollections} />
 
       <SectionTitle>Start Building</SectionTitle>
-      <BuildingOnGlitch content={exampleData.buildingOnGlitch} />
+      <BuildingOnGlitch content={exampleData.buildingOnGlitch} />*/}
     </section>
   )
 }
