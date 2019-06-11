@@ -1,8 +1,10 @@
 import React, { cloneElement, useEffect } from 'react'
 import styled from '@emotion/styled'
+import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSlice } from 'redux-starter-kit'
 
+import { useAsyncFunction } from './app-core'
 import BaseInput from './input'
 import BaseTextArea from './textarea'
 import Image from './image'
@@ -34,6 +36,11 @@ const handlers = {}
 
 const usePath = (path) => {
   return useSelector(state => get(state.homeData.data, path))
+}
+
+const loadInitialData = async () => {
+  const { data } = await axios.get('/home.json')
+  return data
 }
 
 export const editorSlice = { slice, reducer, actions, handlers }
@@ -227,16 +234,16 @@ const AppsWeLove = () => (
 
 const CuratedCollections = () => (
   <FlexList items={usePath(['curatedCollections'])} gap={1} getKey={item => item.fullUrl}>
-    {item => (
+    {(item, i) => (
       <Box>
         <Field>
-          <Input label="Title" value={item.title} />
+          <Input label="Title" path={['curatedCollections', i, 'title']}/>
         </Field>
         <Field>
-          <TextArea label="Description" value={item.description}/>
+          <TextArea label="Description" path={['curatedCollections', i, 'description']}/>
         </Field>
         <Field>
-          <Input label="Collection url" value={item.fullUrl} />
+          <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']}/>
         </Field>
       </Box>
     )}
@@ -249,20 +256,20 @@ const BuildingImage = styled(Image)`
 
 const BuildingOnGlitch = () => (
   <FlexList items={usePath(['buildingOnGlitch'])} gap={1} getKey={item => item.href}>
-    {item => (
+    {(item, i) => (
       <Box>
         <BuildingImage src={item.img} />
         <Field>
-          <Input label="Title" value={item.title}/>
+          <Input label="Title" path={['buildingOnGlitch', i, 'title']}/>
         </Field>
         <Field>
-          <TextArea label="Description" value={item.description} />
+          <TextArea label="Description" path={['buildingOnGlitch', i, 'description']}/>
         </Field>
         <Field>
-          <Input label="Call to action" value={item.cta} />
+          <Input label="Call to action" path={['buildingOnGlitch', i, 'cta']}/>
         </Field>
         <Field>
-          <Input label="Link url" value={item.href} />
+          <Input label="Link url" path={['buildingOnGlitch', i, 'href']}/>
         </Field>
       </Box>
     )}
@@ -281,7 +288,7 @@ const Editor = () => {
   if (homeDataStatus === 'loading') return <Loading />
   
   return (
-    <section>
+    <Box as="section" padding={{bottom: 4}}>
       <Text as="h1" size={1}>
         Glitch Home Editor
       </Text>
@@ -299,12 +306,12 @@ const Editor = () => {
       <SectionTitle>Apps We Love</SectionTitle>
       <AppsWeLove />
 
-      {/*<SectionTitle>Curated Collections</SectionTitle>
+      <SectionTitle>Curated Collections</SectionTitle>
       <CuratedCollections />
 
-      {/*<SectionTitle>Start Building</SectionTitle>
-      <BuildingOnGlitch />*/}
-    </section>
+      <SectionTitle>Start Building</SectionTitle>
+      <BuildingOnGlitch />
+    </Box>
   )
 }
 
