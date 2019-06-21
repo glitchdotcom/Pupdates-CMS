@@ -73,10 +73,10 @@ const SubTitle = compose(
   <Text as="h2" size={3} weight="bold"/>
 )
 
-const List = ({ items, children, getKey = (x) => x.id, itemComponent: Item = 'li', ...props }) => (
+const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
   <Box as="ul" {...props}>
     {items.map((item, index) => (
-      <Item key={getKey(item)}>{children(item, index)}</Item>
+      <Item key={index}>{children(item, index)}</Item>
     ))}
   </Box>
 )
@@ -223,7 +223,7 @@ const FeaturedEmbed = () => (
 )
 
 const AppsWeLove = () => (
-  <List items={usePath(['appsWeLove'])} getKey={(x) => x.domain}>
+  <List items={usePath(['appsWeLove'])}>
     {(item, i) => (
       <Flex gap={1}>
         <Box flex="0 1 50%">
@@ -246,7 +246,7 @@ const AppsWeLove = () => (
 )
 
 const CuratedCollections = () => (
-  <FlexList items={usePath(['curatedCollections'])} gap={1} getKey={item => item.fullUrl}>
+  <FlexList items={usePath(['curatedCollections'])} gap={1}>
     {(item, i) => (
       <Box>
         <Field>
@@ -268,7 +268,7 @@ const BuildingImage = styled(Image)`
 `
 
 const BuildingOnGlitch = () => (
-  <FlexList items={usePath(['buildingOnGlitch'])} gap={1} getKey={item => item.href}>
+  <FlexList items={usePath(['buildingOnGlitch'])} gap={1}>
     {(item, i) => (
       <Box>
         <BuildingImage src={item.img} />

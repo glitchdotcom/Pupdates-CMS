@@ -28,7 +28,8 @@ app.get("/home.json", async (req, res) => {
     const data = await getHomeData();
     res.json(data);
   } catch (e) {
-    console.warn(e.data)
+    console.error(e.data);
+    res.status(500).send('👎');
   }
 });
 

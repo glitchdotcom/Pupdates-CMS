@@ -93,7 +93,7 @@ async function getHomeData() {
     curatedCollections: getFeaturedCollections(rawData.curatedCollections),
     appsWeLove: getFeaturedProjects(rawData.appsWeLove),
   });
-  return { ...rawData, data };
+  return { ...rawData, ...data };
 }
 
 
