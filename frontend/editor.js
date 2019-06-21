@@ -215,6 +215,10 @@ const FeaturedEmbed = () => (
       <Field>
         <Input label="App domain" path={['featuredEmbed', 'domain']}/>
       </Field>
+      <Field>
+        <Input label="Image url" path={['featuredEmbed', 'image']}/>
+        <Image src={usePath(['featuredEmbed', 'image'])} alt=""/>
+      </Field>
     </Box>
     <Box flex="1 0 auto">
       <EmbedPreview domain={usePath(['featuredEmbed', 'domain'])} />
