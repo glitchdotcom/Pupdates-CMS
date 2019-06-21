@@ -24,8 +24,12 @@ app.use((req, res, next) => {
 });
 
 app.get("/home.json", async (req, res) => {
-  const data = await getHomeData();
-  res.json(data);
+  try {
+    const data = await getHomeData();
+    res.json(data);
+  } catch (e) {
+    console.warn(e.message)
+  }
 });
 
 const GLITCH_TEAM_ID = 74;

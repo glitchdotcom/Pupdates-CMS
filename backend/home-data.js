@@ -22,19 +22,6 @@ const userProps = [
 ];
 const trimUserProps = (user) => pick(user, userProps);
 
-async function getCultureZine() {
-  const client = 'client_id=ghost-frontend&client_secret=c9a97f14ced8';
-  const params = 'filter=featured:true&limit=4&fields=id,title,url,feature_image,primary_tag&include=tags';
-
-  const { data } = await api.get(`https://culture-zine.glitch.me/culture/ghost/api/v0.1/posts/?${client}&${params}`);
-  return data.posts.map((post) => ({
-    id: post.id,
-    title: post.title,
-    url: post.url,
-    img: post.feature_image,
-    source: post.primary_tag.name,
-  }));
-}
 
 async function getUniqueUsersInProjects(projects, maxCount) {
   const users = {};
@@ -49,28 +36,36 @@ async function getUniqueUsersInProjects(projects, maxCount) {
 }
 
 async function getFeaturedCollections(featuredCollections) {
-  const fullUrls = featuredCollections.map(({ fullUrl }) => `fullUrl=${fullUrl}`).join('&');
-  const { data: collections } = await api.get(`/v1/collections/by/fullUrl?${fullUrls}`);
-
   // TODO: where should this actually be configured?
   const styleNames = ['wavey', 'diagonal', 'triangle'];
+  const fullUrls = featuredCollections.map(({ fullUrl }) => `fullUrl=${fullUrl}`).join('&');
+  try {
+    const { data: collections } = await api.get(`/v1/collections/by/fullUrl?${fullUrls}`)
 
-  const collectionsWithData = featuredCollections.map(async ({ fullUrl, title, description, style }, i) => {
-    const collection = collections[fullUrl];
-    const projects = await getAllPages(`/v1/collections/by/fullUrl/projects?fullUrl=${fullUrl}&limit=100`);
-    const users = await getUniqueUsersInProjects(projects, 5);
+    const collectionsWithData = featuredCollections.map(async ({ fullUrl, title, description, style }, i) => {
+      const collection = collections[fullUrl];
+      const projects = await getAllPages(`/v1/collections/by/fullUrl/projects?fullUrl=${fullUrl}&limit=100`);
+      const users = await getUniqueUsersInProjects(projects, 5);
 
-    return {
-      title: title || collection.name,
-      description: description || collection.description,
-      fullUrl,
-      users: users.map(trimUserProps),
-      count: projects.length,
-      collectionStyle: style || styleNames[i],
-    };
-  });
+      return {
+        title: title || collection.name,
+        description: description || collection.description,
+        fullUrl,
+        users: users.map(trimUserProps),
+        count: projects.length,
+        collectionStyle: style || styleNames[i],
+      };
+    });  
 
-  return Promise.all(collectionsWithData);
+    return Promise.all(collectionsWithData);
+  } catch (e) {
+    return featuredCollections.map((collection, i) => ({
+      ...collection,
+      users: [],
+      count: 0,
+      collectionStyle: styleNames[i],
+    }));
+  }
 }
 
 async function getFeaturedProjects(featuredProjects) {
@@ -94,7 +89,6 @@ async function getHomeData() {
   const rawData = JSON.parse(await fs.readFile('.data/home.json'))
   
   const data = await allByKeys({
-    cultureZine: getCultureZine(),
     curatedCollections: getFeaturedCollections(rawData.curatedCollections),
     appsWeLove: getFeaturedProjects(rawData.appsWeLove),
   });
