@@ -235,6 +235,9 @@ const AppsWeLove = () => (
             <Input label="Title" path={['appsWeLove', i, 'title']}/>
           </Field>
           <Field>
+            <TextArea label="Description" path={['appsWeLove', i, 'description']} minRows={2}/>
+          </Field>
+          <Field>
             <Input label="App domain" path={['appsWeLove', i, 'domain']}/>
           </Field>
           <Field>
