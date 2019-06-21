@@ -202,7 +202,7 @@ const EmbedPreview = ({ domain }) => (
 
 const FeaturedEmbed = () => (
   <Flex gap={2}>
-    <Box flex="1 0 auto">
+    <Box flex="1 0 50%">
       <Field>
         <Input label="Title" path={['featuredEmbed', 'title']}/>
       </Field>
@@ -220,7 +220,7 @@ const FeaturedEmbed = () => (
         <Image src={usePath(['featuredEmbed', 'image'])} alt=""/>
       </Field>
     </Box>
-    <Box flex="1 0 auto">
+    <Box flex="1 0 50%">
       <EmbedPreview domain={usePath(['featuredEmbed', 'domain'])} />
     </Box>
   </Flex>
@@ -254,10 +254,10 @@ const CuratedCollections = () => (
     {(item, i) => (
       <Box>
         <Field>
-          <Input label="Title" path={['curatedCollections', i, 'title']}/>
+          <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']}/>
         </Field>
         <Field>
-          <TextArea label="Description" path={['curatedCollections', i, 'description']}/>
+          <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']}/>
         </Field>
         <Field>
           <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']}/>
