@@ -57,7 +57,8 @@ async function getFeaturedCollections(featuredCollections) {
       };
     });  
 
-    return Promise.all(collectionsWithData);
+    const withData = await Promise.all(collectionsWithData);
+    return withData;
   } catch (e) {
     return featuredCollections.map((collection, i) => ({
       ...collection,
