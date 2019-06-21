@@ -14,11 +14,11 @@ const BaseInput = styled.input`
 `
 
 
-const Input = ({ value, onChange, label, type = 'text', condensed }) => condensed ? (
+const Input = ({ value, onChange, label, type = 'text', condensed, placeholder }) => condensed ? (
   <Flex as="label" align="center" gap={1}>
     <Box>{label}</Box>
     <Box flex="1 0 auto">
-      <BaseInput type={type} value={value} onChange={(e) => onChange(e.target.value)} />
+      <BaseInput type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
     </Box>
   </Flex>
 ) : (
@@ -26,7 +26,7 @@ const Input = ({ value, onChange, label, type = 'text', condensed }) => condense
     <Box padding={{ bottom: 1 }}>
       {label}
     </Box>
-    <BaseInput type={type} value={value} onChange={(e) => onChange(e.target.value)} />
+    <BaseInput type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
   </Label>
 )
 

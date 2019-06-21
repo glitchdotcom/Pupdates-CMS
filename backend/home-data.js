@@ -80,7 +80,7 @@ async function getFeaturedProjects(featuredProjects) {
       title,
       img,
       users: users.slice(0, 10).map(trimUserProps),
-      description: description || project.description,
+      description: description,
     };
   });
   return Promise.all(projectsWithData);

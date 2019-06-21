@@ -148,10 +148,10 @@ const RelatedContent = ({ path }) => (
 const UnifiedStories = () => (
   <Box>
     <Field>
-      <TextArea label="Headline" path={['unifiedStories', 'hed']} />
+      <TextArea label="Headline" path={['unifiedStories', 'hed']} minRows={2} />
     </Field>
     <Field>
-      <Input label="Dek" path={['unifiedStories', 'dek']} /> 
+      <Input label="Subject" path={['unifiedStories', 'dek']} /> 
     </Field>
     <Field>
       <Flex gap={1}>
@@ -257,13 +257,13 @@ const CuratedCollections = () => (
     {(item, i) => (
       <Box>
         <Field>
-          <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']}/>
+          <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']} placeholder="leave blank for default" />
         </Field>
         <Field>
-          <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']}/>
+          <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']} placeholder="leave blank for default" />
         </Field>
         <Field>
-          <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']}/>
+          <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']} placeholder="glitch/glitch-this-week-june-19-2019"/>
         </Field>
       </Box>
     )}
