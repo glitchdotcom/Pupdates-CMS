@@ -62,9 +62,9 @@ const compose = (...baseElements) => baseElements
   .map(element => (props) => cloneElement(element, props))
   .reduce((Parent, Child) => ({ children, ...props }) => <Parent {...props}><Child>{children}</Child></Parent>)
 
-          
+const Section = 'details'          
 const SectionTitle = compose(
-  <Box padding={{ top: 4, bottom: 1 }} />,
+  <Box as="summary" padding={{ top: 4, bottom: 1 }} />,
   <Text as="h1" size={2} weight="bold" />
 )
 
@@ -313,24 +313,36 @@ const Editor = () => {
         Glitch Community Home Editor
       </Text>
       <Text as="p">All changes auto-save</Text>
-
-      <SectionTitle>Feature Callouts</SectionTitle>
-      <FeatureCallouts />
-
-      <SectionTitle>Unified Stories</SectionTitle>
-      <UnifiedStories />
-
-      <SectionTitle>Featured Embed</SectionTitle>
-      <FeaturedEmbed />
-
-      <SectionTitle>Apps We Love</SectionTitle>
-      <AppsWeLove />
-
-      <SectionTitle>Curated Collections</SectionTitle>
-      <CuratedCollections />
-
-      <SectionTitle>Start Building</SectionTitle>
-      <BuildingOnGlitch />
+      
+      <Section>
+        <SectionTitle>Feature Callouts</SectionTitle>
+        <FeatureCallouts />
+      </Section>
+      
+      <Section>      
+        <SectionTitle>Unified Stories</SectionTitle>
+        <UnifiedStories />
+      </Section>
+      
+      <Section open>
+        <SectionTitle>Featured Embed</SectionTitle>
+        <FeaturedEmbed />
+      </Section>
+      
+      <Section open>
+        <SectionTitle>Apps We Love</SectionTitle>
+        <AppsWeLove />
+      </Section>
+      
+      <Section open>
+        <SectionTitle>Curated Collections</SectionTitle>
+        <CuratedCollections />
+      </Section>
+      
+      <Section>
+        <SectionTitle>Start Building</SectionTitle>
+        <BuildingOnGlitch />
+      </Section>
     </Box>
   )
 }
