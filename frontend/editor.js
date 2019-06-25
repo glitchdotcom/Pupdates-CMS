@@ -320,22 +320,55 @@ const AppsWeLove = () => (
   </List>
 )
 
+const loading = { status: 'loading' }
+const CollectionPreview = ({ fullUrl }) => {
+  const [response, setResponse] = useState(loading)
+  useEffect(() => {
+    setResponse(loading)
+    let isCurrentRequest = true
+    axios.get(`https://api.glitch.com/v1/collections/by/fullUrl/projects?fullUrl=${fullUrl}`)
+      .then(({ data }) => {
+        if (!isCurrentRequest) return
+        setResponse({ status: 'ready', value: data.items })
+      })
+      .catch((response) => {
+        if (!isCurrentRequest) return
+        setResponse({ status: 'errror', error: response }) 
+      })
+    return () => {
+      isCurrentRequest = false
+    }
+  }, [fullUrl])
+  
+  if (response.status === 'loading') return 'Loading...'
+  if (response.statua === 'error') return <ERROR>ERROR</ERROR>
+  return (
+    <List items={response.value.slice(0, 3)}>
+      {(item) => (
+        <Box>
+          <Text as></Text>
+        </Box>
+      )}
+    </List>
+  )
+}
+
 const CuratedCollections = () => (
-  <FlexList items={usePath(['curatedCollections'])} gap={1}>
+  <List items={usePath(['curatedCollections'])} gap={1}>
     {(item, i) => (
       <Box>
         <Field>
           <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']} placeholder="leave blank for default" />
         </Field>
         <Field>
-          <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']} placeholder="leave blank for default" />
+          <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']} placeholder="glitch/glitch-this-week-june-19-2019" />
         </Field>
         <Field>
-          <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']} placeholder="glitch/glitch-this-week-june-19-2019"/>
+          <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']} placeholder="leave blank for default" />
         </Field>
       </Box>
     )}
-  </FlexList>
+  </List>
 )
 
 const BuildingImage = styled(Image)`
