@@ -11,6 +11,9 @@ import Image from './image'
 import Box, { Flex } from './box'
 import Text from './text'
 
+// const APP_BASE = `https://glitch.com`
+const APP_BASE = `https://woolen-crib.glitch.me`
+
 const debounce = (fn, timeout) => {
   let handle
   return (...args) => {
@@ -34,7 +37,11 @@ const { slice, reducer, actions } = createSlice({
       const most = path.slice(0, -1)
       const last = path[path.length - 1]
       get(state.data, most)[last] = value
-    }
+    },
+    reset: (state) => ({
+      status: 'loading',
+      data: null,
+    }),
   },
 })
 
@@ -44,7 +51,10 @@ const handlers = {
     const state = store.getState().homeData.data
     await axios.post('/home.json', state, { headers: { Authorization: persistentToken } })
     console.log('updated ok')
-  }, 3000)
+  }, 3000),
+  [actions.reset]: async () => {
+    
+  },
 }
 
 const usePath = (path) => {
@@ -312,7 +322,10 @@ const Editor = () => {
       <Text as="h1" size={1}>
         Glitch Community Home Editor
       </Text>
-      <Text as="p">All changes auto-save</Text>
+      <Text as="p">
+        All changes auto-save for the preview. To confirm and publish, 
+        visit <a href={`${APP_BASE}/index/preview`}>glitch.com/index/preview</a>.
+      </Text>
       
       <Section>
         <SectionTitle>Feature Callouts</SectionTitle>
