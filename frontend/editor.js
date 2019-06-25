@@ -123,31 +123,12 @@ const getFullUrl = (href) => {
   }
 }
 
-const ValidLink = ({ href }) => {
-  const [isValid, setIsValid] = useState(true)
-  useEffect(() => {
-    const fullUrl = getFullUrl(href)
-    if (!fullUrl) {
-      setIsValid(false)
-      return
-    }
-    setIsValid(true)
+const OK = styled.div`
+  padding: 2
+`
 
-    let isCurrent = true
-    axios.get(fullUrl)
-      .then(() => {
-        if (!isCurrent) return
-        setIsValid(true)
-      })
-      .catch(() => {
-        if (!isCurrent) return
-        setIsValid(false)
-      })
-    
-    return () => {
-      isCurrent = false
-    }
-  }, [href])
+const ValidLink = ({ href }) => {
+  const isValid = href.startsWith('/') || href.startsWith('http')
   return isValid ? "OK" : "ERROR"
 }
 
@@ -262,8 +243,10 @@ const FeaturedEmbed = () => (
         <TextArea label="Description" path={['featuredEmbed', 'description']} minRows={6}/>
       </Field>
       <Field>
-        <Input label="Link url" path={['featuredEmbed', 'href']}/>
-        <ValidLink href={usePath(['featuredEmbed', 'href'])} />
+        <Input 
+          label={<>Link url <ValidLink href={usePath(['featuredEmbed', 'href'])} /></>} 
+          path={['featuredEmbed', 'href']}
+        />
       </Field>
       <Field>
         <Input label="App domain" path={['featuredEmbed', 'domain']}/>
