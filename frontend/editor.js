@@ -1,4 +1,4 @@
-import React, { cloneElement, useEffect } from 'react'
+import React, { cloneElement, useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
@@ -124,11 +124,29 @@ const getFullUrl = (href) => {
 }
 
 const ValidLink = ({ href }) => {
-  const [isValid, setIsValid] = true(href)
+  const [isValid, setIsValid] = useState(true)
   useEffect(() => {
     const fullUrl = getFullUrl(href)
-    if (!fullUrl) return
-    let isFetching = true
+    if (!fullUrl) {
+      setIsValid(false)
+      return
+    }
+    setIsValid(true)
+
+    let isCurrent = true
+    axios.get(fullUrl)
+      .then(() => {
+        if (!isCurrent) return
+        setIsValid(true)
+      })
+      .catch(() => {
+        if (!isCurrent) return
+        setIsValid(false)
+      })
+    
+    return () => {
+      isCurrent = false
+    }
   }, [href])
   if (isValid) return null
   return "ERROR"
@@ -176,6 +194,7 @@ const RelatedContent = ({ path }) => (
     </Field>
     <Field>
       <Input label="Link url" path={[...path, 'href']} condensed />
+      <ValidLink href={usePath([...path, 'href'])} />
     </Field>
   </Box>
 )
