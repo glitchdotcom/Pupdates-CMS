@@ -55,7 +55,7 @@ const handlers = {
   }, 3000),
   [actions.reset]: async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
-    const data = await axios.get(`${APP_BASE}/api/home`)
+    const { data } = await axios.get(`${APP_BASE}/api/home`)
     await axios.post('/home.json', data, { headers: { Authorization: persistentToken } })
     store.dispatch(actions.loadedData(data))
   },
