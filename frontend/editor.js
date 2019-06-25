@@ -148,8 +148,7 @@ const ValidLink = ({ href }) => {
       isCurrent = false
     }
   }, [href])
-  if (isValid) return null
-  return "ERROR"
+  return isValid ? "OK" : "ERROR"
 }
 
 
@@ -194,7 +193,6 @@ const RelatedContent = ({ path }) => (
     </Field>
     <Field>
       <Input label="Link url" path={[...path, 'href']} condensed />
-      <ValidLink href={usePath([...path, 'href'])} />
     </Field>
   </Box>
 )
@@ -265,6 +263,7 @@ const FeaturedEmbed = () => (
       </Field>
       <Field>
         <Input label="Link url" path={['featuredEmbed', 'href']}/>
+        <ValidLink href={usePath(['featuredEmbed', 'href'])} />
       </Field>
       <Field>
         <Input label="App domain" path={['featuredEmbed', 'domain']}/>
