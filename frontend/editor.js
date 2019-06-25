@@ -227,7 +227,7 @@ const UnifiedStories = () => (
 const EmbedIFrame = styled.iframe`
   display: block;
   width: 100%;
-  max-height: 100%;
+  height: 500px;
   border: 0;
 `
 
@@ -243,7 +243,7 @@ const EmbedPreview = ({ domain }) => (
 
 const FeaturedEmbed = () => (
   <Flex gap={2}>
-    <Box flex="1 0 50%">
+    <Box flex="0 1 50%">
       <Field>
         <Input label="Title" path={['featuredEmbed', 'title']}/>
       </Field>
@@ -264,7 +264,7 @@ const FeaturedEmbed = () => (
         <Image src={usePath(['featuredEmbed', 'image'])} alt=""/>
       </Field>
     </Box>
-    <Box flex="1 0 50%">
+    <Box flex="0 1 50%">
       <EmbedPreview domain={usePath(['featuredEmbed', 'domain'])} />
     </Box>
   </Flex>
@@ -273,7 +273,7 @@ const FeaturedEmbed = () => (
 const AppsWeLove = () => (
   <List items={usePath(['appsWeLove'])}>
     {(item, i) => (
-      <Flex gap={1}>
+      <Flex gap={2}>
         <Box flex="0 1 50%">
           <Field>
             <Input label="Title" path={['appsWeLove', i, 'title']}/>
