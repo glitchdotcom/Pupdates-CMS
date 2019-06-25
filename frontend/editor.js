@@ -11,6 +11,7 @@ import Image from './image'
 import Box, { Flex } from './box'
 import Button from './button'
 import Text from './text'
+import { useUploader } from './assets'
 
 // const APP_BASE = `https://glitch.com`
 const APP_BASE = `https://woolen-crib.glitch.me`
@@ -270,6 +271,20 @@ const FeaturedEmbed = () => (
   </Flex>
 )
 
+const ImageInput () => {
+  const upload = useUploader()
+  const uploadAndSave = () => upload().then(url => {
+    
+  })
+  return (
+    <>
+    <Input label="Preview image" path={['appsWeLove', i, 'img']}/>
+      <Button onClick=()        
+    <Image src={item.img} alt={item.title} />
+    </>
+  )
+}
+
 const AppsWeLove = () => (
   <List items={usePath(['appsWeLove'])}>
     {(item, i) => (
@@ -285,8 +300,7 @@ const AppsWeLove = () => (
             <Input label="App domain" path={['appsWeLove', i, 'domain']}/>
           </Field>
           <Field>
-            <Input label="Preview image" path={['appsWeLove', i, 'img']}/>
-            <Image src={item.img} alt={item.title} />
+            
           </Field>
         </Box>
         <Box flex="0 1 50%">
