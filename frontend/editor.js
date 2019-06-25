@@ -141,29 +141,6 @@ const ValidLink = ({ href }) => {
   return isValid ? <OK>OK</OK> : <ERROR>ERROR</ERROR>
 }
 
-const ValidAPIURL = ({ href }) => {
-  const [isValid, setIsValid] = useState('init') // init | ok | error
-  
-  useEffect(() => {
-    setIsValid('init')
-    let isCurrent = true
-    axios.get(href).then(res => {
-      if (!isCurrent) return
-      setIsValid('ok')
-    }).catch(() => {
-      if (!isCurrent) return
-      setIsValid('error')
-    })
-    return () => {
-      isCurrent = false
-    }
-  }, [href])
-  
-  return isValid === 'init' ? null
-    : isValid === 'ok' ? <OK>OK</OK> 
-    : <ERROR>ERROR</ERROR>
-}
-
 const featureCalloutPreviewImages = {
   apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
   create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
@@ -250,7 +227,7 @@ const UnifiedStories = () => (
 const EmbedIFrame = styled.iframe`
   display: block;
   width: 100%;
-  height: 400px;
+  max-height: 100%;
   border: 0;
 `
 
@@ -327,26 +304,27 @@ const CollectionPreview = ({ fullUrl }) => {
     setResponse(loading)
     let isCurrentRequest = true
     axios.get(`https://api.glitch.com/v1/collections/by/fullUrl/projects?fullUrl=${fullUrl}`)
-      .then(({ data }) => {
+      .then((response) => {
         if (!isCurrentRequest) return
-        setResponse({ status: 'ready', value: data.items })
+        setResponse({ status: 'ready', value: response.data.items })
       })
       .catch((response) => {
         if (!isCurrentRequest) return
-        setResponse({ status: 'errror', error: response }) 
+        setResponse({ status: 'error', error: response }) 
       })
     return () => {
       isCurrentRequest = false
     }
   }, [fullUrl])
-  
+
   if (response.status === 'loading') return 'Loading...'
-  if (response.statua === 'error') return <ERROR>ERROR</ERROR>
+  if (response.status === 'error') return <ERROR>ERROR</ERROR>
   return (
     <List items={response.value.slice(0, 3)}>
       {(item) => (
-        <Box>
-          <Text as></Text>
+        <Box padding={2}>
+          <Text as="h3" weight="bold">{item.domain}</Text>
+          <Text as="p">{item.description}</Text>
         </Box>
       )}
     </List>
@@ -356,17 +334,23 @@ const CollectionPreview = ({ fullUrl }) => {
 const CuratedCollections = () => (
   <List items={usePath(['curatedCollections'])} gap={1}>
     {(item, i) => (
-      <Box>
-        <Field>
-          <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']} placeholder="leave blank for default" />
-        </Field>
-        <Field>
-          <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']} placeholder="glitch/glitch-this-week-june-19-2019" />
-        </Field>
-        <Field>
-          <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']} placeholder="leave blank for default" />
-        </Field>
-      </Box>
+      <Flex gap={1}>
+        <Box flex="0 1 50%">
+          <Field>
+            <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']} placeholder="leave blank for default" />
+          </Field>
+          <Field>
+            <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']} placeholder="glitch/glitch-this-week-june-19-2019" />
+          </Field>
+          <Field>
+            <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']} placeholder="leave blank for default" />
+          </Field>
+        </Box>
+        <Box flex="0 1 50%">
+          <Text weight="bold">Projects preview</Text>
+          <CollectionPreview fullUrl={usePath(['curatedCollections', i, 'fullUrl'])}/>
+        </Box>
+      </Flex>
     )}
   </List>
 )
