@@ -114,6 +114,27 @@ const connected = (Component) => ({ path, ...props }) => {
 const Input = connected(BaseInput)
 const TextArea = connected(BaseTextArea)
 
+const getFullUrl = (href) => {
+  try {
+    const url = new URL(href, "https://glitch.com")
+    return url.href
+  } catch (e) {
+    return null
+  }
+}
+
+const ValidLink = ({ href }) => {
+  const [isValid, setIsValid] = true(href)
+  useEffect(() => {
+    const fullUrl = getFullUrl(href)
+    if (!fullUrl) return
+    let isFetching = true
+  }, [href])
+  if (isValid) return null
+  return "ERROR"
+}
+
+
 const featureCalloutPreviewImages = {
   apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
   create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
@@ -310,7 +331,7 @@ const BuildingOnGlitch = () => (
   </FlexList>
 )
 
-const Loading = () => <div>Loading...</div>;
+const Loading = () => <div>Loading...</div>
 
 const Editor = () => {
   const dispatch = useDispatch()
