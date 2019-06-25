@@ -123,15 +123,46 @@ const getFullUrl = (href) => {
   }
 }
 
-const OK = styled.div`
-  padding: 2
+const OK = styled.span`
+  display: inline-block;
+  padding: 2px 4px 0;
+  color: white;
+  background-color: #0c0;
+  font-weight: bold;
+  font-size: 0.8em;
+`
+
+const ERROR = styled(OK)`
+  background-color: #c00;
 `
 
 const ValidLink = ({ href }) => {
   const isValid = href.startsWith('/') || href.startsWith('http')
-  return isValid ? "OK" : "ERROR"
+  return isValid ? <OK>OK</OK> : <ERROR>ERROR</ERROR>
 }
 
+const ValidAPIURL = ({ href }) => {
+  const [isValid, setIsValid] = useState('init') // init | ok | error
+  
+  useEffect(() => {
+    setIsValid('init')
+    let isCurrent = true
+    axios.get(href).then(res => {
+      if (!isCurrent) return
+      setIsValid('ok')
+    }).catch(() => {
+      if (!isCurrent) return
+      setIsValid('error')
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [href])
+  
+  return isValid === 'init' ? null
+    : isValid === 'ok' ? <OK>OK</OK> 
+    : <ERROR>ERROR</ERROR>
+}
 
 const featureCalloutPreviewImages = {
   apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
@@ -278,10 +309,11 @@ const AppsWeLove = () => (
           </Field>
           <Field>
             <Input label="Preview image" path={['appsWeLove', i, 'img']}/>
+            <Image src={item.img} alt={item.title} />
           </Field>
         </Box>
         <Box flex="0 1 50%">
-          <Image src={item.img} alt={item.title} />
+          <EmbedPreview domain={usePath(['appsWeLove', i, 'domain'])} />
         </Box>
       </Flex>
     )}
