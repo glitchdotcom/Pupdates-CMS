@@ -22,7 +22,7 @@ export const TransparentButton = styled(BaseButton)`
 const buttonStyles = {
   primary: { color: 'white', backgroundColor: '#66c', hoverColor: '#669', filled: true },
   secondary: { color: '#66c', backgroundColor: 'white', hoverColor: '#eee' },
-  dangerZone: { color: 'white', backgroundColor: '#c00', hoverCOlor: '#500' },
+  dangerZone: { color: 'white', backgroundColor: '#c00', hoverColor: '#500' },
   '': { color: '#222', backgroundColor: 'white', hoverColor: '#eee' },
 }
 

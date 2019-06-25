@@ -9,6 +9,7 @@ import BaseInput from './input'
 import BaseTextArea from './textarea'
 import Image from './image'
 import Box, { Flex } from './box'
+import Button from './button'
 import Text from './text'
 
 // const APP_BASE = `https://glitch.com`
@@ -52,8 +53,11 @@ const handlers = {
     await axios.post('/home.json', state, { headers: { Authorization: persistentToken } })
     console.log('updated ok')
   }, 3000),
-  [actions.reset]: async () => {
-    
+  [actions.reset]: async (store) => {
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    const data = await axios.get(`${APP_BASE}/api/home`)
+    await axios.post('/home.json', data, { headers: { Authorization: persistentToken } })
+    store.dispatch(actions.loadedData(data))
   },
 }
 
@@ -315,6 +319,12 @@ const Editor = () => {
     loadInitialData().then(data => dispatch(actions.loadedData(data)))
   }, [])
   
+  const confirmThenReset = () => {
+    if (confirm("Are you sure you want to reset? All your changes will be lost.")) {
+      dispatch(actions.reset())
+    }
+  }
+  
   if (homeDataStatus === 'loading') return <Loading />
   
   return (
@@ -326,6 +336,9 @@ const Editor = () => {
         All changes auto-save for the preview. To confirm and publish, 
         visit <a href={`${APP_BASE}/index/preview`}>glitch.com/index/preview</a>.
       </Text>
+      <Box padding={{ top: 2 }}>
+        <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
+      </Box>
       
       <Section>
         <SectionTitle>Feature Callouts</SectionTitle>
