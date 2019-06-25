@@ -115,13 +115,20 @@ const connected = (Component) => ({ path, ...props }) => {
 const Input = connected(BaseInput)
 const TextArea = connected(BaseTextArea)
 
-const getFullUrl = (href) => {
-  try {
-    const url = new URL(href, "https://glitch.com")
-    return url.href
-  } catch (e) {
-    return null
-  }
+const ImageInput = ({ path, label }) => {
+  const src = usePath(path)
+  const upload = useUploader()
+  const dispatch = useDispatch()
+  const uploadAndSave = () => upload().then(url => {
+    dispatch(actions.updatedField({ value: url, path }))
+  })
+  return (
+    <>
+      <Input label={label} path={path}/>
+      <Button onClick={uploadAndSave}>Upload</Button>
+      <Image src={usePath(path)} alt="" />
+    </>
+  )
 }
 
 const OK = styled.span`
@@ -261,8 +268,7 @@ const FeaturedEmbed = () => (
         <Input label="App domain" path={['featuredEmbed', 'domain']}/>
       </Field>
       <Field>
-        <Input label="Image url" path={['featuredEmbed', 'image']}/>
-        <Image src={usePath(['featuredEmbed', 'image'])} alt=""/>
+        <ImageInput label="Image url" path={['featuredEmbed', 'image']}/>
       </Field>
     </Box>
     <Box flex="0 1 50%">
@@ -270,20 +276,6 @@ const FeaturedEmbed = () => (
     </Box>
   </Flex>
 )
-
-const ImageInput () => {
-  const upload = useUploader()
-  const uploadAndSave = () => upload().then(url => {
-    
-  })
-  return (
-    <>
-    <Input label="Preview image" path={['appsWeLove', i, 'img']}/>
-      <Button onClick=()        
-    <Image src={item.img} alt={item.title} />
-    </>
-  )
-}
 
 const AppsWeLove = () => (
   <List items={usePath(['appsWeLove'])}>
@@ -300,7 +292,7 @@ const AppsWeLove = () => (
             <Input label="App domain" path={['appsWeLove', i, 'domain']}/>
           </Field>
           <Field>
-            
+            <ImageInput label="Preview image" path={['appsWeLove', i, 'img']} />
           </Field>
         </Box>
         <Box flex="0 1 50%">

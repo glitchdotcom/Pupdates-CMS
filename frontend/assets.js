@@ -21,7 +21,7 @@ export function requestFile() {
 }
 
 async function upload (file, persistentToken) {
-  const { data: policy } = await axios.get(`/projects/${PROJECT_ID}/policy`, { headers: { Authorization: persistentToken } })
+  const { data: policy } = await axios.get(`https://api.glitch.com/projects/${PROJECT_ID}/policy`, { headers: { Authorization: persistentToken } })
   return S3Uploader(policy).upload({ key: file.name, blob: file })
 }
 
