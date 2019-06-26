@@ -73,15 +73,20 @@ async function getFeaturedProjects(featuredProjects) {
   const domains = featuredProjects.map((p) => `domain=${p.domain}`).join('&');
   const { data: projectData } = await api.get(`/v1/projects/by/domain?${domains}`);
   const projectsWithData = featuredProjects.map(async ({ title, img, domain, description }) => {
-    const project = projectData[domain];
-    const users = await getAllPages(`/v1/projects/by/domain/users?domain=${domain}&limit=100`);
-    return {
-      domain,
-      title,
-      img,
-      users: users.slice(0, 10).map(trimUserProps),
-      description: description,
-    };
+    try {
+      const project = projectData[domain];
+      const users = await getAllPages(`/v1/projects/by/domain/users?domain=${domain}&limit=100`);
+      return {
+        domain,
+        title,
+        img,
+        users: users.slice(0, 10).map(trimUserProps),
+        description,
+      };
+    } catch (e) {
+      return { domain, title, img, users: [], description };
+    }
+
   });
   return Promise.all(projectsWithData);
 }

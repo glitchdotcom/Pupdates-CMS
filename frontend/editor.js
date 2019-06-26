@@ -239,16 +239,30 @@ const EmbedIFrame = styled.iframe`
   border: 0;
 `
 
-const EmbedPreview = ({ domain }) => (
-  <EmbedIFrame
-    title="embed"
-    sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin"
-    src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
-    alt={`${domain} on Glitch`}
-    allow="geolocation; microphone; camera; midi; encrypted-media"
-    allowvr="yes"
-  />
-)
+const EmbedPreview = ({ domain }) => {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(false)
+    let handle = setTimeout(() => setMounted(true), 100)
+    return {
+      cle
+    }
+  }, [domain])
+  
+  if (!mounted) return null;
+  return (
+    <EmbedIFrame
+      key={domain}
+      title="embed"
+      sandbox="allow-scripts allow-forms allow-same-origin"
+      src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
+      alt={`${domain} on Glitch`}
+      allow="geolocation; microphone; camera; midi; encrypted-media"
+      allowvr="yes"
+    />
+  )
+}
+  
 
 const FeaturedEmbed = () => (
   <Flex gap={2}>
