@@ -240,16 +240,25 @@ const EmbedIFrame = styled.iframe`
 `
 
 const EmbedPreview = ({ domain }) => {
-  const [mounted, setMounted] = useState(false)
+  const [status, setStatus] = useState('loading') // loading | ready | errror
   useEffect(() => {
-    setMounted(false)
-    let handle = setTimeout(() => setMounted(true), 100)
-    return {
-      cle
+    setStatus('loading')
+    let isCurrentRequest = true
+    axios.get(`https://api.glitch.com/v1/projects/by/domain?domain=${domain}`)
+      .then((response) => {
+        if (!isCurrentRequest) return
+        setStatus(response.data[domain] ? 'ready' : 'error')
+      })
+      .catch((response) => {
+        if (!isCurrentRequest) return
+        setStatus('error')
+      })
+    return () => {
+      isCurrentRequest = false
     }
   }, [domain])
-  
-  if (!mounted) return null;
+  if (status === 'loading') return null;
+  if (status === 'error') return <ERROR>ERROR</ERROR>
   return (
     <EmbedIFrame
       key={domain}
