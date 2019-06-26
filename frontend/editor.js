@@ -242,6 +242,7 @@ const EmbedIFrame = styled.iframe`
 const EmbedPreview = ({ domain }) => (
   <EmbedIFrame
     title="embed"
+    sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin"
     src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
     alt={`${domain} on Glitch`}
     allow="geolocation; microphone; camera; midi; encrypted-media"
