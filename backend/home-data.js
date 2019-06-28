@@ -72,11 +72,12 @@ async function getFeaturedCollections(featuredCollections) {
 async function getFeaturedProjects(featuredProjects) {
   const domains = featuredProjects.map((p) => `domain=${p.domain}`).join('&');
   const { data: projectData } = await api.get(`/v1/projects/by/domain?${domains}`);
-  const projectsWithData = featuredProjects.map(async ({ title, img, domain, description }) => {
+  const projectsWithData = featuredProjects.map(async ({ id, title, img, domain, description }) => {
+    const project = projectData[domain];
     try {
-      const project = projectData[domain];
       const users = await getAllPages(`/v1/projects/by/domain/users?domain=${domain}&limit=100`);
       return {
+        id: project.id,
         domain,
         title,
         img,
@@ -84,7 +85,7 @@ async function getFeaturedProjects(featuredProjects) {
         description,
       };
     } catch (e) {
-      return { domain, title, img, users: [], description };
+      return { id: project.id, domain, title, img, users: [], description };
     }
 
   });
