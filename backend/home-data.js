@@ -36,8 +36,6 @@ async function getUniqueUsersInProjects(projects, maxCount) {
 }
 
 async function getFeaturedCollections(featuredCollections) {
-  // TODO: where should this actually be configured?
-  const styleNames = ['wavey', 'diagonal', 'triangle'];
   const fullUrls = featuredCollections.map(({ fullUrl }) => `fullUrl=${fullUrl}`).join('&');
   try {
     const { data: collections } = await api.get(`/v1/collections/by/fullUrl?${fullUrls}`)
@@ -53,7 +51,7 @@ async function getFeaturedCollections(featuredCollections) {
         fullUrl,
         users: users.map(trimUserProps),
         count: projects.length,
-        collectionStyle: style || styleNames[i],
+        // collectionStyle: style || styleNames[i],
       };
     });  
 
@@ -64,7 +62,6 @@ async function getFeaturedCollections(featuredCollections) {
       ...collection,
       users: [],
       count: 0,
-      collectionStyle: styleNames[i],
     }));
   }
 }
