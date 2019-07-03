@@ -90,13 +90,14 @@ async function getFeaturedProjects(featuredProjects) {
 }
 
 async function getHomeData() {
-  const rawData = JSON.parse(await fs.readFile('.data/home.json'))
+  const rawData = JSON.parse(await fs.readFile('.data/home.json'));
+  const relevantData = pick(rawData, ['unifiedStories', 'featureCallouts', 'buildingOnGlitch']);
   
   const data = await allByKeys({
     curatedCollections: getFeaturedCollections(rawData.curatedCollections),
     appsWeLove: getFeaturedProjects(rawData.appsWeLove),
   });
-  return pick({ ...rawData, ...data }, ['curatedCollections', 'appsWeLove', 'featuredEmbed', 'unifiedStories', 'featureCallouts', 'buildingOnGlitch']);
+  return { ...relevantData, ...data };
 }
 
 
