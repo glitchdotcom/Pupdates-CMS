@@ -96,7 +96,7 @@ async function getHomeData() {
     curatedCollections: getFeaturedCollections(rawData.curatedCollections),
     appsWeLove: getFeaturedProjects(rawData.appsWeLove),
   });
-  return { ...rawData, ...data };
+  return pick({ ...rawData, ...data }, ['curatedCollections', 'appsWeLove', 'featuredEmbed', 'unifiedStories', 'featureCallouts', 'buildingOnGlitch']);
 }
 
 

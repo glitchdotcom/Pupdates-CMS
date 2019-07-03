@@ -385,15 +385,10 @@ const CuratedCollections = () => (
   </List>
 )
 
-const BuildingImage = styled(Image)`
-  height: 100px;
-`
-
 const BuildingOnGlitch = () => (
   <FlexList items={usePath(['buildingOnGlitch'])} gap={1}>
     {(item, i) => (
       <Box>
-        <BuildingImage src={item.img} />
         <Field>
           <Input label="Title" path={['buildingOnGlitch', i, 'title']}/>
         </Field>
@@ -446,16 +441,11 @@ const Editor = () => {
         <FeatureCallouts />
       </Section>
       
-      <Section>      
+      <Section open>      
         <SectionTitle>Unified Stories</SectionTitle>
         <UnifiedStories />
       </Section>
-      
-      <Section open>
-        <SectionTitle>Featured Embed</SectionTitle>
-        <FeaturedEmbed />
-      </Section>
-      
+            
       <Section open>
         <SectionTitle>Apps We Love</SectionTitle>
         <AppsWeLove />
