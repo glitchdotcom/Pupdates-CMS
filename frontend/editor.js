@@ -13,8 +13,7 @@ import Button from './button'
 import Text from './text'
 import { useUploader } from './assets'
 
-// const APP_BASE = `https://glitch.com`
-const APP_BASE = `https://woolen-crib.glitch.me`
+const APP_BASE = `https://glitch.com`
 
 const debounce = (fn, timeout) => {
   let handle
