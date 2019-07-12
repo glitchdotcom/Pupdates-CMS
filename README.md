@@ -28,7 +28,7 @@ There are a couple of weird aspects to how ~community-home-editor works; some of
     
 This is how the community home editor works.
 
-~community and ~community-home-editor both have copies of a file called `home.json` -- community has the **production data**, community-home-editor has the **working draft**.
+~community and ~community-home-editor both have copies of a file called `home.json` (typically lives in `.data`) -- community has the **production data**, community-home-editor has the **working draft**.
 
 - when the user visits glitch.com, that page is using the production data.
 - when the user visits community-home-editor.glitch.me, it displays the working draft, which it  it GETs  from`/home.json`.
