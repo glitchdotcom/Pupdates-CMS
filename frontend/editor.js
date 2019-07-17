@@ -148,99 +148,36 @@ const ValidLink = ({ href }) => {
   return isValid ? <OK>OK</OK> : <ERROR>ERROR</ERROR>
 }
 
-const RelatedContent = ({ path }) => (
-  <Box padding={{ top: 2, bottom: 1 }}>
-    <Field>
-      <Input label="Title" path={[...path, 'title']} condensed />
-    </Field>
-    <Field>
-      <Input label="Source" path={[...path, 'source']} condensed />
-    </Field>
-    <Field>
-      <Input label="Link url" path={[...path, 'href']} condensed />
-    </Field>
-  </Box>
-)
-
-const UnifiedStories = () => (
-  <Box>
-    <Field>
-      <TextArea label="Headline" path={['unifiedStories', 'hed']} minRows={2} />
-    </Field>
-    <Field>
-      <Input label="Subject" path={['unifiedStories', 'dek']} /> 
-    </Field>
-    <Field>
-      <Flex gap={1}>
-        <Box flex="0 1 50%">
-          <Input label="Preview image" path={['unifiedStories', 'featuredImage']} />
-          <Field>
-            <Input label="Description" path={['unifiedStories', 'featuredImageDescription']} />
-          </Field>
-         <Field>
-            <Input label="Link url" path={['unifiedStories', 'href']} /> 
-          </Field>
-          <Field>
-            <Input label="Link text" path={['unifiedStories', 'cta']} /> 
-          </Field>
-        </Box>
-        <Box flex="0 1 50%">
-          <Image src={usePath(['unifiedStories', 'featuredImage'])} />
-        </Box>
-      </Flex>
-    </Field>
-    <Field>
-      <TextArea label="Summary (markdown)" path={['unifiedStories', 'summary']} minRows={6} />
-    </Field>
-   
-    <SubTitle>Related Content</SubTitle>
-    <List items={usePath(['unifiedStories', 'relatedContent'])}>
-      {(item, i) => <RelatedContent path={['unifiedStories', 'relatedContent', i]} />}
-    </List>
-  </Box>
-)
-
-
-  
-
-
-
-
-const loading = { status: 'loading' }
-const CollectionPreview = ({ fullUrl }) => {
-  const [response, setResponse] = useState(loading)
-  useEffect(() => {
-    setResponse(loading)
-    let isCurrentRequest = true
-    axios.get(`https://api.glitch.com/v1/collections/by/fullUrl/projects?fullUrl=${fullUrl}`)
-      .then((response) => {
-        if (!isCurrentRequest) return
-        setResponse({ status: 'ready', value: response.data.items })
-      })
-      .catch((response) => {
-        if (!isCurrentRequest) return
-        setResponse({ status: 'error', error: response }) 
-      })
-    return () => {
-      isCurrentRequest = false
-    }
-  }, [fullUrl])
-
-  if (response.status === 'loading') return 'Loading...'
-  if (response.status === 'error') return <ERROR>ERROR</ERROR>
-  return (
-    <List items={response.value.slice(0, 3)}>
-      {(item) => (
-        <Box padding={2}>
-          <Text as="h3" weight="bold">{item.domain}</Text>
-          <Text as="p">{item.description}</Text>
-        </Box>
-      )}
-    </List>
-  )
+const featureCalloutPreviewImages = {
+  apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
+  create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
+  teams: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteam-animation.svg?v=1560048765078',
 }
 
-
+const FeatureCallouts = () => {
+  const items = usePath(['featureCallouts'])
+  return (
+    <FlexList gap={1} items={items}>
+      {({ id }, i) => (
+        <Box>
+          <Image src={featureCalloutPreviewImages[id]} alt=""/>
+          <Field>
+            <Input label="Title" path={['featureCallouts', i, 'label']}/>
+          </Field>
+          <Field>
+            <TextArea label="Description" path={['featureCallouts', i, 'description']}/>
+          </Field>
+          <Field>
+            <Input label="Call to action" path={['featureCallouts', i, 'cta']}/>
+          </Field>
+          <Field>
+            <Input label="Link url" path={['featureCallouts', i, 'href']}/>
+          </Field>
+        </Box>
+      )}
+    </FlexList>
+  )
+}
 
 const Loading = () => <div>Loading...</div>
 
@@ -272,8 +209,8 @@ const Editor = () => {
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
       </Box>      
       <Section open>      
-        <SectionTitle>Unified Stories</SectionTitle>
-        <UnifiedStories />
+        <SectionTitle>Learn More</SectionTitle>
+        <FeatureCallouts />
       </Section>
     </Box>
   )
