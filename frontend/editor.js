@@ -55,8 +55,7 @@ const handlers = {
   }, 3000),
   [actions.reset]: async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
-    // need to set up a json file on prod to pull from
-    const { data } = await axios.get(`${APP_BASE}/api/home`)
+    const { data } = await axios.get(`${APP_BASE}/api/pupdate`)
     await axios.post('/pupdate.json', data, { headers: { Authorization: persistentToken } })
     store.dispatch(actions.loadedData(data))
   },
