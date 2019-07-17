@@ -204,9 +204,10 @@ const Editor = () => {
       <Box padding={{ top: 2 }}>
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
       </Box>      
-      <SectionTitle>Learn More</SectionTitle>
-      <FeatureCallouts />
-
+      <Box>
+        <SectionTitle>Learn More</SectionTitle>
+        <FeatureCallouts />
+      </Box>
     </Box>
   )
 }
