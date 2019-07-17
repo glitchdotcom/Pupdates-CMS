@@ -50,13 +50,13 @@ const handlers = {
   [actions.updatedField]: debounce(async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const state = store.getState().homeData.data
-    await axios.post('/home.json', state, { headers: { Authorization: persistentToken } })
+    await axios.post('/pupdate.json', state, { headers: { Authorization: persistentToken } })
     console.log('updated ok')
   }, 3000),
   [actions.reset]: async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const { data } = await axios.get(`${APP_BASE}/api/home`)
-    await axios.post('/home.json', data, { headers: { Authorization: persistentToken } })
+    await axios.post('/pupdate.json', data, { headers: { Authorization: persistentToken } })
     store.dispatch(actions.loadedData(data))
   },
 }
@@ -66,7 +66,7 @@ const usePath = (path) => {
 }
 
 const loadInitialData = async () => {
-  const { data } = await axios.get('/home.json')
+  const { data } = await axios.get('/pupdate.json')
   return data
 }
 
