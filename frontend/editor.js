@@ -149,7 +149,7 @@ const FeatureCallouts = () => {
     <List gap={1} items={items}>
       {({ id }, i) => (
         <Box>
-          <SectionTitle>Pupdate {i+1}</SectionTitle>
+          <SectionTitle>Pupdate {id}</SectionTitle>
           <Field>
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
