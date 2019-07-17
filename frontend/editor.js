@@ -95,7 +95,7 @@ const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
 )
 
 const FlexListBase = Flex.withComponent(List)
-const FlexItem = compose(<Box as="li" flex="1 0 auto" />)
+const FlexItem = compose(<Box as="li" flex="1 0 50%" flex-wrap="wrap" />)
 const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
