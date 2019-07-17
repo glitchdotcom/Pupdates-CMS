@@ -155,23 +155,20 @@ const featureCalloutPreviewImages = {
 }
 
 const FeatureCallouts = () => {
-  const items = usePath(['featureCallouts'])
+  const items = usePath(['pupdates'])
   return (
     <FlexList gap={1} items={items}>
       {({ id }, i) => (
         <Box>
           <Image src={featureCalloutPreviewImages[id]} alt=""/>
           <Field>
-            <Input label="Title" path={['featureCallouts', i, 'label']}/>
+            <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
           <Field>
-            <TextArea label="Description" path={['featureCallouts', i, 'description']}/>
+            <TextArea label="Description" path={['featureCallouts', i, 'summary']}/>
           </Field>
           <Field>
-            <Input label="Call to action" path={['featureCallouts', i, 'cta']}/>
-          </Field>
-          <Field>
-            <Input label="Link url" path={['featureCallouts', i, 'href']}/>
+            <Input label="Call to action" path={['featureCallouts', i, 'image']}/>
           </Field>
         </Box>
       )}
