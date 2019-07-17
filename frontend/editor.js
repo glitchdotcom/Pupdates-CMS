@@ -13,7 +13,7 @@ import Button from './button'
 import Text from './text'
 import { useUploader } from './assets'
 
-const APP_BASE = `https://glitch.com`
+const APP_BASE = `https://cooked-devourer.glitch.me`
 
 const debounce = (fn, timeout) => {
   let handle
@@ -55,6 +55,7 @@ const handlers = {
   }, 3000),
   [actions.reset]: async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
+    // need to set up a json file on prod to pull from
     const { data } = await axios.get(`${APP_BASE}/api/home`)
     await axios.post('/pupdate.json', data, { headers: { Authorization: persistentToken } })
     store.dispatch(actions.loadedData(data))
@@ -93,10 +94,6 @@ const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
     ))}
   </Box>
 )
-
-const FlexListBase = Flex.withComponent(List)
-const FlexItem = compose(<Box as="li" flex="1 0 50%" flex-direction="column" />)
-const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
 
@@ -147,19 +144,13 @@ const ValidLink = ({ href }) => {
   return isValid ? <OK>OK</OK> : <ERROR>ERROR</ERROR>
 }
 
-const featureCalloutPreviewImages = {
-  apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
-  create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
-  teams: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteam-animation.svg?v=1560048765078',
-}
-
 const FeatureCallouts = () => {
   const items = usePath(['pupdates'])
   return (
-    <FlexList gap={1} items={items}>
+    <List gap={1} items={items}>
       {({ id }, i) => (
         <Box>
-          <Image src={featureCalloutPreviewImages[id]} alt=""/>
+          <SectionTitle>Pupdate {i+1}</SectionTitle>
           <Field>
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
@@ -171,7 +162,7 @@ const FeatureCallouts = () => {
           </Field>
         </Box>
       )}
-    </FlexList>
+    </List>
   )
 }
 
@@ -205,7 +196,6 @@ const Editor = () => {
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
       </Box>      
       <Box>
-        <SectionTitle>Learn More</SectionTitle>
         <FeatureCallouts />
       </Box>
     </Box>
