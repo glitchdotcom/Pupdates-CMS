@@ -87,7 +87,7 @@ const SubTitle = compose(
 )
 
 const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
-  <Box as="ul" {...props} flex-wrap="wrap">
+  <Box as="ul" {...props}>
     {items.map((item, index) => (
       <Item key={index}>{children(item, index)}</Item>
     ))}
@@ -95,7 +95,7 @@ const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
 )
 
 const FlexListBase = Flex.withComponent(List)
-const FlexItem = compose(<Box as="li" flex="1 0 50%" />)
+const FlexItem = compose(<Box as="li" flex="1 0 50%" flex-direction="column" />)
 const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
@@ -167,7 +167,7 @@ const FeatureCallouts = () => {
             <TextArea label="Description" path={['pupdates', i, 'summary']}/>
           </Field>
           <Field>
-            <Input label="Call to action" path={['pupdates', i, 'image']}/>
+            <ImageInput label="Preview image" path={['pupdates', i, 'image']} />
           </Field>
         </Box>
       )}
