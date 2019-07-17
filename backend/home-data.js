@@ -91,6 +91,7 @@ async function getFeaturedProjects(featuredProjects) {
 
 async function getHomeData() {
   const rawData = JSON.parse(await fs.readFile('.data/home.json'));
+  console.log(rawData);
   const relevantData = pick(rawData, ['unifiedStories', 'featureCallouts', 'buildingOnGlitch']);
   
   const data = await allByKeys({
