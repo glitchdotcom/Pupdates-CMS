@@ -164,11 +164,16 @@ const Editor = () => {
       </Text>
       <Text as="p">
         All changes auto-save for the preview. To confirm and publish, 
-        visit <a href={`${APP_BASE}/index/preview`}>glitch.com/index/preview</a>.
+        visit <a href={`${APP_BASE}/pupdate/preview`}>glitch.com/pupdate/preview</a>.
+        {/* TODO: set up preview in cooked-devourer remix */}
       </Text>
       <Box padding={{ top: 2 }}>
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
-      </Box>      
+      </Box>   
+      <Box padding={{ top: 2 }}>
+        <Button onClick={() => {console.log("clicked")}}>🐶 Add new pupdate</Button>
+        {/* TODO: make this button add a new id to pupdate.json */}
+      </Box> 
       <Box>
         <FeatureCallouts />
       </Box>
