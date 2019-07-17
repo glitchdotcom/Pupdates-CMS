@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/home.json", async (req, res) => {
+app.get("/pupdate.json", async (req, res) => {
   try {
     const data = await getHomeData();
     res.json(data);
@@ -35,13 +35,13 @@ app.get("/home.json", async (req, res) => {
 
 const GLITCH_TEAM_ID = 74;
 
-app.post('/home.json', async (req, res) => {
+app.post('/pupdate.json', async (req, res) => {
   const persistentToken = req.headers.authorization;
   
   const teams = await getAllPages(`/v1/users/by/persistentToken/teams?persistentToken=${persistentToken}&limit=100`);
   if (!teams.some((team) => team.id === GLITCH_TEAM_ID)) throw new Error('Forbidden');
     
-  await fs.promises.writeFile('.data/home.json', JSON.stringify(req.body));
+  await fs.promises.writeFile('.data/pupdate.json', JSON.stringify(req.body));
   res.sendStatus(200);
 });
 

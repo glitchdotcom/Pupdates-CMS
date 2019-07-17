@@ -6,101 +6,11 @@ const api = axios.create({
   timeout: 5000,
 });
 
-const userProps = [
-  'id',
-  'avatarUrl',
-  'avatarThumbnailUrl',
-  'login',
-  'name',
-  'location',
-  'color',
-  'description',
-  'hasCoverImage',
-  'coverColor',
-  'thanksCount',
-  'utcOffset',
-];
-const trimUserProps = (user) => pick(user, userProps);
-
-
-async function getUniqueUsersInProjects(projects, maxCount) {
-  const users = {};
-  for await (const project of projects) {
-    const projectUsers = await getAllPages(`v1/projects/by/id/users?id=${project.id}&limit=100`);
-    for (const user of projectUsers) {
-      users[user.id] = user;
-    }
-    if (Object.keys(users).length > maxCount) break;
-  }
-  return Object.values(users);
-}
-
-async function getFeaturedCollections(featuredCollections) {
-  const fullUrls = featuredCollections.map(({ fullUrl }) => `fullUrl=${fullUrl}`).join('&');
-  try {
-    const { data: collections } = await api.get(`/v1/collections/by/fullUrl?${fullUrls}`)
-
-    const collectionsWithData = featuredCollections.map(async ({ fullUrl, title, description, style }, i) => {
-      const collection = collections[fullUrl];
-      const projects = await getAllPages(`/v1/collections/by/fullUrl/projects?fullUrl=${fullUrl}&limit=100`);
-      const users = await getUniqueUsersInProjects(projects, 5);
-
-      return {
-        title: title || collection.name,
-        description: description || collection.description,
-        fullUrl,
-        users: users.map(trimUserProps),
-        count: projects.length,
-        // collectionStyle: style || styleNames[i],
-      };
-    });  
-
-    const withData = await Promise.all(collectionsWithData);
-    return withData;
-  } catch (e) {
-    return featuredCollections.map((collection, i) => ({
-      ...collection,
-      users: [],
-      count: 0,
-    }));
-  }
-}
-
-async function getFeaturedProjects(featuredProjects) {
-  const domains = featuredProjects.map((p) => `domain=${p.domain}`).join('&');
-  const { data: projectData } = await api.get(`/v1/projects/by/domain?${domains}`);
-  const projectsWithData = featuredProjects.map(async ({ id, title, img, domain, description }) => {
-    const project = projectData[domain];
-    try {
-      const users = await getAllPages(`/v1/projects/by/domain/users?domain=${domain}&limit=100`);
-      return {
-        id: project.id,
-        domain,
-        title,
-        img,
-        users: users.slice(0, 10).map(trimUserProps),
-        description,
-      };
-    } catch (e) {
-      return { id: project.id, domain, title, img, users: [], description };
-    }
-
-  });
-  return Promise.all(projectsWithData);
-}
-
 async function getHomeData() {
-  const rawData = JSON.parse(await fs.readFile('.data/home.json'));
-  console.log(rawData);
-  const relevantData = pick(rawData, ['unifiedStories', 'featureCallouts', 'buildingOnGlitch']);
-  
-  const data = await allByKeys({
-    curatedCollections: getFeaturedCollections(rawData.curatedCollections),
-    appsWeLove: getFeaturedProjects(rawData.appsWeLove),
-  });
-  return { ...relevantData, ...data };
+  const rawData = JSON.parse(await fs.readFile('.data/pupdate.json'));
+  const relevantData = pick(rawData, ['pupdates']);
+  return { ...relevantData};
 }
-
 
 function pick (obj, keys) {
   const out = {};

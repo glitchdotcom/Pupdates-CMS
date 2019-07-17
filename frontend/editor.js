@@ -165,10 +165,10 @@ const FeatureCallouts = () => {
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
           <Field>
-            <TextArea label="Description" path={['featureCallouts', i, 'summary']}/>
+            <TextArea label="Description" path={['pupdates', i, 'summary']}/>
           </Field>
           <Field>
-            <Input label="Call to action" path={['featureCallouts', i, 'image']}/>
+            <Input label="Call to action" path={['pupdates', i, 'image']}/>
           </Field>
         </Box>
       )}
