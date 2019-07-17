@@ -75,8 +75,7 @@ export const editorSlice = { slice, reducer, actions, handlers }
 const compose = (...baseElements) => baseElements
   .map(element => (props) => cloneElement(element, props))
   .reduce((Parent, Child) => ({ children, ...props }) => <Parent {...props}><Child>{children}</Child></Parent>)
-
-const Section = 'details'          
+       
 const SectionTitle = compose(
   <Box as="summary" padding={{ top: 4, bottom: 1 }} />,
   <Text as="h1" size={2} weight="bold" />
@@ -205,10 +204,9 @@ const Editor = () => {
       <Box padding={{ top: 2 }}>
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
       </Box>      
-      <Section open>      
-        <SectionTitle>Learn More</SectionTitle>
-        <FeatureCallouts />
-      </Section>
+      <SectionTitle>Learn More</SectionTitle>
+      <FeatureCallouts />
+
     </Box>
   )
 }
