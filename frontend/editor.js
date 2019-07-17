@@ -148,37 +148,6 @@ const ValidLink = ({ href }) => {
   return isValid ? <OK>OK</OK> : <ERROR>ERROR</ERROR>
 }
 
-const featureCalloutPreviewImages = {
-  apps: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-animation.svg?v=1560048767118',
-  create: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-animation.svg?v=1560123089417',
-  teams: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteam-animation.svg?v=1560048765078',
-}
-
-const FeatureCallouts = () => {
-  const items = usePath(['featureCallouts'])
-  return (
-    <FlexList gap={1} items={items}>
-      {({ id }, i) => (
-        <Box>
-          <Image src={featureCalloutPreviewImages[id]} alt=""/>
-          <Field>
-            <Input label="Title" path={['featureCallouts', i, 'label']}/>
-          </Field>
-          <Field>
-            <TextArea label="Description" path={['featureCallouts', i, 'description']}/>
-          </Field>
-          <Field>
-            <Input label="Call to action" path={['featureCallouts', i, 'cta']}/>
-          </Field>
-          <Field>
-            <Input label="Link url" path={['featureCallouts', i, 'href']}/>
-          </Field>
-        </Box>
-      )}
-    </FlexList>
-  )
-}
-
 const RelatedContent = ({ path }) => (
   <Box padding={{ top: 2, bottom: 1 }}>
     <Field>
@@ -231,100 +200,11 @@ const UnifiedStories = () => (
   </Box>
 )
 
-const EmbedIFrame = styled.iframe`
-  display: block;
-  width: 100%;
-  height: 500px;
-  border: 0;
-`
 
-const EmbedPreview = ({ domain }) => {
-  const [status, setStatus] = useState('loading') // loading | ready | errror
-  useEffect(() => {
-    setStatus('loading')
-    let isCurrentRequest = true
-    axios.get(`https://api.glitch.com/v1/projects/by/domain?domain=${domain}`)
-      .then((response) => {
-        if (!isCurrentRequest) return
-        setStatus(response.data[domain] ? 'ready' : 'error')
-      })
-      .catch((response) => {
-        if (!isCurrentRequest) return
-        setStatus('error')
-      })
-    return () => {
-      isCurrentRequest = false
-    }
-  }, [domain])
-  if (status === 'loading') return null;
-  if (status === 'error') return <ERROR>ERROR</ERROR>
-  return (
-    <EmbedIFrame
-      key={domain}
-      title="embed"
-      sandbox="allow-scripts allow-forms allow-same-origin"
-      src={`https://glitch.com/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
-      alt={`${domain} on Glitch`}
-      allow="geolocation; microphone; camera; midi; encrypted-media"
-      allowvr="yes"
-    />
-  )
-}
   
 
-const FeaturedEmbed = () => (
-  <Flex gap={2}>
-    <Box flex="0 1 50%">
-      <Field>
-        <Input label="Title" path={['featuredEmbed', 'title']}/>
-      </Field>
-      <Field>
-        <TextArea label="Description" path={['featuredEmbed', 'description']} minRows={6}/>
-      </Field>
-      <Field>
-        <Input 
-          label={<>Link url <ValidLink href={usePath(['featuredEmbed', 'href'])} /></>} 
-          path={['featuredEmbed', 'href']}
-        />
-      </Field>
-      <Field>
-        <Input label="App domain" path={['featuredEmbed', 'domain']}/>
-      </Field>
-      <Field>
-        <ImageInput label="Image url" path={['featuredEmbed', 'image']}/>
-      </Field>
-    </Box>
-    <Box flex="0 1 50%">
-      <EmbedPreview domain={usePath(['featuredEmbed', 'domain'])} />
-    </Box>
-  </Flex>
-)
 
-const AppsWeLove = () => (
-  <List items={usePath(['appsWeLove'])}>
-    {(item, i) => (
-      <Flex gap={2}>
-        <Box flex="0 1 50%">
-          <Field>
-            <Input label="Title" path={['appsWeLove', i, 'title']}/>
-          </Field>
-          <Field>
-            <TextArea label="Description" path={['appsWeLove', i, 'description']} minRows={2}/>
-          </Field>
-          <Field>
-            <Input label="App domain" path={['appsWeLove', i, 'domain']}/>
-          </Field>
-          <Field>
-            <ImageInput label="Preview image" path={['appsWeLove', i, 'img']} />
-          </Field>
-        </Box>
-        <Box flex="0 1 50%">
-          <EmbedPreview domain={usePath(['appsWeLove', i, 'domain'])} />
-        </Box>
-      </Flex>
-    )}
-  </List>
-)
+
 
 const loading = { status: 'loading' }
 const CollectionPreview = ({ fullUrl }) => {
@@ -360,50 +240,7 @@ const CollectionPreview = ({ fullUrl }) => {
   )
 }
 
-const CuratedCollections = () => (
-  <List items={usePath(['curatedCollections'])} gap={1}>
-    {(item, i) => (
-      <Flex gap={1}>
-        <Box flex="0 1 50%">
-          <Field>
-            <Input label="Title (blank for default)" path={['curatedCollections', i, 'title']} placeholder="leave blank for default" />
-          </Field>
-          <Field>
-            <Input label="Collection url" path={['curatedCollections', i, 'fullUrl']} placeholder="glitch/glitch-this-week-june-19-2019" />
-          </Field>
-          <Field>
-            <TextArea label="Description (blank for default)" path={['curatedCollections', i, 'description']} placeholder="leave blank for default" />
-          </Field>
-        </Box>
-        <Box flex="0 1 50%">
-          <Text weight="bold">Projects preview</Text>
-          <CollectionPreview fullUrl={usePath(['curatedCollections', i, 'fullUrl'])}/>
-        </Box>
-      </Flex>
-    )}
-  </List>
-)
 
-const BuildingOnGlitch = () => (
-  <FlexList items={usePath(['buildingOnGlitch'])} gap={1}>
-    {(item, i) => (
-      <Box>
-        <Field>
-          <Input label="Title" path={['buildingOnGlitch', i, 'title']}/>
-        </Field>
-        <Field>
-          <TextArea label="Description" path={['buildingOnGlitch', i, 'description']}/>
-        </Field>
-        <Field>
-          <Input label="Call to action" path={['buildingOnGlitch', i, 'cta']}/>
-        </Field>
-        <Field>
-          <Input label="Link url" path={['buildingOnGlitch', i, 'href']}/>
-        </Field>
-      </Box>
-    )}
-  </FlexList>
-)
 
 const Loading = () => <div>Loading...</div>
 
@@ -425,7 +262,7 @@ const Editor = () => {
   return (
     <Box as="section" padding={{bottom: 4}}>
       <Text as="h1" size={1}>
-        Glitch Community Home Editor
+        Glitch Pupdate Editor
       </Text>
       <Text as="p">
         All changes auto-save for the preview. To confirm and publish, 
@@ -433,31 +270,10 @@ const Editor = () => {
       </Text>
       <Box padding={{ top: 2 }}>
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
-      </Box>
-      
-      <Section>
-        <SectionTitle>Feature Callouts</SectionTitle>
-        <FeatureCallouts />
-      </Section>
-      
+      </Box>      
       <Section open>      
         <SectionTitle>Unified Stories</SectionTitle>
         <UnifiedStories />
-      </Section>
-            
-      <Section open>
-        <SectionTitle>Apps We Love</SectionTitle>
-        <AppsWeLove />
-      </Section>
-      
-      <Section open>
-        <SectionTitle>Curated Collections</SectionTitle>
-        <CuratedCollections />
-      </Section>
-      
-      <Section>
-        <SectionTitle>Start Building</SectionTitle>
-        <BuildingOnGlitch />
       </Section>
     </Box>
   )

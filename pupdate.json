@@ -1,9 +1,3 @@
-Get organized with Collections
-Add any project to a collection and show off your favorite things, group all your related projects, collect precious memories, etc.
-
-Head over to your profile or team page to create and view your collections.
-
-
 {
   {
     title: "Reorder projects in a collection",
@@ -35,8 +29,10 @@ Now you can sign into Glitch with just your email. Choose Sign in with Email to 
     image: "https://cdn.glitch.com/69bf2d27-a029-4632-86a4-a722974778ae%2Femail-sign-in.gif?1548196863943"
   },
   {
-    title: "Collection Notes"
-    blurb: "Adding an app to your collection? Leave a note to share why you love it! Notes support Markdown too, if you want to get fancy with formatting"
-    image: "https://cdn.glitch.com/4822a2a6-5ac1-4920-bb11-95cc5594b1db%2Fnote.gif?v=1562186723855"
+    title: "Get organized with Collections"
+    blurb: "Add any project to a collection and show off your favorite things, group all your related projects, collect precious memories, etc.
+
+Head over to your profile or team page to create and view your collections."
+    image: "https://cdn.glitch.com/e9551d04-9c48-4dbb-ab1b-04eca25b9652%2Fimage.png?1547136745894"
   }
 }
