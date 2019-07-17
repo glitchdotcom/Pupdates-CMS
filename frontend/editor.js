@@ -87,7 +87,7 @@ const SubTitle = compose(
 )
 
 const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
-  <Box as="ul" {...props}>
+  <Box as="ul" {...props} flex-wrap="wrap">
     {items.map((item, index) => (
       <Item key={index}>{children(item, index)}</Item>
     ))}
@@ -95,7 +95,7 @@ const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
 )
 
 const FlexListBase = Flex.withComponent(List)
-const FlexItem = compose(<Box as="li" flex="1 0 50%" flex-wrap="wrap" />)
+const FlexItem = compose(<Box as="li" flex="1 0 50%" />)
 const FlexList = compose(<FlexListBase itemComponent={FlexItem} />)
 
 const Field = compose(<Box padding={{top: 2}}/>)
