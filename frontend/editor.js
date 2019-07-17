@@ -1,5 +1,4 @@
-import React, { cloneElement, useState, useEffect } from 'react'
-import styled from '@emotion/styled'
+import React, { cloneElement, useEffect } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSlice } from 'redux-starter-kit'
@@ -8,7 +7,7 @@ import { useCurrentUser } from './current-user'
 import BaseInput from './input'
 import BaseTextArea from './textarea'
 import Image from './image'
-import Box, { Flex } from './box'
+import Box from './box'
 import Button from './button'
 import Text from './text'
 import { useUploader } from './assets'
@@ -39,7 +38,7 @@ const { slice, reducer, actions } = createSlice({
       const last = path[path.length - 1]
       get(state.data, most)[last] = value
     },
-    reset: (state) => ({
+    reset: () => ({
       status: 'loading',
       data: null,
     }),
@@ -81,11 +80,6 @@ const SectionTitle = compose(
   <Text as="h1" size={2} weight="bold" />
 )
 
-const SubTitle = compose(
-  <Box padding={{ y: 2 }}/>,
-  <Text as="h2" size={3} weight="bold"/>
-)
-
 const List = ({ items, children, itemComponent: Item = 'li', ...props }) => (
   <Box as="ul" {...props}>
     {items.map((item, index) => (
@@ -110,7 +104,6 @@ const Input = connected(BaseInput)
 const TextArea = connected(BaseTextArea)
 
 const ImageInput = ({ path, label }) => {
-  const src = usePath(path)
   const upload = useUploader()
   const dispatch = useDispatch()
   const uploadAndSave = () => upload().then(url => {
@@ -125,24 +118,6 @@ const ImageInput = ({ path, label }) => {
   )
 }
 
-const OK = styled.span`
-  display: inline-block;
-  padding: 2px 4px 0;
-  color: white;
-  background-color: #0c0;
-  font-weight: bold;
-  font-size: 0.8em;
-`
-
-const ERROR = styled(OK)`
-  background-color: #c00;
-`
-
-const ValidLink = ({ href }) => {
-  const isValid = href.startsWith('/') || href.startsWith('http')
-  return isValid ? <OK>OK</OK> : <ERROR>ERROR</ERROR>
-}
-
 const FeatureCallouts = () => {
   const items = usePath(['pupdates'])
   return (
@@ -154,7 +129,7 @@ const FeatureCallouts = () => {
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
           <Field>
-            <TextArea label="Description" path={['pupdates', i, 'summary']}/>
+            <TextArea label="Description (markdown)" path={['pupdates', i, 'summary']}/>
           </Field>
           <Field>
             <ImageInput label="Preview image" path={['pupdates', i, 'image']} />

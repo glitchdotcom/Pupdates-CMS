@@ -14,13 +14,13 @@
     {
       "id": 4,
       "title": "Collection Notes",
-      "summary": "Adding an app to your collection? Leave a note to share why you love it! Notes support Markdown too, if you want to get fancy with formatting",
+      "summary": "Adding an app to your collection? Leave a note to share why you love it! Notes support Markdown too, if you want to get **fancy** with formatting",
       "image": "https://cdn.glitch.com/4822a2a6-5ac1-4920-bb11-95cc5594b1db%2Fnote.gif?v=1562186723855"
     },
     {
       "id": 3,
       "title": "Featured projects now live on your profile",
-      "summary": "Have a project you're particularly proud of? Feature it to embed the app directly at the top of your profile. You can feature one project at a time – and change or remove your featured project as often as you'd like.",
+      "summary": "Have a project you're particularly proud of? Feature it to embed the app directly at the top of your profile./n/nYou can feature one project at a time – and change or remove your featured project as often as you'd like.",
       "image": "https://cdn.glitch.com/1b4c205a-e6b6-4ad9-ae8a-1e511e611105%2Ffeature.png?1548796979652"
     },
     {
