@@ -37,9 +37,14 @@ const { slice, reducer, actions } = createSlice({
       console.log('path', path)
       console.log('value', value)
       const most = path.slice(0, -1)
+      console.log('most', most)
       const last = path[path.length - 1]
+      conso
       get(state.data, most)[last] = value
     },
+    addEntry: (state, { payload }) => ({
+      
+    }),
     reset: () => ({
       status: 'loading',
       data: null,
