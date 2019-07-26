@@ -34,6 +34,8 @@ const { slice, reducer, actions } = createSlice({
       data: payload,
     }),
     updatedField: (state, { payload: { path, value } }) => {
+      console.log('path', path)
+      console.log('value', value)
       const most = path.slice(0, -1)
       const last = path[path.length - 1]
       get(state.data, most)[last] = value
@@ -148,6 +150,7 @@ const Loading = () => <div>Loading...</div>
 const Editor = () => {
   const dispatch = useDispatch()
   const homeDataStatus = useSelector(state => state.homeData.status)
+  let nextPupdateId
   useEffect(() => {
     loadInitialData().then(data => dispatch(actions.loadedData(data)))
   }, [])
@@ -159,9 +162,9 @@ const Editor = () => {
   }
   
   const addPupdate = () => {
-    const nextPupdateId = useSelector(state => state.homeData.data.pupdates.length)
+    
     console.log(nextPupdateId)
-    dispatch(actions.updatedField({ value: nextPupdateId, path }))
+    dispatch(actions.updatedField({ value: "test", path:['pupdates', 6, 'title'] }))
   }
   
   if (homeDataStatus === 'loading') return <Loading />
