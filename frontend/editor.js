@@ -159,7 +159,7 @@ const Editor = () => {
   }
   
   const addPupdate = () => {
-    
+    dispatch(actions.updatedField({ value: id, path }));
   }
   
   if (homeDataStatus === 'loading') return <Loading />
