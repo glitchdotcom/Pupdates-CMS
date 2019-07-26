@@ -129,7 +129,7 @@ const FeatureCallouts = () => {
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
           <Field>
-            <TextArea label="Description (markdown)" path={['pupdates', i, 'summary']}/>
+            <TextArea label="Description (markdown)" path={['pupdates', i, 'body']}/>
           </Field>
           <Field>
             <ImageInput label="Preview image" path={['pupdates', i, 'image']} />
@@ -164,8 +164,7 @@ const Editor = () => {
       </Text>
       <Text as="p">
         All changes auto-save for the preview. To confirm and publish, 
-        visit <a href={`${APP_BASE}/pupdate/preview`}>glitch.com/pupdate/preview</a>.
-        {/* TODO: set up preview in cooked-devourer remix */}
+        visit <a href={`${APP_BASE}/pupdate/preview`}>glitch.com/pupdates/preview</a>.
       </Text>
       <Box padding={{ top: 2 }}>
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
