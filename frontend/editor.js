@@ -158,6 +158,10 @@ const Editor = () => {
     }
   }
   
+  const addPupdate = () => {
+    
+  }
+  
   if (homeDataStatus === 'loading') return <Loading />
   
   return (
