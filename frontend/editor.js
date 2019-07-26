@@ -159,9 +159,9 @@ const Editor = () => {
   }
   
   const addPupdate = () => {
-    const nextPupdateId = useSelector(state => state.homeData.data.pupdates.length);
-    console.log(nextPupdateId);
-    dispatch(actions.updatedField({ value: nextPupdateId, path }));
+    const nextPupdateId = useSelector(state => state.homeData.data.pupdates.length)
+    console.log(nextPupdateId)
+    dispatch(actions.updatedField({ value: nextPupdateId, path }))
   }
   
   if (homeDataStatus === 'loading') return <Loading />
