@@ -38,10 +38,10 @@ const { slice, reducer, actions } = createSlice({
       console.log('value', value)
       const most = path.slice(0, -1)
       const last = path[path.length - 1]
-      console.log('state.data', state.data.data)
+      console.log('state.data', slice)
       get(state.data, most)[last] = value
     },
-    addEntry: (state, { payload }) => ({
+    addedEntry: (state, { payload }) => ({
       
     }),
     reset: () => ({
