@@ -34,11 +34,8 @@ const { slice, reducer, actions } = createSlice({
       data: payload,
     }),
     updatedField: (state, { payload: { path, value } }) => {
-      console.log('path', path)
-      console.log('value', value)
       const most = path.slice(0, -1)
       const last = path[path.length - 1]
-      console.log('state.data', slice)
       get(state.data, most)[last] = value
     },
     addedEntry: (state, { payload }) => ({
@@ -55,6 +52,7 @@ const handlers = {
   [actions.updatedField]: debounce(async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const state = store.getState().homeData.data
+    console.log(state)
     await axios.post('/pupdate.json', state, { headers: { Authorization: persistentToken } })
     console.log('updated ok')
   }, 3000),
