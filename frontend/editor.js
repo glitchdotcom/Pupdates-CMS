@@ -148,7 +148,6 @@ const Loading = () => <div>Loading...</div>
 const Editor = () => {
   const dispatch = useDispatch()
   const homeDataStatus = useSelector(state => state.homeData.status)
-  console.log(useSelector(state => state.homeData));
   useEffect(() => {
     loadInitialData().then(data => dispatch(actions.loadedData(data)))
   }, [])
@@ -160,9 +159,9 @@ const Editor = () => {
   }
   
   const addPupdate = () => {
-    const nextPupdateId = useSelector(state => state.homeData.data.length);
+    const nextPupdateId = useSelector(state => state.homeData.data.pupdates.length);
     console.log(nextPupdateId);
-    //dispatch(actions.updatedField({ value, path }));
+    dispatch(actions.updatedField({ value: nextPupdateId, path }));
   }
   
   if (homeDataStatus === 'loading') return <Loading />
