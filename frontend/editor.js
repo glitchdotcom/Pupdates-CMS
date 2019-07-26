@@ -134,6 +134,9 @@ const FeatureCallouts = () => {
           <Field>
             <ImageInput label="Preview image" path={['pupdates', i, 'image']} />
           </Field>
+          <Field>
+            <Input label="Image Alt Text" path={['pupdates', i, 'imageAlt']}/>
+          </Field>
         </Box>
       )}
     </List>
