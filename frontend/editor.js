@@ -148,6 +148,7 @@ const Loading = () => <div>Loading...</div>
 const Editor = () => {
   const dispatch = useDispatch()
   const homeDataStatus = useSelector(state => state.homeData.status)
+  console.log(useSelector(state => state.homeData));
   useEffect(() => {
     loadInitialData().then(data => dispatch(actions.loadedData(data)))
   }, [])
@@ -159,7 +160,9 @@ const Editor = () => {
   }
   
   const addPupdate = () => {
-    dispatch(actions.updatedField({ value: id, path }));
+    const nextPupdateId = useSelector(state => state.homeData.data.length);
+    console.log(nextPupdateId);
+    //dispatch(actions.updatedField({ value, path }));
   }
   
   if (homeDataStatus === 'loading') return <Loading />
@@ -177,7 +180,7 @@ const Editor = () => {
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
       </Box>   
       <Box padding={{ top: 2 }}>
-        <Button onClick={() => {console.log("clicked")}}>🐶 Add new pupdate</Button>
+        <Button onClick={addPupdate}>🐶 Add new pupdate</Button>
         {/* TODO: make this button add a new id to pupdate.json */}
       </Box> 
       <Box>
