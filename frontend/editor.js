@@ -37,13 +37,10 @@ const { slice, reducer, actions } = createSlice({
       const most = path.slice(0, -1)
       const last = path[path.length - 1]
       get(state.data, most)[last] = value
-    },
-    addedEntry: (state, { payload }) => ({
-      
-    }),
-    
+    },   
     addedItem: (state, { payload: { path, value } }) => {
-      get(state.data, path).push(value)
+      const currentID = get(state.data, path)[0].id
+      get(state.data, path).unshift({ ...value, id: currentID + 1 })
     },
     removedItemAtIndex: (state, { payload: { path, index } }) => {
       get(state.data, path).splice(index, 1)
@@ -57,6 +54,13 @@ const { slice, reducer, actions } = createSlice({
 })
 
 const handlers = {
+  [actions.addedItem]: debounce(async (store) => {
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    const state = store.getState().homeData.data
+    console.log(state)
+    await axios.post('/pupdate.json', state, { headers: { Authorization: persistentToken } })
+    console.log('updated ok')
+  }, 3000),
   [actions.updatedField]: debounce(async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const state = store.getState().homeData.data
@@ -172,9 +176,7 @@ const Editor = () => {
   }
   
   const addPupdate = () => {
-    
-    console.log(nextPupdateId)
-    dispatch(actions.addedItem({ value: { name: ""}, path:['pupdates'] }))
+    dispatch(actions.addedItem({ value: { title: "", body: "", image:"", imageAlt:"" }, path:['pupdates'] }))
   }
   
   if (homeDataStatus === 'loading') return <Loading />
