@@ -61,6 +61,13 @@ const handlers = {
     await axios.post('/pupdate.json', state, { headers: { Authorization: persistentToken } })
     console.log('updated ok')
   }, 3000),
+  [actions.removedItemAtIndex]: debounce(async (store) => {
+    const { persistentToken } = useCurrentUser.selector(store.getState())
+    const state = store.getState().homeData.data
+    console.log(state)
+    await axios.post('/pupdate.json', state, { headers: { Authorization: persistentToken } })
+    console.log('updated ok')
+  }, 3000),
   [actions.updatedField]: debounce(async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const state = store.getState().homeData.data
@@ -134,6 +141,13 @@ const ImageInput = ({ path, label }) => {
   )
 }
 
+const confirmAndRemovePupdate = (id) => {
+  const dispatch = useDispatch()
+  if (confirm("Are you sure you want to delete this pupdate? All your changes will be lost.")) {
+    dispatch(actions.removedItemAtIndex({ index:id, path:['pupdates'] }))
+  }
+}
+
 const FeatureCallouts = () => {
   const items = usePath(['pupdates'])
   return (
@@ -141,6 +155,7 @@ const FeatureCallouts = () => {
       {({ id }, i) => (
         <Box>
           <SectionTitle>Pupdate {id}</SectionTitle>
+          <Button onClick={() => { confirmAndRemovePupdate(id) }} type="dangerZone">Remove Pupdate</Button>
           <Field>
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
@@ -164,7 +179,6 @@ const Loading = () => <div>Loading...</div>
 const Editor = () => {
   const dispatch = useDispatch()
   const homeDataStatus = useSelector(state => state.homeData.status)
-  let nextPupdateId
   useEffect(() => {
     loadInitialData().then(data => dispatch(actions.loadedData(data)))
   }, [])
@@ -195,7 +209,6 @@ const Editor = () => {
       </Box>   
       <Box padding={{ top: 2 }}>
         <Button onClick={addPupdate}>🐶 Add new pupdate</Button>
-        {/* TODO: make this button add a new id to pupdate.json */}
       </Box> 
       <Box>
         <FeatureCallouts />
