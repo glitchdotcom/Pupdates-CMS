@@ -148,9 +148,7 @@ const FeatureCallouts = () => {
   const items = usePath(['pupdates'])
   const dispatch = useDispatch()
   const confirmAndRemovePupdate = (id) => {
-    console.log(id, 'id')
-    console.log(items, 'pupdates')
-    const removalId = items.map(() => {items.id}).indexOf(id)
+    const removalId = items.map((e) => e.id).indexOf(id)
     console.log(removalId, 'remove')
     if (confirm("Are you sure you want to delete this pupdate? All your changes will be lost.")) {
       dispatch(actions.removedItemAtIndex({ index:removalId, path:items}))
