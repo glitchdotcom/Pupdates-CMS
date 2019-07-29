@@ -43,7 +43,6 @@ const { slice, reducer, actions } = createSlice({
       get(state.data, path).unshift({ ...value, id: currentID + 1 })
     },
     removedItemAtIndex: (state, { payload: { path, index } }) => {
-      console.log(get(state.data, path))
       get(state.data, path).splice(index, 1)
     },
     
@@ -149,7 +148,7 @@ const FeatureCallouts = () => {
   const dispatch = useDispatch()
   const confirmAndRemovePupdate = (id) => {
     if (confirm("Are you sure you want to delete this pupdate? All your changes will be lost.")) {
-      dispatch(actions.removedItemAtIndex({ index:items.map((e) => e.id).indexOf(id), path:items}))
+      dispatch(actions.removedItemAtIndex({ path: ['pupdates'], index:items.map((e) => e.id).indexOf(id) }))
     }
   }
   return (
