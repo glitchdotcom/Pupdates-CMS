@@ -141,21 +141,23 @@ const ImageInput = ({ path, label }) => {
   )
 }
 
-const confirmAndRemovePupdate = (id) => {
-  const dispatch = useDispatch()
-  if (confirm("Are you sure you want to delete this pupdate? All your changes will be lost.")) {
-    dispatch(actions.removedItemAtIndex({ index:id, path:['pupdates'] }))
-  }
-}
 
-const FeatureCallouts = () => {
+
+const FeatureCallouts = (dispatch) => {
   const items = usePath(['pupdates'])
+  const confirmAndRemovePupdate = (dispatch, id) => {
+    if (confirm("Are you sure you want to delete this pupdate? All your changes will be lost.")) {
+      dispatch(actions.removedItemAtIndex({ index:id, path:items}))
+    }
+  }
   return (
     <List gap={1} items={items}>
       {({ id }, i) => (
         <Box>
-          <SectionTitle>Pupdate {id}</SectionTitle>
-          <Button onClick={() => { confirmAndRemovePupdate(id) }} type="dangerZone">Remove Pupdate</Button>
+          <SectionTitle>Pupdate {id} &nbsp;
+            <Button onClick={() => { confirmAndRemovePupdate(dispatch, id) }} type="dangerZone">🔥 Remove Pupdate</Button>
+          </SectionTitle>
+          
           <Field>
             <Input label="Title" path={['pupdates', i, 'title']}/>
           </Field>
@@ -211,7 +213,7 @@ const Editor = () => {
         <Button onClick={addPupdate}>🐶 Add new pupdate</Button>
       </Box> 
       <Box>
-        <FeatureCallouts />
+        <FeatureCallouts dispatch />
       </Box>
     </Box>
   )
