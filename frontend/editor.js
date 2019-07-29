@@ -41,6 +41,14 @@ const { slice, reducer, actions } = createSlice({
     addedEntry: (state, { payload }) => ({
       
     }),
+    
+    addedItem: (state, { payload: { path, value } }) => {
+      get(state.data, path).push(value)
+    },
+    removedItemAtIndex: (state, { payload: { path, index } }) => {
+      get(state.data, path).splice(index, 1)
+    },
+    
     reset: () => ({
       status: 'loading',
       data: null,
@@ -166,7 +174,7 @@ const Editor = () => {
   const addPupdate = () => {
     
     console.log(nextPupdateId)
-    dispatch(actions.updatedField({ value: "test", path:['pupdates', 6, 'title'] }))
+    dispatch(actions.addedItem({ value: { name: ""}, path:['pupdates'] }))
   }
   
   if (homeDataStatus === 'loading') return <Loading />
