@@ -43,6 +43,7 @@ const { slice, reducer, actions } = createSlice({
       get(state.data, path).unshift({ ...value, id: currentID + 1 })
     },
     removedItemAtIndex: (state, { payload: { path, index } }) => {
+      console.log(path, index)
       get(state.data, path).splice(index, 1)
     },
     
@@ -143,9 +144,10 @@ const ImageInput = ({ path, label }) => {
 
 
 
-const FeatureCallouts = (dispatch) => {
+const FeatureCallouts = () => {
   const items = usePath(['pupdates'])
-  const confirmAndRemovePupdate = (dispatch, id) => {
+  const dispatch = useDispatch()
+  const confirmAndRemovePupdate = (id) => {
     if (confirm("Are you sure you want to delete this pupdate? All your changes will be lost.")) {
       dispatch(actions.removedItemAtIndex({ index:id, path:items}))
     }
@@ -155,7 +157,7 @@ const FeatureCallouts = (dispatch) => {
       {({ id }, i) => (
         <Box>
           <SectionTitle>Pupdate {id} &nbsp;
-            <Button onClick={() => { confirmAndRemovePupdate(dispatch, id) }} type="dangerZone">🔥 Remove Pupdate</Button>
+            <Button onClick={() => { confirmAndRemovePupdate(id) }} type="dangerZone">🔥 Remove Pupdate</Button>
           </SectionTitle>
           
           <Field>
@@ -213,7 +215,7 @@ const Editor = () => {
         <Button onClick={addPupdate}>🐶 Add new pupdate</Button>
       </Box> 
       <Box>
-        <FeatureCallouts dispatch />
+        <FeatureCallouts />
       </Box>
     </Box>
   )
