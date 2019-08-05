@@ -205,7 +205,7 @@ const Editor = () => {
       </Text>
       <Text as="p">
         All changes auto-save for the preview. To confirm and publish, 
-        visit <a href={`${APP_BASE}/pupdate/preview`}>glitch.com/pupdates/preview</a>.
+        visit <a href={`${APP_BASE}/pupdates/preview`}>glitch.com/pupdates/preview</a>.
       </Text>
       <Box padding={{ top: 2 }}>
         <Button onClick={confirmThenReset} type="dangerZone">💣 Reset all changes</Button>
