@@ -78,7 +78,7 @@ const handlers = {
   [actions.reset]: async (store) => {
     const { persistentToken } = useCurrentUser.selector(store.getState())
     const { data } = await axios.get(`${APP_BASE}/api/pupdate`)
-    console.log(data)
+    console.log("reset", data)
     await axios.post('/pupdate.json', data, { headers: { Authorization: persistentToken } })
     store.dispatch(actions.loadedData(data))
   },
