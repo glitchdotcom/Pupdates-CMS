@@ -13,10 +13,11 @@ On your local machine, clone the [FogCreek/Pupdates-CMS](https://github.com/FogC
 git clone git@github.com:FogCreek/Pupdates-CMS.git
 ```
 
-Then on your machine, run the setup script to add a remote endpoint for the live pupdates editor:
+Then add a remote endpoint for the live pupdates editor:
 
 ```bash
- sh sh/setup.sh
+cd Pupdates-CMS
+git remote add live https://api.glitch.com/git/pupdates-editor
 ```
 
 ## Making a Pull Request
