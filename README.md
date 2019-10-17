@@ -1,5 +1,7 @@
 # Glitch Pupdates Editor
 
+**🌅 Sunset on 2019-10-16 and replaced with [cms.glitch.me](https://cms.glitch.me)**
+
 _A "micro-CMS" for glitch.com "pupdates"_
 
 ## How to update pupdates
